@@ -1,5 +1,7 @@
 package com.rxn1d.courses;
 
+import org.apache.commons.lang3.ArrayUtils;
+
 /**
  * Модифицируйте этот класс(файл)
  *
@@ -15,7 +17,14 @@ public class HomeWork2String {
      * @return количество четных числе в строке
      */
     public static int countEvenInString(String s) {
-        return 1;
+        String[] numbers = s.split("_");
+        int even = 0;
+        for(int i = 0; i < numbers.length; i++){
+            if(Integer.valueOf(numbers[i])%2 == 0){
+                even++;
+            }
+        }
+        return even;
     }
 
     /**
@@ -29,6 +38,41 @@ public class HomeWork2String {
      * @return результирующая строка
      */
     public static String removeSymbolFromString(String symbol, String s) {
-        return "";
+        int middle = 0;
+        if(s.length()%2 == 0){
+            middle = s.length()/2;
+        }else{
+            middle = s.length()/2+1;
+        }
+        String first = s.substring(0, middle);
+        String second = s.substring(middle);
+        char[] c1 = first.toCharArray();
+        char[] c2 = second.toCharArray();
+        if(c1.length>0){
+            for(int i = 1; i < (c1.length-1);){
+                if(c1[i] == symbol.charAt(0)){
+                    c1= ArrayUtils.remove(c1,i);
+                }else{
+                    i++;
+                }
+            }
+        }
+        if(c2.length > 0){
+            for(int i = 0; i < (c2.length-1);){
+                if(c2[i] == symbol.charAt(0)){
+                    c2= ArrayUtils.remove(c2,i);
+
+                }else{
+                    i++;
+                }
+            }
+
+        }
+        first = String.valueOf(c1);
+        second = String.valueOf(c2);
+        String result = first+second;
+        System.out.println("first "+first+" second "+second);
+        System.out.println(result);
+        return result;
     }
 }
