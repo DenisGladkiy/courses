@@ -21,13 +21,9 @@ public class HomeWork2Equation {
         int x1 = 0;
         int x2 = 0;
         discriminant = b*b - 4*a*c;
-
         if(discriminant > 0){
-            double f = (Math.sqrt(discriminant)-b)/(2*a);
-            x2 = (int)(Math.sqrt(discriminant)-b)/2*a;
+            x2 = (int)(-b-Math.sqrt(discriminant))/(2*a);
             x1 = (int)(-b+Math.sqrt(discriminant))/(2*a);
-           // System.out.println(f);
-
         }
         else if(discriminant == 0){
             x1 = -b/2*a;

@@ -48,7 +48,7 @@ public class HomeWork2String {
         String second = s.substring(middle);
         char[] c1 = first.toCharArray();
         char[] c2 = second.toCharArray();
-        if(c1.length>0){
+        if(c1.length > 0){
             for(int i = 1; i < (c1.length-1);){
                 if(c1[i] == symbol.charAt(0)){
                     c1= ArrayUtils.remove(c1,i);
@@ -61,18 +61,14 @@ public class HomeWork2String {
             for(int i = 0; i < (c2.length-1);){
                 if(c2[i] == symbol.charAt(0)){
                     c2= ArrayUtils.remove(c2,i);
-
                 }else{
                     i++;
                 }
             }
-
         }
         first = String.valueOf(c1);
         second = String.valueOf(c2);
         String result = first+second;
-        System.out.println("first "+first+" second "+second);
-        System.out.println(result);
         return result;
     }
 }

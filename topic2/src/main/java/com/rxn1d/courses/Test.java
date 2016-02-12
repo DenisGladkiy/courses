@@ -16,7 +16,7 @@ public class Test {
         testReverse(testRevArr);
         String test = "1_4_6_9_100_101_104";
         testString(test);
-        HomeWork2String.removeSymbolFromString("o","spalahschool");
+        testRemoveSymbol("o","spalahschool");
     }
 
     private static void testEquation(int a, int b, int c){
@@ -30,29 +30,25 @@ public class Test {
         }
     }
     private static void testMinValue(int[] array){
-        int min;
-        min = HomeWork2Loops.min(array);
+        int min = HomeWork2Loops.min(array);
         for(int i = 0; i<array.length; i++){
             System.out.print("\b"+array[i]);
         }
         System.out.println("\n"+"Min value from arr = "+min);
     }
     private static void testMaxValue(double[] array){
-        double max;
-        max = HomeWork2Loops.max(array);
+        double max = HomeWork2Loops.max(array);
         for(int i = 0; i<array.length; i++){
             System.out.print("\b"+array[i]);
         }
         System.out.println("\n"+"Max value from arr = "+max);
     }
     private static void testAverage(short[] array){
-        double average;
-        average = HomeWork2Loops.average(array);
+        double average = HomeWork2Loops.average(array);
         for(int i = 0; i<array.length; i++){
             System.out.print("\b"+array[i]);
         }
         System.out.println("\n"+"average = "+average);
-
     }
     private static void testReverse(char[] array){
         HomeWork2Loops.reverse(array);
@@ -60,11 +56,12 @@ public class Test {
             System.out.print("\b"+array[i]);
         }
         System.out.println("\n");
-
     }
     private static void testString(String s){
         System.out.println(HomeWork2String.countEvenInString(s));
     }
-
-
+    private static void testRemoveSymbol(String symbol, String word){
+        String res = HomeWork2String.removeSymbolFromString(symbol,word);
+        System.out.println("Word - "+word+"; remove symbol - "+symbol+"; Result - "+res);
+    }
 }

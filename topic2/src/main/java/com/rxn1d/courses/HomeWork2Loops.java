@@ -55,7 +55,6 @@ public class HomeWork2Loops {
      * @return среднее арифмитическое число из массива
      */
     public static short average(short[] shorts) {
-        //changed return from int to double
         int i = 0;
         short sum = 0;
         while(i < shorts.length){
@@ -75,19 +74,18 @@ public class HomeWork2Loops {
      * @return перевернутый массив
      */
     public static char[] reverse(char[] chars) {
-        char swop1;
-        char swop2;
+        char swap1;
+        char swap2;
         char temp;
         int i = 0;
-        int lenght = chars.length - 1;
+        int length = chars.length - 1;
         do{
-            swop1 = chars[i];
-            swop2 = chars[lenght-i];
-            //temp = swop1;
-            chars[i] = swop2;
-            chars[lenght-i] = swop1;
+            swap1 = chars[i];
+            swap2 = chars[length-i];
+            chars[i] = swap2;
+            chars[length-i] = swap1;
             i++;
-        }while(i <= lenght/2);
+        }while(i <= length/2);
         return chars;
     }
 }
