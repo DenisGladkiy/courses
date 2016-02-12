@@ -16,8 +16,8 @@ public class Calculator {
         double currRes = count(a, in[1], b);
         if(in.length > 3){
             for(int i = 3; i < in.length; i+=2){
-                double temp = currRes;
-                currRes = count(temp, in[i], Double.valueOf(in[i+1]));
+                //double temp = currRes;
+                currRes = count(currRes, in[i], Double.valueOf(in[i+1]));
             }
         }
         res = currRes;
@@ -25,18 +25,19 @@ public class Calculator {
         System.out.println("---> EXIT Calculator application <---");
     }
     public static double count(double a, String sign, double b){
+        double temp;
         if(sign.equals("+")){
-            res = a + b;
+            temp = a + b;
         }else if(sign.equals("-")){
-            res = a - b;
+            temp = a - b;
         }else if(sign.equals("*")){
-            res = a * b;
+            temp = a * b;
         }else if(sign.equals("/")){
-            res = a / b;
+            temp = a / b;
         }else{
-            res = 0;
+            temp = 0;
             System.out.println("Unknown operation");
         }
-        return res;
+        return temp;
     }
 }
