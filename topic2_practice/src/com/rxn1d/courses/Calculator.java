@@ -8,21 +8,40 @@ public class Calculator {
     static double res;
     public static void main(String[] args) {
         System.out.println("---> START Calculator application <---");
-
         // для того, чтобы читать данные из консоли спользуйте данную конструкцию
-        in = ConsoleReader.readFromConsole();
-        double a = Double.valueOf(in[0]);
-        double b = Double.valueOf(in[2]);
-        double currRes = count(a, in[1], b);
-        if(in.length > 3){
-            for(int i = 3; i < in.length; i+=2){
-                //double temp = currRes;
-                currRes = count(currRes, in[i], Double.valueOf(in[i+1]));
+        while(true) {
+            in = ConsoleReader.readFromConsole();
+            if(!in[0].equals("exit")) {
+                switch (in[0]) {
+                    case "+":
+                        res = res + Double.valueOf(in[1]);
+                        break;
+                    case "-":
+                        res = res - Double.valueOf(in[1]);
+                        break;
+                    case "*":
+                        res = res * Double.valueOf(in[1]);
+                        break;
+                    case "/":
+                        res = res / Double.valueOf(in[1]);
+                        break;
+                    default:
+                        double a = Double.valueOf(in[0]);
+                        double b = Double.valueOf(in[2]);
+                        double currRes = count(a, in[1], b);
+                        if (in.length > 3) {
+                            for (int i = 3; i < in.length; i += 2) {
+                                //double temp = currRes;
+                                currRes = count(currRes, in[i], Double.valueOf(in[i + 1]));
+                            }
+                        }
+                        res = res + currRes;
+                }
+                System.out.println("Result = " + res);
+            }else{
+                break;
             }
         }
-
-        res = currRes;
-        System.out.println("Result = "+res);
         System.out.println("---> EXIT Calculator application <---");
     }
     public static double count(double a, String sign, double b){
