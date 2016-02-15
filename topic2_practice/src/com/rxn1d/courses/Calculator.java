@@ -20,6 +20,7 @@ public class Calculator {
                 currRes = count(currRes, in[i], Double.valueOf(in[i+1]));
             }
         }
+
         res = currRes;
         System.out.println("Result = "+res);
         System.out.println("---> EXIT Calculator application <---");
