@@ -2,11 +2,8 @@ package com.rxn1d.courses;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.logging.Handler;
-import java.util.logging.LogRecord;
+
 
 /**
  * Created by Denis on 16.02.2016.
@@ -14,9 +11,8 @@ import java.util.logging.LogRecord;
 public class CalculatorUI extends JFrame {
 
     static JTextField textField;
-    static JButton plus, minus, divide, multiply, equals;
+    static JButton plus, minus, divide, multiply, equals, clear;
     static JButton one, two, three, four, five, six, seven, eight, nine, zero;
-    JButton empty1, empty2;
     ArrayList<JButton> keyboard = new ArrayList<>();
     CalcHandler handler = new CalcHandler();
 
@@ -50,8 +46,8 @@ public class CalculatorUI extends JFrame {
         keyboard.add(nine);
         multiply = new JButton("*");
         keyboard.add(multiply);
-        empty1 = new JButton("  ");
-        keyboard.add(empty1);
+        clear = new JButton("C");
+        keyboard.add(clear);
         zero = new JButton("0");
         keyboard.add(zero);
         equals = new JButton("=");
@@ -82,12 +78,17 @@ public class CalculatorUI extends JFrame {
         }
     }
 
-    public static void setText(String s){
+    public static void setTextField(String s){
         textField.setText(textField.getText() + s);
     }
+
     public static String[] getText(){
         String[] input;
         input = textField.getText().split(" ");
         return input;
+    }
+
+    public static void clearText(){
+        textField.setText("");
     }
 }

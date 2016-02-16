@@ -11,37 +11,102 @@ public class CalcHandler implements ActionListener {
     public void actionPerformed(ActionEvent e) {
 
         if(e.getSource() == CalculatorUI.one){
-            CalculatorUI.setText("1");
+            CalculatorUI.setTextField("1");
         }
         if(e.getSource() == CalculatorUI.two) {
-            CalculatorUI.setText("2");
+            CalculatorUI.setTextField("2");
         }
         if(e.getSource() == CalculatorUI.three) {
-            CalculatorUI.setText("3");
+            CalculatorUI.setTextField("3");
         }
         if(e.getSource() == CalculatorUI.four) {
-            CalculatorUI.setText("4");
+            CalculatorUI.setTextField("4");
         }
         if(e.getSource() == CalculatorUI.five) {
-            CalculatorUI.setText("5");
+            CalculatorUI.setTextField("5");
         }
         if(e.getSource() == CalculatorUI.six) {
-            CalculatorUI.setText("6");
+            CalculatorUI.setTextField("6");
         }
         if(e.getSource() == CalculatorUI.seven) {
-            CalculatorUI.setText("7");
+            CalculatorUI.setTextField("7");
         }
         if(e.getSource() == CalculatorUI.eight) {
-            CalculatorUI.setText("8");
+            CalculatorUI.setTextField("8");
         }
         if(e.getSource() == CalculatorUI.nine) {
-            CalculatorUI.setText("9");
+            CalculatorUI.setTextField("9");
         }
         if(e.getSource() == CalculatorUI.zero) {
-            CalculatorUI.setText("0");
+            CalculatorUI.setTextField("0");
         }
         if(e.getSource() == CalculatorUI.equals) {
-            System.out.println(CalculatorUI.getText()[0]);
+            String[] text = CalculatorUI.getText();
+            if(text.length == 3) {
+                calculateAndShow(text);
+            }
         }
+        if(e.getSource() == CalculatorUI.plus) {
+            String[] text = CalculatorUI.getText();
+            if(text.length > 1) {
+                calculateAndShow(text);
+                CalculatorUI.setTextField(" + ");
+            }else{
+                CalculatorUI.setTextField(" + ");
+            }
+        }
+        if(e.getSource() == CalculatorUI.minus) {
+            String[] text = CalculatorUI.getText();
+            if(text.length > 1) {
+                calculateAndShow(text);
+                CalculatorUI.setTextField(" - ");
+            }else{
+                CalculatorUI.setTextField(" - ");
+            }
+        }
+        if(e.getSource() == CalculatorUI.multiply) {
+            String[] text = CalculatorUI.getText();
+            if(text.length > 1) {
+                calculateAndShow(text);
+                CalculatorUI.setTextField(" * ");
+            }else{
+                CalculatorUI.setTextField(" * ");
+            }
+        }
+        if(e.getSource() == CalculatorUI.divide) {
+            String[] text = CalculatorUI.getText();
+            if(text.length > 1) {
+                calculateAndShow(text);
+                CalculatorUI.setTextField(" / ");
+            }else{
+                CalculatorUI.setTextField(" / ");
+            }
+        }
+        if(e.getSource() == CalculatorUI.clear) {
+            CalculatorUI.clearText();
+        }
+    }
+
+    private void calculateAndShow(String[] expression){
+        double result = 0;
+        double a = Double.valueOf(expression[0]);
+        double b = Double.valueOf(expression[2]);
+        switch (expression[1]){
+            case "+":
+                result = a + b;
+                break;
+            case "-":
+                result = a - b;
+                break;
+            case "*":
+                result = a * b;
+                break;
+            case "/":
+                result = a / b;
+                break;
+        }
+        CalculatorUI.clearText();
+        CalculatorUI.setTextField(String.valueOf(result));
+        //return result;
     }
 }
