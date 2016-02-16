@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.logging.Handler;
 import java.util.logging.LogRecord;
 
@@ -12,11 +13,13 @@ import java.util.logging.LogRecord;
  */
 public class CalculatorUI extends JFrame {
 
-    private JTextField textField;
-    private JButton plus, minus, divide, multiply, equals;
-    private JButton one, two, three, four, five, six, seven, eight, nine, zero;
-    private JButton empty1, empty2;
-    Handler handler = new Handler();
+    static JTextField textField;
+    static JButton plus, minus, divide, multiply, equals;
+    static JButton one, two, three, four, five, six, seven, eight, nine, zero;
+    JButton empty1, empty2;
+    ArrayList<JButton> keyboard = new ArrayList<>();
+    CalcHandler handler = new CalcHandler();
+
 
     public CalculatorUI(String s){
         super(s);
@@ -24,40 +27,39 @@ public class CalculatorUI extends JFrame {
         textField = new JTextField(15);
         add(textField);
         one = new JButton("1");
-        add(one);
+        keyboard.add(one);
         two = new JButton("2");
-        add(two);
+        keyboard.add(two);
         three = new JButton("3");
-        add(three);
+        keyboard.add(three);
         plus = new JButton("+");
-        add(plus);
+        keyboard.add(plus);
         four = new JButton("4");
-        add(four);
+        keyboard.add(four);
         five = new JButton("5");
-        add(five);
+        keyboard.add(five);
         six = new JButton("6");
-        add(six);
+        keyboard.add(six);
         minus = new JButton("- ");
-        add(minus);
+        keyboard.add(minus);
         seven = new JButton("7");
-        add(seven);
+        keyboard.add(seven);
         eight = new JButton("8");
-        add(eight);
+        keyboard.add(eight);
         nine = new JButton("9");
-        add(nine);
+        keyboard.add(nine);
         multiply = new JButton("*");
-        add(multiply);
+        keyboard.add(multiply);
         empty1 = new JButton("  ");
-        add(empty1);
+        keyboard.add(empty1);
         zero = new JButton("0");
-        add(zero);
+        keyboard.add(zero);
         equals = new JButton("=");
-        add(equals);
+        keyboard.add(equals);
         divide = new JButton("/ ");
-        add(divide);
-        one.addActionListener(handler);
-        two.addActionListener(handler);
-
+        keyboard.add(divide);
+        showKeys();
+        addListenerToButtons();
     }
 
     public static  void main(String[] args) {
@@ -68,24 +70,24 @@ public class CalculatorUI extends JFrame {
 
     }
 
-    private class Handler implements ActionListener{
-
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-
-                if(e.getSource() == one){
-                    System.out.println("One click");
-                }
-                if(e.getSource() == two) {
-                    System.out.println("Two click");
-                }
-
+    private void addListenerToButtons() {
+        for(JButton b : keyboard){
+            b.addActionListener(handler);
         }
     }
 
+    private void showKeys() {
+        for(JButton b : keyboard){
+            add(b);
+        }
+    }
 
-
-
-
+    public static void setText(String s){
+        textField.setText(textField.getText() + s);
+    }
+    public static String[] getText(){
+        String[] input;
+        input = textField.getText().split(" ");
+        return input;
+    }
 }
