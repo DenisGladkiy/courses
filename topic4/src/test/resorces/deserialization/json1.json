@@ -1,0 +1,20 @@
+{
+  "address": "Gagarina avenue 1",
+  "parkingName": "Parking #1",
+  "cars": [
+    {
+      "manufacturer": "Mazda",
+      "modelName": "Mazda3",
+      "vin": "ABC123456",
+      "lengthMillimeters": 4555,
+      "heightMillimeters": 3000
+    },
+    {
+      "manufacturer": "Volvo",
+      "modelName": "V40",
+      "vin": "CBE99999",
+      "lengthMillimeters": 5300,
+      "heightMillimeters": 3155
+    }
+  ]
+}

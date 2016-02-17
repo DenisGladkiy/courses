@@ -1,0 +1,20 @@
+{
+  "address": "Clinton street 126",
+  "parkingName": "Navy Parking",
+  "cars": [
+    {
+      "manufacturer": "Ferarri",
+      "modelName": "458",
+      "vin": "F458-111",
+      "lengthMillimeters": 4800,
+      "heightMillimeters": 2800
+    },
+    {
+      "manufacturer": "BMW",
+      "modelName": "X6",
+      "vin": "1111X63333",
+      "lengthMillimeters": 5500,
+      "heightMillimeters": 3500
+    }
+  ]
+}

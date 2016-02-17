@@ -1,0 +1,20 @@
+{
+  "address": "Cebra avenue 1F",
+  "parkingName": "Baltic Parking",
+  "cars": [
+    {
+      "manufacturer": "BMW",
+      "modelName": "X6",
+      "vin": "1111X6",
+      "lengthMillimeters": 5500,
+      "heightMillimeters": 3500
+    },
+    {
+      "manufacturer": "BMW",
+      "modelName": "X6",
+      "vin": "1111X63333",
+      "lengthMillimeters": 5500,
+      "heightMillimeters": 3500
+    }
+  ]
+}
