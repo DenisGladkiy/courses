@@ -32,7 +32,6 @@ public class JsonSerializationTest {
     @BeforeClass
     public static void setUp() {
         expectedJson1 = TestUtils.readFile("serialization/expected_json1.json");
-        System.out.println("expectedJson1 "+expectedJson1);
         expectedJson2 = TestUtils.readFile("serialization/expected_json2.json");
 
         car1 = new Car();
@@ -71,7 +70,6 @@ public class JsonSerializationTest {
     public void testSerializationFirstParking() {
         CarParkingSerializer serializer = SerializationFactory.getSerializer(FORMAT);
         String json = serializer.serialize(parking1);
-        System.out.println("Actual json "+json);
         equals(expectedJson1, json);
     }
 
