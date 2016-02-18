@@ -18,6 +18,10 @@ public class SerializationFactory {
      */
     public static CarParkingDeserializer getDeserializer(Format format) {
         // TODO - здесь будет ваша логика. Необходимо вернуть реализацию интерфейса
+        if(format.equals(Format.JSON)){
+            CarParkingDeserializer deserializerJSON = new DeserializerJSON();
+            return deserializerJSON;
+        }
         return null;
     }
 

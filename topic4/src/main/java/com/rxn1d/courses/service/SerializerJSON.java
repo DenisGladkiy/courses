@@ -32,7 +32,6 @@ public class SerializerJSON implements CarParkingSerializer {
 
         }
         car +="]";
-
         return car;
     }
 }

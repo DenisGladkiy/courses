@@ -48,16 +48,21 @@ public class JsonDeserializationTest {
         equals("manufacturer", "Mazda", firstCar.getManufacturer());
         equals("modelName", "Mazda3", firstCar.getModelName());
         equals("vin", "ABC123456", firstCar.getVin());
-        equals("lengthMillimeters", 4555, firstCar.getHeightMillimeters());
-        equals("heightMillimeters", 3000, firstCar.getLengthMillimeters());
+        //equals("lengthMillimeters", 4555, firstCar.getHeightMillimeters());
+        //equals("heightMillimeters", 3000, firstCar.getLengthMillimeters());
+        equals("lengthMillimeters", 4555, firstCar.getLengthMillimeters()); // fixed
+        equals("heightMillimeters", 3000, firstCar.getHeightMillimeters()); // fixed
 
         Car secondCar = cars[1];
 
         equals("manufacturer", "Volvo", secondCar.getManufacturer());
-        equals("modelName", "V40", secondCar.getManufacturer());
+        //equals("modelName", "V40", secondCar.getManufacturer());
+        equals("modelName", "V40", secondCar.getModelName()); // fixed
         equals("vin", "CBE99999", secondCar.getVin());
-        equals("lengthMillimeters", 5300, secondCar.getHeightMillimeters());
-        equals("heightMillimeters", 3155, secondCar.getLengthMillimeters());
+       // equals("lengthMillimeters", 5300, secondCar.getHeightMillimeters());
+        //equals("heightMillimeters", 3155, secondCar.getLengthMillimeters());
+        equals("lengthMillimeters", 5300, secondCar.getLengthMillimeters()); // fixed
+        equals("heightMillimeters", 3155, secondCar.getHeightMillimeters()); // fixed
     }
 
     @Test
