@@ -22,7 +22,8 @@ public class SerializationFactory {
             CarParkingDeserializer deserializerJSON = new DeserializerJSON();
             return deserializerJSON;
         }
-        return null;
+        CarParkingDeserializer deserializerXML = new DeserializerXML();
+        return deserializerXML;
     }
 
     /**
