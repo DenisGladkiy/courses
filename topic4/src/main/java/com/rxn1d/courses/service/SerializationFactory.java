@@ -39,7 +39,9 @@ public class SerializationFactory {
         if(format.equals(Format.JSON)){
             CarParkingSerializer serializerJSON = new SerializerJSON();
             return serializerJSON;
+        }else{
+            CarParkingSerializer serializerXML = new SerializerXML();
+            return serializerXML;
         }
-        return  null;
     }
 }
