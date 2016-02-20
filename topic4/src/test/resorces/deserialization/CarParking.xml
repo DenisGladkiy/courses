@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<carParking>
+    <address>Gagarina avenue 1</address>
+    <parkingName>Parking #1</parkingName>
+    <cars>
+        <manufacturer>Mazda</manufacturer>
+        <modelName>Mazda3</modelName>
+        <vin>ABC123456</vin>
+        <lengthMillimeters>4555</lengthMillimeters>
+        <heightMillimeters>3000</heightMillimeters>
+    </cars>
+    <cars>
+        <manufacturer>Volvo</manufacturer>
+        <modelName>V40</modelName>
+        <vin>CBE99999</vin>
+        <lengthMillimeters>5300</lengthMillimeters>
+        <heightMillimeters>3155</heightMillimeters>
+    </cars>
+</carParking>
