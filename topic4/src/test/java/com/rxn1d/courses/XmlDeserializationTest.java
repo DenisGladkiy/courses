@@ -7,6 +7,7 @@ import com.rxn1d.courses.service.CarParkingDeserializer;
 import com.rxn1d.courses.service.SerializationFactory;
 import com.rxn1d.courses.utils.TestUtils;
 import org.junit.BeforeClass;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
@@ -30,6 +31,7 @@ public class XmlDeserializationTest {
         secondXml = TestUtils.readFile("deserialization/xml/xml2.xml");
     }
 
+    @Test
     public void testDeserializationFirstXml() {
         CarParkingDeserializer deserializer = SerializationFactory.getDeserializer(FORMAT);
         CarParking carParking = deserializer.deserialize(firstXml);
@@ -66,6 +68,7 @@ public class XmlDeserializationTest {
         equals("heightMillimeters", 2331, thirdCar.getHeightMillimeters());
     }
 
+    @Test
     public void testDeserializationSecondXml() {
         CarParkingDeserializer deserializer = SerializationFactory.getDeserializer(FORMAT);
         CarParking carParking = deserializer.deserialize(secondXml);
