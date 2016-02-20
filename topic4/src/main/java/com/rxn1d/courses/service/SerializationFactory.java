@@ -21,9 +21,10 @@ public class SerializationFactory {
         if(format.equals(Format.JSON)){
             CarParkingDeserializer deserializerJSON = new DeserializerJSON();
             return deserializerJSON;
+        }else {
+            CarParkingDeserializer deserializerXML = new DeserializerXML();
+            return deserializerXML;
         }
-        CarParkingDeserializer deserializerXML = new DeserializerXML();
-        return deserializerXML;
     }
 
     /**
