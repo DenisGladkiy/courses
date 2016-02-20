@@ -34,13 +34,8 @@ public class DeserializerJSON implements CarParkingDeserializer {
             }
             if(s.equals("manufacturer")){
                 //int index = jsonList.indexOf(s);
-                Car car = new Car();
-                car.setManufacturer(jsonList.get(index+1));
-                car.setModelName(jsonList.get(index+3));
-                car.setVin(jsonList.get(index+5));
-                car.setLengthMillimeters(Integer.valueOf(jsonList.get(index+7)));
-                car.setHeightMillimeters(Integer.valueOf(jsonList.get(index+9)));
-                //System.out.println(car.toString());
+                Car car = new Car(jsonList.get(index+1),jsonList.get(index+3),jsonList.get(index+5),
+                        Integer.valueOf(jsonList.get(index+7)),(Integer.valueOf(jsonList.get(index+9))));
                 carsList.add(car);
             }
             index++;
