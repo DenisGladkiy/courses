@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<carParking>
+    <address>Advanced street 12A</address>
+    <parkingName>Advanced parking</parkingName>
+    <cars></cars>
+</carParking>

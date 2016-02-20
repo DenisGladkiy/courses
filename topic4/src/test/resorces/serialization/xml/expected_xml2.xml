@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<carParking>
+    <address>Down Town street 3701</address>
+    <parkingName>Mike's parking</parkingName>
+    <cars>
+        <car>
+            <manufacturer>Mazda</manufacturer>
+            <modelName>Mazda2</modelName>
+            <vin>1Mzzzm12311</vin>
+            <lengthMillimeters>5330</lengthMillimeters>
+            <heightMillimeters>2315</heightMillimeters>
+        </car>
+        <car>
+            <manufacturer>Reno</manufacturer>
+            <modelName>Megane</modelName>
+            <vin>M12312MM</vin>
+            <lengthMillimeters>5155</lengthMillimeters>
+            <heightMillimeters>2055</heightMillimeters>
+        </car>
+    </cars>
+</carParking>

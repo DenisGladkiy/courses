@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<carParking>
+    <address>Bridge street 73A</address>
+    <parkingName>Sailing</parkingName>
+    <cars>
+        <car>
+            <manufacturer>Volvo</manufacturer>
+            <modelName>D60</modelName>
+            <vin>VD111160</vin>
+            <lengthMillimeters>5111</lengthMillimeters>
+            <heightMillimeters>2420</heightMillimeters>
+        </car>
+    </cars>
+</carParking>

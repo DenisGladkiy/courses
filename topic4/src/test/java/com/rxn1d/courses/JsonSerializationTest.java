@@ -31,8 +31,8 @@ public class JsonSerializationTest {
 
     @BeforeClass
     public static void setUp() {
-        expectedJson1 = TestUtils.readFile("serialization/expected_json1.json");
-        expectedJson2 = TestUtils.readFile("serialization/expected_json2.json");
+        expectedJson1 = TestUtils.readFile("serialization/json/expected_json1.json");
+        expectedJson2 = TestUtils.readFile("serialization/json/expected_json2.json");
 
         car1 = new Car();
         car1.setManufacturer("BMW");

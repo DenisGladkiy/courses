@@ -31,4 +31,9 @@ public class TestUtils {
         return "JSON без учета пробельных символов не совпадает, ожидаемый JSON=" + expectedJson.replaceAll("\\s+", "") +
                 ",\n результат=" + actualJson.replaceAll("\\s+", "");
     }
+
+    public static String xmlMessage(String expectedJson, String actualJson) {
+        return "XML без учета пробельных символов не совпадает, ожидаемый XML=" + expectedJson.replaceAll("\\s+", "") +
+                ",\n результат=" + actualJson.replaceAll("\\s+", "");
+    }
 }

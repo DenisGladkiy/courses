@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<carParking>
+    <address>Atkinson ave 55</address>
+    <parkingName>Atkinson Parking</parkingName>
+    <cars>
+        <car>
+            <manufacturer>Bentley</manufacturer>
+            <modelName>Mark V</modelName>
+            <vin>123123123MV</vin>
+            <lengthMillimeters>5454</lengthMillimeters>
+            <heightMillimeters>2300</heightMillimeters>
+        </car>
+        <car>
+            <manufacturer>McLaren</manufacturer>
+            <modelName>F1</modelName>
+            <vin>F1299FFF</vin>
+            <lengthMillimeters>5110</lengthMillimeters>
+            <heightMillimeters>2155</heightMillimeters>
+        </car>
+        <car>
+            <manufacturer>Mini</manufacturer>
+            <modelName>Cooper</modelName>
+            <vin>MCOO00</vin>
+            <lengthMillimeters>4780</lengthMillimeters>
+            <heightMillimeters>2331</heightMillimeters>
+        </car>
+    </cars>
+</carParking>

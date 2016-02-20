@@ -27,8 +27,8 @@ public class JsonDeserializationTest {
 
     @BeforeClass
     public static void setUp() {
-        firstJson = TestUtils.readFile("deserialization/json1.json");
-        secondJson = TestUtils.readFile("deserialization/json2.json");
+        firstJson = TestUtils.readFile("deserialization/json/json1.json");
+        secondJson = TestUtils.readFile("deserialization/json/json2.json");
     }
 
     @Test
