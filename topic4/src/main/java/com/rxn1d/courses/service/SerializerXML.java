@@ -14,17 +14,17 @@ public class SerializerXML implements CarParkingSerializer {
                 "<carParking>\n" +
                 "   <address>" + carParking.getAddress() + "</address>\n" +
                 "   <parkingName>" + carParking.getParkingName() + "</parkingName>\n" +
-                getCarString(carParking.getCars()) + "</carParking>";
+                "   <cars>" + getCarString(carParking.getCars()) + "   </cars>\n" + "</carParking>";
 
         return xml;
     }
     private String getCarString(Car[] cars){
         String car = new String();
         for(Car c : cars){
-            car += "   <cars>\n" + "      <manufacturer>" + c.getManufacturer() + "</manufacturer>\n" +
+            car += "   <car>\n" + "      <manufacturer>" + c.getManufacturer() + "</manufacturer>\n" +
                     "      <modelName>" + c.getModelName() + "</modelName>\n" + "      <vin>" + c.getVin() + "</vin>\n" +
                     "      <lengthMillimeters>" + c.getLengthMillimeters() + "</lengthMillimeters>\n" +
-                    "      <heightMillimeters>" + c.getHeightMillimeters() + "</heightMillimeters>\n" + "   </cars>\n";
+                    "      <heightMillimeters>" + c.getHeightMillimeters() + "</heightMillimeters>\n" + "   </car>\n";
 
         }
         return car;
