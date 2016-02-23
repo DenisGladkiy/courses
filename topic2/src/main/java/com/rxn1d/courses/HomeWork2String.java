@@ -39,11 +39,7 @@ public class HomeWork2String {
      */
     public static String removeSymbolFromString(String symbol, String s) {
         int middle = 0;
-        if(s.length()%2 == 0){
-            middle = s.length()/2;
-        }else{
-            middle = s.length()/2+1;
-        }
+        middle = (s.length()/2)+1;
         String first = s.substring(0, middle);
         String second = s.substring(middle);
         char[] c1 = first.toCharArray();
