@@ -14,7 +14,7 @@ public class SerializerXML implements CarParkingSerializer {
                 "<carParking>\n" +
                 "   <address>" + carParking.getAddress() + "</address>\n" +
                 "   <parkingName>" + carParking.getParkingName() + "</parkingName>\n" +
-                "   <cars>" + getCarString(carParking.getCars()) + "   </cars>\n" + "</carParking>";
+                "   <cars>\n" + getCarString(carParking.getCars()) + "   </cars>\n" + "</carParking>";
 
         return xml;
     }
