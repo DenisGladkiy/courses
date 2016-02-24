@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
   <artifact type="jar" name="topic2_practice:jar">
-    <output-path>$PROJECT_DIR$/out/artifacts/topic2_practice_jar</output-path>
+    <output-path>$PROJECT_DIR$/topic2_practice/out/jar</output-path>
     <root id="archive" name="topic2_practice.jar">
       <element id="module-output" name="topic2_practice" />
       <element id="directory" name="META-INF">
