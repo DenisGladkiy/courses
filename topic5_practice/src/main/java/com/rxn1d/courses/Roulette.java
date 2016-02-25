@@ -1,6 +1,7 @@
 package com.rxn1d.courses;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -20,16 +21,13 @@ public class Roulette {
             if(i != 0){
                 if(redNumber < 18 && blackNumber < 18){
                     color = getRndColor();
-                    System.out.println( color);
                 }else if(redNumber == 18){
-                    System.out.println("black");
-                    color = "black";
+                    color = "BLACK";
                 }else{
-                    System.out.println("red");
-                    color = "red";
+                    color = "RED";
                 }
             }else{
-                color = "green";
+                color = "GREEN";
             }
             RouletteNumber rNumber = new RouletteNumber(i, color);
             wheel.add(rNumber);
@@ -37,14 +35,13 @@ public class Roulette {
     }
 
     private String getRndColor(){
-        String color = new String();
+        String color;
         int colorNumber = random.nextInt(2);
-        System.out.println(colorNumber);
         if(colorNumber != 0){
-            color = "black";
+            color = "BLACK";
             blackNumber++;
         }else{
-            color = "red";
+            color = "RED";
             redNumber++;
         }
         return color;
@@ -56,10 +53,7 @@ public class Roulette {
     }
 
     public List<RouletteNumber> getWheel(){
+        Collections.shuffle(wheel,random);
         return wheel;
     }
-
-
-
-
 }

@@ -19,7 +19,7 @@ public class RouletteNumber {
         return color;
     }
     public String toString(){
-        return String.valueOf(number) + " " + color;
+        return String.valueOf(number) + "-" + color;
     }
 }
 
