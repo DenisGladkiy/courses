@@ -79,6 +79,10 @@ public class RouletteTable {
                         System.out.println("Player " + name + " +" + (value*35));
                     }else{
                         players.put(name, players.get(name) - value);
+                        if(players.get(name) == 0){
+                            players.remove(name);
+                            System.out.println(name + " quit the game with 0 balance");
+                        }
                         Casino.addToCasinoBalance(value);
                         System.out.println("Player " + name + " -" + value);
                     }
@@ -96,6 +100,10 @@ public class RouletteTable {
             System.out.println("Player " + name + " +" + value);
         }else{
             players.put(name, players.get(name) - value);
+            if(players.get(name) == 0){
+                players.remove(name);
+                System.out.println(name + " quit the game with 0 balance");
+            }
             Casino.addToCasinoBalance(value);
             System.out.println("Player " + name + " -" + value);
         }
