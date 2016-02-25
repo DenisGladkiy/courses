@@ -10,12 +10,6 @@ public class Bet {
     private BetType type;
     private int betNumber;
 
-    public Bet(int value,BetType type,String playerName){
-        this.value = value;
-        this.playerName = playerName;
-        this.type = type;
-    }
-
     public Bet(String[] input){
         switch (input[3].toLowerCase()){
             case "red":
@@ -56,18 +50,6 @@ public class Bet {
             return;
         }
         playerName = input[1];
-    }
-
-    public void setValue(int value){
-        this.value = value;
-    }
-
-    public void setPlayerName(String playerName){
-        this.playerName = playerName;
-    }
-
-    public void setType(BetType type){
-        this.type = type;
     }
 
     public int getValue() {

@@ -10,10 +10,10 @@ import java.util.Random;
  */
 public class Roulette {
 
-    Random random = new Random();
-    int redNumber;
-    int blackNumber;
-    List<RouletteNumber> wheel = new ArrayList<>();
+    private Random random = new Random();
+    private int redNumber;
+    private int blackNumber;
+    private List<RouletteNumber> wheel = new ArrayList<>();
 
     public Roulette(){
         String color;

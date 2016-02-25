@@ -9,10 +9,10 @@ import java.util.Map;
  * Created by Denis on 24.02.2016.
  */
 public class RouletteTable {
-    Map<String, Integer> players = new HashMap<>();
-    List<Bet> bets = new ArrayList<>();
-    String name;
-    int value;
+    private Map<String, Integer> players = new HashMap<>();
+    private List<Bet> bets = new ArrayList<>();
+    private String name;
+    private int value;
 
     public void addPlayer(Player player){
         players.put(player.getName(),player.getBalance());
@@ -28,7 +28,7 @@ public class RouletteTable {
         }else{
             for(Bet b : bets){
                 if(b.getPlayerName().equalsIgnoreCase(bet.getPlayerName())){
-                    System.out.println("BET NOT ACCEPTED twice");
+                    System.out.println("BET NOT ACCEPTED");
                     return;
                 }
             }
@@ -36,20 +36,18 @@ public class RouletteTable {
         }
     }
 
-    public List<Bet> getBets(){
-        return bets;
-    }
-
     private void checkBalance(Bet b){
         if(players.containsKey(b.getPlayerName()) && players.get(b.getPlayerName()) >= b.getValue()){
             bets.add(b);
-            System.out.println("BET ACCEPTED "+bets.size());
+            Casino.addBetStatistics(b);
+            System.out.println("BET ACCEPTED");
         }else{
-            System.out.println("BET NOT ACCEPTED Balance");
+            System.out.println("BET NOT ACCEPTED");
         }
     }
 
     public void calculateGame(RouletteNumber number){
+        Casino.addNumberStatistics(number);
         String color = number.getColor();
         int digit = number.getNumber();
         for(Bet bet : bets){
@@ -77,9 +75,11 @@ public class RouletteTable {
                 case STRAIGHT_UP:
                     if(digit == bet.getBetNumber()){
                         players.put(name, players.get(name) + (value*35));
+                        Casino.addToCasinoBalance(-value*35);
                         System.out.println("Player " + name + " +" + (value*35));
                     }else{
                         players.put(name, players.get(name) - value);
+                        Casino.addToCasinoBalance(value);
                         System.out.println("Player " + name + " -" + value);
                     }
                     break;
@@ -92,9 +92,11 @@ public class RouletteTable {
     private void balanceReview(boolean isWinner){
         if(isWinner){
             players.put(name, players.get(name) + value);
+            Casino.addToCasinoBalance(-value);
             System.out.println("Player " + name + " +" + value);
         }else{
             players.put(name, players.get(name) - value);
+            Casino.addToCasinoBalance(value);
             System.out.println("Player " + name + " -" + value);
         }
     }

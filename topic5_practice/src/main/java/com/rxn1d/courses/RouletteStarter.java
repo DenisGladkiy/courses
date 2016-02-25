@@ -40,6 +40,9 @@ public class RouletteStarter {
             case "bet":
                 addNewBet(in);
                 break;
+            case "stats":
+                Casino.showStats(table.getPlayers());
+                break;
             default:
                 System.out.println("Unknown input");
                 break;
