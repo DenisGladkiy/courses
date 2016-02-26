@@ -11,6 +11,18 @@ public class Bet {
     private int betNumber;
 
     public Bet(String[] input){
+        try {
+            int test = Integer.valueOf(input[2]);
+            if(test > 500){
+                System.out.println("Max bet is 500");
+                return;
+            }else{
+                value = test;
+            }
+        }catch (Exception e){
+            incorrect();
+            return;
+        }
         switch (input[3].toLowerCase()){
             case "red":
                 type = BetType.RED;
@@ -42,12 +54,6 @@ public class Bet {
             default:
                 incorrect();
                 break;
-        }
-        try {
-            value = Integer.valueOf(input[2]);
-        }catch (Exception e){
-            incorrect();
-            return;
         }
         playerName = input[1];
     }
