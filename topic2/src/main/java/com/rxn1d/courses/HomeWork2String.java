@@ -39,32 +39,16 @@ public class HomeWork2String {
      */
     public static String removeSymbolFromString(String symbol, String s) {
         int middle = 0;
-        middle = (s.length()/2)+1;
-        String first = s.substring(0, middle);
-        String second = s.substring(middle);
-        char[] c1 = first.toCharArray();
-        char[] c2 = second.toCharArray();
-        if(c1.length > 0){
-            for(int i = 1; i < (c1.length-1);){
-                if(c1[i] == symbol.charAt(0)){
-                    c1= ArrayUtils.remove(c1,i);
-                }else{
-                    i++;
-                }
+        middle = (s.length()/2);
+        char[] word = s.toCharArray();
+        for(int i = 1; i < word.length - 1; i++){
+            if (i != middle && word[i] == symbol.charAt(0)){
+                word = ArrayUtils.remove(word, i);
+                i--;
+                middle--;
             }
         }
-        if(c2.length > 0){
-            for(int i = 0; i < (c2.length-1);){
-                if(c2[i] == symbol.charAt(0)){
-                    c2= ArrayUtils.remove(c2,i);
-                }else{
-                    i++;
-                }
-            }
-        }
-        first = String.valueOf(c1);
-        second = String.valueOf(c2);
-        String result = first+second;
+        String result = String.valueOf(word);
         return result;
     }
 }

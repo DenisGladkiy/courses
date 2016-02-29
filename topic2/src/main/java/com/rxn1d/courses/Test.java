@@ -16,7 +16,7 @@ public class Test {
         testReverse(testRevArr);
         String test = "1_4_6_9_100_101_104";
         testString(test);
-        testRemoveSymbol("x","axxa");
+        testRemoveSymbol("a","spapppalllahh");
     }
 
     private static void testEquation(int a, int b, int c){
