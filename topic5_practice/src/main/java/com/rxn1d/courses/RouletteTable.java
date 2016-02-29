@@ -67,7 +67,7 @@ public class RouletteTable {
                     balanceReview(digit%2 == 0);
                     break;
                 case SMALL:
-                    balanceReview(digit < 19);
+                    balanceReview(digit > 0 && digit < 19);
                     break;
                 case BIG:
                     balanceReview(digit > 18);
