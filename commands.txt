@@ -1,0 +1,16 @@
+new_user qwerty 500
+new_user asdfg 600
+new_user zxc 700
+new user ewq 400
+new_user dsa 500
+new_user cxz 800
+new_user gfd 900
+bet qwerty 100 red
+bet asdfg 200 big
+bet klm 400 small
+bet cxz 600 red
+bet cxz 300 odd
+bet dsa even 200
+bet dsa 200 even
+play_game
+stats

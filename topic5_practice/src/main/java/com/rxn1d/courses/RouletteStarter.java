@@ -1,5 +1,7 @@
 package com.rxn1d.courses;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -18,7 +20,21 @@ public class RouletteStarter {
         System.out.println("Generated Roulette : "+roulette);
         while(true) {
             input = ConsoleReader.readFromConsole();
-            if(!input[0].equals("exit")){
+            if(input[0].equals("file")){
+                String[][] commandFile = new String[0][];
+                try {
+                    commandFile = CommandFileReader.readFromFile();
+                    for(String[] input : commandFile){
+                        printStringArr(input);
+                        play(input);
+                    }
+                }catch (FileNotFoundException e){
+                    e.printStackTrace();
+                }catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            else if(!input[0].equals("exit")){
                 play(input);
             }else{
                 break;
@@ -35,7 +51,7 @@ public class RouletteStarter {
                 table.calculateGame(number);
                 break;
             case "new_user":
-                addNewUser(input);
+                addNewUser(in);
                 break;
             case "bet":
                 addNewBet(in);
@@ -44,7 +60,7 @@ public class RouletteStarter {
                 Casino.showStats(table.getPlayers());
                 break;
             default:
-                System.out.println("Unknown input");
+                System.out.println("Unknown input"+"\n");
                 break;
         }
     }
@@ -62,13 +78,13 @@ public class RouletteStarter {
                 Player player = new Player(in[1], balance);
                 table.addPlayer(player);
                 System.out.println("New user with name = " + player.getName() + " and balance = " + player.getBalance() +
-                        " is added to table");
+                        " is added to table"+"\n");
 
             } else {
                 incorrect();
             }
         }else{
-            System.out.println("No place at the table");
+            System.out.println("No place at the table"+"\n");
         }
     }
 
@@ -87,6 +103,11 @@ public class RouletteStarter {
 
     private static void incorrect(){
         System.out.println("Incorrect input. Try again.");
+    }
+
+    private static void printStringArr(String[] arr){
+        for(String s : arr) System.out.print(s + " ");
+        System.out.print("\n");
     }
 
 }

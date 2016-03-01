@@ -40,9 +40,9 @@ public class RouletteTable {
         if(players.containsKey(b.getPlayerName()) && players.get(b.getPlayerName()) >= b.getValue()){
             bets.add(b);
             Casino.addBetStatistics(b);
-            System.out.println("BET ACCEPTED");
+            System.out.println("BET ACCEPTED"+"\n");
         }else{
-            System.out.println("BET NOT ACCEPTED");
+            System.out.println("BET NOT ACCEPTED"+"\n");
         }
     }
 
@@ -64,7 +64,7 @@ public class RouletteTable {
                     balanceReview(digit%2 != 0);
                     break;
                 case EVEN:
-                    balanceReview(digit%2 == 0);
+                    balanceReview(digit > 0 && digit%2 == 0);
                     break;
                 case SMALL:
                     balanceReview(digit > 0 && digit < 19);
