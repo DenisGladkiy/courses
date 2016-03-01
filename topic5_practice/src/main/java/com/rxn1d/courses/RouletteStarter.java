@@ -1,7 +1,10 @@
 package com.rxn1d.courses;
 
+import com.rxn1d.courses.myExceptions.TableIsFullException;
+import com.rxn1d.courses.myExceptions.IncorrectInputException;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -19,60 +22,65 @@ public class RouletteStarter {
         List<RouletteNumber> roulette = wheel.getWheel();
         System.out.println("Generated Roulette : "+roulette);
         while(true) {
-            input = ConsoleReader.readFromConsole();
-            if(input[0].equals("file")){
-                String[][] commandFile = new String[0][];
-                try {
-                    commandFile = CommandFileReader.readFromFile();
-                    for(String[] input : commandFile){
-                        printStringArr(input);
-                        play(input);
+                input = ConsoleReader.readFromConsole();
+                if (input[0].equals("file")) {
+                    String[][] commandFile = new String[0][];
+                    try {
+                        commandFile = CommandFileReader.readFromFile();
+                        for (String[] input : commandFile) {
+                            printStringArr(input);
+                            play(input);
+                        }
+                    }catch (FileNotFoundException e){
+                        e.printStackTrace();
+                    }catch (IOException e){
+                        e.printStackTrace();
                     }
-                }catch (FileNotFoundException e){
-                    e.printStackTrace();
-                }catch (IOException e) {
-                    e.printStackTrace();
+                } else if (!input[0].equals("exit")) {
+                    play(input);
+                } else {
+                    System.out.println("Game over");
+                    break;
                 }
-            }
-            else if(!input[0].equals("exit")){
-                play(input);
-            }else{
-                break;
-            }
-        }
-        System.out.println("Game over");
-    }
-
-    private static void play(String[] in){
-        switch (in[0].toLowerCase()){
-            case "play_game":
-                RouletteNumber number = wheel.getNumber();
-                System.out.println("Winning number = " + number);
-                table.calculateGame(number);
-                break;
-            case "new_user":
-                addNewUser(in);
-                break;
-            case "bet":
-                addNewBet(in);
-                break;
-            case "stats":
-                Casino.showStats(table.getPlayers());
-                break;
-            default:
-                System.out.println("Unknown input"+"\n");
-                break;
         }
     }
 
-    private static void addNewUser(String[] in){
+    private static void play(String[] in) {
+        try {
+            switch (in[0].toLowerCase()) {
+                case "play_game":
+                    RouletteNumber number = wheel.getNumber();
+                    System.out.println("Winning number = " + number);
+                    table.calculateGame(number);
+                    break;
+                case "new_user":
+                    addNewUser(in);
+                    break;
+                case "bet":
+                    addNewBet(in);
+                    break;
+                case "stats":
+                    Casino.showStats(table.getPlayers());
+                    break;
+                default:
+                    incorrect(in);
+                    break;
+            }
+        }catch (TableIsFullException e){
+            e.printStackTrace();
+        }catch (IncorrectInputException e){
+            e.printStackTrace();
+        }
+    }
+
+    private static void addNewUser(String[] in) throws TableIsFullException, IncorrectInputException {
         if(table.getPlayers().size() < 5) {
             if (in.length == 3) {
                 int balance = 0;
                 try {
                     balance = Integer.valueOf(in[2]);
                 } catch (Exception e) {
-                    incorrect();
+                    incorrect(in);
                     return;
                 }
                 Player player = new Player(in[1], balance);
@@ -81,28 +89,28 @@ public class RouletteStarter {
                         " is added to table"+"\n");
 
             } else {
-                incorrect();
+                incorrect(in);
             }
         }else{
-            System.out.println("No place at the table"+"\n");
+            throw new TableIsFullException("No free place at the table");
         }
     }
 
-    private static void addNewBet(String[] in){
+    private static void addNewBet(String[] in) throws IncorrectInputException {
         if(in.length >= 4){
             Bet bet = new Bet(in);
             if(null != bet){
                 table.addBet(bet);
             }else{
-                incorrect();
+                incorrect(in);
             }
         }else{
-            incorrect();
+            incorrect(in);
         }
     }
 
-    private static void incorrect(){
-        System.out.println("Incorrect input. Try again.");
+    private static void incorrect(String[] in) throws IncorrectInputException {
+        throw new IncorrectInputException(Arrays.toString(in));
     }
 
     private static void printStringArr(String[] arr){

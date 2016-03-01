@@ -28,7 +28,7 @@ public class RouletteTable {
         }else{
             for(Bet b : bets){
                 if(b.getPlayerName().equalsIgnoreCase(bet.getPlayerName())){
-                    System.out.println("BET NOT ACCEPTED");
+                    System.out.println("BET NOT ACCEPTED"+"\n");
                     return;
                 }
             }

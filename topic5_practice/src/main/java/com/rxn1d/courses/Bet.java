@@ -1,5 +1,9 @@
 package com.rxn1d.courses;
 
+import com.rxn1d.courses.myExceptions.IncorrectInputException;
+
+import java.util.Arrays;
+
 /**
  * Created by Denis on 24.02.2016.
  */
@@ -10,7 +14,7 @@ public class Bet {
     private BetType type;
     private int betNumber;
 
-    public Bet(String[] input){
+    public Bet(String[] input) throws IncorrectInputException {
         try {
             int test = Integer.valueOf(input[2]);
             if(test > 500){
@@ -20,7 +24,7 @@ public class Bet {
                 value = test;
             }
         }catch (Exception e){
-            incorrect();
+            incorrect(input);
             return;
         }
         switch (input[3].toLowerCase()){
@@ -47,12 +51,12 @@ public class Bet {
                 try {
                     betNumber = Integer.valueOf(input[4]);
                 }catch (Exception e){
-                    incorrect();
+                    incorrect(input);
                     return;
                 }
                 break;
             default:
-                incorrect();
+                incorrect(input);
                 break;
         }
         playerName = input[1];
@@ -74,7 +78,8 @@ public class Bet {
         return betNumber;
     }
 
-    private void incorrect(){
-            System.out.println("Incorrect input. Try again.");
+    private void incorrect(String[] in) throws IncorrectInputException {
+        throw new IncorrectInputException(Arrays.toString(in));
+        //System.out.println("Incorrect input. Try again.");
     }
 }
