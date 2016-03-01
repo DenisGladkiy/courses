@@ -1,5 +1,7 @@
 package com.rxn1d.courses;
 
+import com.rxn1d.courses.Bets.Bet;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,7 +19,6 @@ public class RouletteTable {
     public void addPlayer(Player player){
         players.put(player.getName(),player.getBalance());
     }
-
     public Map<String, Integer> getPlayers(){
         return players;
     }
@@ -48,64 +49,27 @@ public class RouletteTable {
 
     public void calculateGame(RouletteNumber number){
         Casino.addNumberStatistics(number);
-        String color = number.getColor();
-        int digit = number.getNumber();
+        //String color = number.getColor();
+        //int digit = number.getNumber();
         for(Bet bet : bets){
             name = bet.getPlayerName();
             value = bet.getValue();
-            switch (bet.getType()){
-                case RED:
-                    balanceReview(color.equals("RED"));
-                    break;
-                case BLACK:
-                    balanceReview(color.equals("BLACK"));
-                    break;
-                case ODD:
-                    balanceReview(digit%2 != 0);
-                    break;
-                case EVEN:
-                    balanceReview(digit > 0 && digit%2 == 0);
-                    break;
-                case SMALL:
-                    balanceReview(digit > 0 && digit < 19);
-                    break;
-                case BIG:
-                    balanceReview(digit > 18);
-                    break;
-                case STRAIGHT_UP:
-                    if(digit == bet.getBetNumber()){
-                        players.put(name, players.get(name) + (value*35));
-                        Casino.addToCasinoBalance(-value*35);
-                        System.out.println("Player " + name + " +" + (value*35));
-                    }else{
-                        players.put(name, players.get(name) - value);
-                        if(players.get(name) == 0){
-                            players.remove(name);
-                            System.out.println(name + " quit the game with 0 balance");
-                        }
-                        Casino.addToCasinoBalance(value);
-                        System.out.println("Player " + name + " -" + value);
-                    }
-                    break;
-
+            int multiplier = bet.getMultiplier();
+            int balance = players.get(name);
+            if(bet.isWon(number)){
+                players.put(name, (balance+(value*multiplier)));
+                Casino.addToCasinoBalance(-value);
+                System.out.println("Player " + name + " +" + value);
+            }else{
+                players.put(name, (balance - value));
+                Casino.addToCasinoBalance(value);
+                System.out.println("Player " + name + " -" + value);
+                if(players.get(name) == 0){
+                    players.remove(name);
+                    System.out.println(name + " quit the game with 0 balance");
+                }
             }
         }
         bets.clear();
-    }
-
-    private void balanceReview(boolean isWinner){
-        if(isWinner){
-            players.put(name, players.get(name) + value);
-            Casino.addToCasinoBalance(-value);
-            System.out.println("Player " + name + " +" + value);
-        }else{
-            players.put(name, players.get(name) - value);
-            if(players.get(name) == 0){
-                players.remove(name);
-                System.out.println(name + " quit the game with 0 balance");
-            }
-            Casino.addToCasinoBalance(value);
-            System.out.println("Player " + name + " -" + value);
-        }
     }
 }

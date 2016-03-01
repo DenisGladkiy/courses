@@ -1,5 +1,7 @@
 package com.rxn1d.courses;
 
+import com.rxn1d.courses.Bets.Bet;
+import com.rxn1d.courses.Bets.BetFactory;
 import com.rxn1d.courses.myExceptions.TableIsFullException;
 import com.rxn1d.courses.myExceptions.IncorrectInputException;
 import java.io.FileNotFoundException;
@@ -20,11 +22,11 @@ public class RouletteStarter {
     public static void main(String[] args) {
         System.out.println("Game Started");
         List<RouletteNumber> roulette = wheel.getWheel();
+        String[][] commandFile;
         System.out.println("Generated Roulette : "+roulette);
         while(true) {
                 input = ConsoleReader.readFromConsole();
                 if (input[0].equals("file")) {
-                    String[][] commandFile = new String[0][];
                     try {
                         commandFile = CommandFileReader.readFromFile();
                         for (String[] input : commandFile) {
@@ -74,7 +76,8 @@ public class RouletteStarter {
     }
 
     private static void addNewUser(String[] in) throws TableIsFullException, IncorrectInputException {
-        if(table.getPlayers().size() < 5) {
+        //System.out.println("addNewUser "+ table.getPlayers().size());
+        if(table.getPlayers().size() < 5 && !table.getPlayers().containsKey(in[1])) {
             if (in.length == 3) {
                 int balance = 0;
                 try {
@@ -98,12 +101,8 @@ public class RouletteStarter {
 
     private static void addNewBet(String[] in) throws IncorrectInputException {
         if(in.length >= 4){
-            Bet bet = new Bet(in);
-            if(null != bet){
-                table.addBet(bet);
-            }else{
-                incorrect(in);
-            }
+            Bet bet = BetFactory.getBet(in);
+            table.addBet(bet);
         }else{
             incorrect(in);
         }

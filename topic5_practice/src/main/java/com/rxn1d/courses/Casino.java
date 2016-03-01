@@ -1,5 +1,8 @@
 package com.rxn1d.courses;
 
+import com.rxn1d.courses.Bets.Bet;
+import com.rxn1d.courses.Bets.BetType;
+
 import java.util.HashMap;
 import java.util.Map;
 

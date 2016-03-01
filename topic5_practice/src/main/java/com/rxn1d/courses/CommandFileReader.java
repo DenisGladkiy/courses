@@ -15,10 +15,11 @@ public class CommandFileReader {
     public static BufferedReader br;
 
     public static String[][] readFromFile() throws FileNotFoundException, IOException {
-
+        commandFile = null;
         br = new BufferedReader(new FileReader("commands.txt"));
         String line = br.readLine();
         while(line != null){
+            //System.out.println("read from file");
             input = line.split("\\s");
             commandFile = ArrayUtils.add(commandFile, input);
             line = br.readLine();

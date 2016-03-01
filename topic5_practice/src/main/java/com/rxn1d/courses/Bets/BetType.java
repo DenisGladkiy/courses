@@ -1,4 +1,4 @@
-package com.rxn1d.courses;
+package com.rxn1d.courses.Bets;
 
 /**
  * Created by Denis on 25.02.2016.
