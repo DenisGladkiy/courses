@@ -24,26 +24,26 @@ public class RouletteStarter {
         List<RouletteNumber> roulette = wheel.getWheel();
         String[][] commandFile;
         System.out.println("Generated Roulette : "+roulette);
-        while(true) {
-                input = ConsoleReader.readFromConsole();
-                if (input[0].equals("file")) {
-                    try {
-                        commandFile = CommandFileReader.readFromFile();
-                        for (String[] input : commandFile) {
-                            printStringArr(input);
-                            play(input);
-                        }
-                    }catch (FileNotFoundException e){
-                        e.printStackTrace();
-                    }catch (IOException e){
-                        e.printStackTrace();
+        while (true) {
+            input = ConsoleReader.readFromConsole();
+            if (input[0].equals("file")) {
+                try {
+                    commandFile = CommandFileReader.readFromFile();
+                    for (String[] input : commandFile) {
+                        printStringArr(input);
+                        play(input);
                     }
-                } else if (!input[0].equals("exit")) {
-                    play(input);
-                } else {
-                    System.out.println("Game over");
-                    break;
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
+            } else if (!input[0].equals("exit")) {
+                play(input);
+            } else {
+                System.out.println("Game over");
+                break;
+            }
         }
     }
 
@@ -76,26 +76,10 @@ public class RouletteStarter {
     }
 
     private static void addNewUser(String[] in) throws TableIsFullException, IncorrectInputException {
-        //System.out.println("addNewUser "+ table.getPlayers().size());
-        if(table.getPlayers().size() < 5 && !table.getPlayers().containsKey(in[1])) {
-            if (in.length == 3) {
-                int balance = 0;
-                try {
-                    balance = Integer.valueOf(in[2]);
-                } catch (Exception e) {
-                    incorrect(in);
-                    return;
-                }
-                Player player = new Player(in[1], balance);
-                table.addPlayer(player);
-                System.out.println("New user with name = " + player.getName() + " and balance = " + player.getBalance() +
-                        " is added to table"+"\n");
-
-            } else {
-                incorrect(in);
-            }
-        }else{
-            throw new TableIsFullException("No free place at the table");
+        if (in.length == 3) {
+            table.addPlayer(in);
+        } else {
+            incorrect(in);
         }
     }
 

@@ -12,6 +12,7 @@ public class StraightUpBet extends Bet {
         this.number = number;
         this.playerName = playerName;
         this.value = value;
+        this.type = type;
         multiplier = 35;
     }
 

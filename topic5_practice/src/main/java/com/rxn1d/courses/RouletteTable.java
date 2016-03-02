@@ -1,11 +1,10 @@
 package com.rxn1d.courses;
 
 import com.rxn1d.courses.Bets.Bet;
+import com.rxn1d.courses.myExceptions.IncorrectInputException;
+import com.rxn1d.courses.myExceptions.TableIsFullException;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Denis on 24.02.2016.
@@ -16,9 +15,6 @@ public class RouletteTable {
     private String name;
     private int value;
 
-    public void addPlayer(Player player){
-        players.put(player.getName(),player.getBalance());
-    }
     public Map<String, Integer> getPlayers(){
         return players;
     }
@@ -37,6 +33,26 @@ public class RouletteTable {
         }
     }
 
+    public void addPlayer(String[] input) throws TableIsFullException, IncorrectInputException {
+        if(players.size() < 5){
+            if(!players.containsKey(input[1])){
+                int balance;
+                try{
+                    balance = Integer.valueOf(input[2]);
+                }catch (NumberFormatException e){
+                    throw new IncorrectInputException(Arrays.toString(input));
+                }
+                players.put(input[1], balance);
+                System.out.println("New user with name = " + input[1] + " and balance = " + balance +
+                        " is added to table"+"\n");
+            }else{
+                System.out.println("Player " + input[1] + " already at the table");
+            }
+        }else{
+            throw new TableIsFullException("No free place at the table");
+        }
+    }
+
     private void checkBalance(Bet b){
         if(players.containsKey(b.getPlayerName()) && players.get(b.getPlayerName()) >= b.getValue()){
             bets.add(b);
@@ -49,8 +65,6 @@ public class RouletteTable {
 
     public void calculateGame(RouletteNumber number){
         Casino.addNumberStatistics(number);
-        //String color = number.getColor();
-        //int digit = number.getNumber();
         for(Bet bet : bets){
             name = bet.getPlayerName();
             value = bet.getValue();
