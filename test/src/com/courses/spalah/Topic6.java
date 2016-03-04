@@ -127,14 +127,14 @@ public class Topic6 {
         }
     }
 
-    public static class TestB extends TestA {
-        public void a() throws IOException, SQLException {
-        }
-    }
+//    public static class TestB extends TestA {
+//        public void a() throws IOException, SQLException {
+//        }
+//    }
 
-    public static class TestC extends TestB {
-        @Override
-        public void a() throws IOException {
-        }
-    }
+//    public static class TestC extends TestB {
+//        @Override
+//        public void a() throws IOException {
+//        }
+//    }
 }
