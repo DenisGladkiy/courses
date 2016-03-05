@@ -6,7 +6,7 @@ package com.courses.spalah.list;
  *
  * @author Ievgen Tararaka
  */
-public class Car {
+public class Car extends Object {
     private int priceInDollars;
     private String modelName;
 
@@ -29,5 +29,23 @@ public class Car {
 
     public void setModelName(String modelName) {
         this.modelName = modelName;
+    }
+    @Override
+    public boolean equals(Object object){
+        Car car = (Car)object;
+        String carModelName = car.getModelName();
+        int carPriceInDollars = car.getPriceInDollars();
+        if(carPriceInDollars == priceInDollars && carModelName.equals(modelName)){
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public String toString() {
+        return "Car{" +
+                "priceInDollars=" + priceInDollars +
+                ", modelName='" + modelName + '\'' +
+                '}';
     }
 }
