@@ -10,6 +10,7 @@ public class MyLinkedList<E> implements MyList {
     private ListNode next;
     private ListNode current;
     private int index;
+    private int size;
 
     public MyLinkedList() {
         first = new ListNode(null);
@@ -17,15 +18,6 @@ public class MyLinkedList<E> implements MyList {
 
     @Override
     public int size() {
-        int size = 0;
-        if (!isEmpty()) {
-            next = first.getNext();
-            while (next.getNext() != null) {
-                next = next.getNext();
-                size++;
-            }
-            size++;
-        }
         return size;
     }
 
@@ -37,15 +29,12 @@ public class MyLinkedList<E> implements MyList {
     @Override
     public boolean add(Object element) {
         ListNode newNode = new ListNode(element, null);
-        if (!isEmpty()) {
-            next = first.getNext();
-            while (next.getNext() != null) {
-                next = next.getNext();
-            }
-            next.setNext(newNode);
-        } else {
-            first.setNext(newNode);
+        next = first;
+        while (next.getNext() != null) {
+            next = next.getNext();
         }
+        next.setNext(newNode);
+        size++;
         return true;
     }
 
@@ -56,42 +45,37 @@ public class MyLinkedList<E> implements MyList {
         next = current.getNext();
         current.setNext(newNode);
         newNode.setNext(next);
+        size++;
     }
 
     @Override
     public void remove(int index) {
-        if (!isEmpty()) {
-            current = getNodeByIndex(index - 1);
-            next = current.getNext();
-            current.setNext(next.getNext());
-        }
+        current = getNodeByIndex(index - 1);
+        next = current.getNext();
+        current.setNext(next.getNext());
+        size--;
     }
 
     @Override
     public Object get(int index) {
-        if (!isEmpty()) {
-            next = getNodeByIndex(index);
-        }
+        next = getNodeByIndex(index);
         return next.getValue();
     }
 
     @Override
     public Object set(int index, Object element) {
-        if (!isEmpty()) {
-            getNodeByIndex(index).setValue(element);
-        }
+        next = getNodeByIndex(index);
+        next.setValue(element);
         return next;
     }
 
     @Override
     public boolean contains(Object element) {
-        if (!isEmpty()) {
-            next = first.getNext();
-            while (next.getNext() != null) {
-                if (next.getValue().equals(element)) {
-                    return true;
-                }
-                next = next.getNext();
+        next = first;
+        while (next.getNext() != null) {
+            next = next.getNext();
+            if (next.getValue().equals(element)) {
+                return true;
             }
         }
         return false;
@@ -100,9 +84,7 @@ public class MyLinkedList<E> implements MyList {
     @Override
     public Iterator iterator() {
         index = 0;
-        if (!isEmpty()) {
-            next = first;
-        }
+        next = first;
         Iterator iterator = new Iterator() {
 
             @Override
@@ -124,6 +106,7 @@ public class MyLinkedList<E> implements MyList {
             public void remove() {
                 index--;
                 MyLinkedList.this.remove(index);
+                size--;
             }
         };
         return iterator;
