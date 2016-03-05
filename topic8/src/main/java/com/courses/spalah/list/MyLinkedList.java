@@ -17,7 +17,6 @@ public class MyLinkedList<E> implements MyList {
 
     @Override
     public int size() {
-        ListNode tempNext = next;
         int size = 0;
         if (!isEmpty()) {
             next = first.getNext();
@@ -27,7 +26,6 @@ public class MyLinkedList<E> implements MyList {
             }
             size++;
         }
-        next = tempNext;
         return size;
     }
 
@@ -54,67 +52,43 @@ public class MyLinkedList<E> implements MyList {
     @Override
     public void add(int index, Object element) {
         ListNode newNode = new ListNode(element, null);
-        next = first.getNext();
-        if(index == 0){
-            newNode.setNext(next);
-            first.setNext(newNode);
-        }else {
-            for (int i = 0; i < index; i++) {
-                current = next;
-                next = next.getNext();
-            }
-            current.setNext(newNode);
-            newNode.setNext(next);
-        }
-
+        current = getNodeByIndex(index - 1);
+        next = current.getNext();
+        current.setNext(newNode);
+        newNode.setNext(next);
     }
 
     @Override
     public void remove(int index) {
-        if(!isEmpty()){
-            next = first;
-                for (int i = 0; i <= index; i++) {
-                    current = next;
-                    next = current.getNext();
-                }
-                if(index == size()-1){
-                    current.setNext(null);
-                }else {
-                    current.setNext(next.getNext());
-                }
-
+        if (!isEmpty()) {
+            current = getNodeByIndex(index - 1);
+            next = current.getNext();
+            current.setNext(next.getNext());
         }
     }
 
     @Override
     public Object get(int index) {
-        if(!isEmpty()){
-            next = first.getNext();
-            for(int i = 0; i < index; i++){
-                next = next.getNext();
-            }
+        if (!isEmpty()) {
+            next = getNodeByIndex(index);
         }
         return next.getValue();
     }
 
     @Override
     public Object set(int index, Object element) {
-        if(!isEmpty()){
-            next = first;
-            for(int i = 0; i <= index; i++){
-                next = next.getNext();
-            }
-            next.setValue(element);
+        if (!isEmpty()) {
+            getNodeByIndex(index).setValue(element);
         }
         return next;
     }
 
     @Override
     public boolean contains(Object element) {
-        if(!isEmpty()){
+        if (!isEmpty()) {
             next = first.getNext();
-            while(next.getNext() != null){
-                if(next.getValue().equals(element)){
+            while (next.getNext() != null) {
+                if (next.getValue().equals(element)) {
                     return true;
                 }
                 next = next.getNext();
@@ -126,14 +100,14 @@ public class MyLinkedList<E> implements MyList {
     @Override
     public Iterator iterator() {
         index = 0;
-        if(!isEmpty()){
+        if (!isEmpty()) {
             next = first;
         }
         Iterator iterator = new Iterator() {
 
             @Override
             public boolean hasNext() {
-                if(next.getNext() != null) {
+                if (next.getNext() != null) {
                     index++;
                     next = next.getNext();
                     return true;
@@ -148,17 +122,26 @@ public class MyLinkedList<E> implements MyList {
 
             @Override
             public void remove() {
-               index--;
+                index--;
                 MyLinkedList.this.remove(index);
             }
         };
         return iterator;
     }
+
+    private ListNode getNodeByIndex(int index) {
+        next = first;
+        for (int i = 0; i <= index; i++) {
+            next = next.getNext();
+        }
+        return next;
+    }
+
     @Override
-    public String toString(){
+    public String toString() {
         String value = "";
         next = first;
-        while(next.getNext() != null){
+        while (next.getNext() != null) {
             value += next.getNext().getValue().toString();
             next = next.getNext();
         }
