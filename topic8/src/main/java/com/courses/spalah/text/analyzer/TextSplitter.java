@@ -23,6 +23,7 @@ public class TextSplitter {
                 text += line;
                 line = bufferedReader.readLine();
             }
+            bufferedReader.close();
         } catch (IOException ex) {
             ex.printStackTrace();
         }

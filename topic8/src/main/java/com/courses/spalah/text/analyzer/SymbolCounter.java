@@ -26,29 +26,28 @@ public class SymbolCounter {
                 result += line;
                 line = bufferedReader.readLine();
             }
+            bufferedReader.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         result = result.replaceAll("\\s+", "");
         return result.length();
     }
 
-    public void detailLetterStat(File file) {
+    public Map<Character, Integer> detailLetterStat(File file) {
         letters = new TreeMap<>();
         countSymbols(file);
         char[] symbols = result.toCharArray();
         for (char c : symbols) {
             if (Character.isLetter(c)) {
-                if (letters.containsKey(c)) {
-                    letters.put(c, letters.get(c) + 1);
+                if (letters.containsKey(Character.toLowerCase(c))) {
+                    letters.put(Character.toLowerCase(c), letters.get(Character.toLowerCase(c)) + 1);
                 } else {
-                    letters.put(c, 1);
+                    letters.put(Character.toLowerCase(c), 1);
                 }
             }
         }
-        System.out.println("");
-        for (Map.Entry<Character, Integer> e : letters.entrySet()) {
-            System.out.println(e);
-        }
+        return letters;
     }
 }

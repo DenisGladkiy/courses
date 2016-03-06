@@ -63,22 +63,19 @@ public class WordCounter {
         return wordLength;
     }
 
-    public void detailWordStats(File file) {
+    public Map<String, Integer> detailWordStats(File file) {
         makeWordsMap(file);
-        System.out.println("");
-        for (Map.Entry<String, Integer> e : words.entrySet()) {
-            System.out.println(e);
-        }
+        return words;
     }
 
     private Map<String, Integer> makeWordsMap(File file) {
         words = new TreeMap();
         countWords(file);
         for (String s : result) {
-            if (words.containsKey(s)) {
-                words.put(s, words.get(s) + 1);
+            if (words.containsKey(s.toLowerCase())) {
+                words.put(s.toLowerCase(), words.get(s.toLowerCase()) + 1);
             } else {
-                words.put(s, 1);
+                words.put(s.toLowerCase(), 1);
             }
         }
         return words;
