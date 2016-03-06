@@ -29,19 +29,21 @@ public class TextAnalyzer {
             bufferedWriter.write("The most frequent word = " + wordCounter.mostFrequentWord(file)+"\n");
             bufferedWriter.write("The length of the shortest word = " + wordCounter.shortestWord(file)+"\n");
             bufferedWriter.write("The length of the longest word = " + wordCounter.longestWord(file)+"\n"+"\n");
-            for(Map.Entry<String, Integer> e : words.entrySet()){
-                bufferedWriter.write(e.toString()+"\n");
-            }
+            printMap(bufferedWriter, words);
             bufferedWriter.write("\n");
-            for(Map.Entry<Character, Integer> e : letters.entrySet()){
-                bufferedWriter.write(e.toString()+"\n");
-            }
+            printMap(bufferedWriter, letters);
             bufferedWriter.close();
             System.out.println("Look result at the file  - topic8/src/main/resources/output.txt");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    private static void printMap(BufferedWriter br, Map map) throws IOException {
+        for(Object e : map.entrySet()){
+            br.write(e.toString()+"\n");
         }
     }
 }
