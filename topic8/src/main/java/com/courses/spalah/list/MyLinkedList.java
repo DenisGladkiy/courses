@@ -5,15 +5,15 @@ import java.util.Iterator;
 /**
  * Created by Denis on 04.03.2016.
  */
-public class MyLinkedList<E> implements MyList {
-    private ListNode first;
-    private ListNode next;
-    private ListNode current;
+public class MyLinkedList<E> implements MyList<E> {
+    private ListNode<E>  first;
+    private ListNode<E>  next;
+    private ListNode<E>  current;
     private int index;
     private int size;
 
     public MyLinkedList() {
-        first = new ListNode(null);
+        first = new ListNode<E> (null);
     }
 
     @Override
@@ -27,8 +27,8 @@ public class MyLinkedList<E> implements MyList {
     }
 
     @Override
-    public boolean add(Object element) {
-        ListNode newNode = new ListNode(element, null);
+    public boolean add(E element) {
+        ListNode<E>  newNode = new ListNode<E> (element, null);
         next = first;
         while (next.getNext() != null) {
             next = next.getNext();
@@ -39,8 +39,8 @@ public class MyLinkedList<E> implements MyList {
     }
 
     @Override
-    public void add(int index, Object element) {
-        ListNode newNode = new ListNode(element, null);
+    public void add(int index, E element) {
+        ListNode<E>  newNode = new ListNode<E> (element, null);
         current = getNodeByIndex(index - 1);
         next = current.getNext();
         current.setNext(newNode);
@@ -57,20 +57,20 @@ public class MyLinkedList<E> implements MyList {
     }
 
     @Override
-    public Object get(int index) {
+    public E get(int index) {
         next = getNodeByIndex(index);
         return next.getValue();
     }
 
     @Override
-    public Object set(int index, Object element) {
+    public E set(int index, E element) {
         next = getNodeByIndex(index);
         next.setValue(element);
-        return next;
+        return next.getValue();
     }
 
     @Override
-    public boolean contains(Object element) {
+    public boolean contains(E element) {
         next = first;
         while (next.getNext() != null) {
             next = next.getNext();
@@ -82,10 +82,10 @@ public class MyLinkedList<E> implements MyList {
     }
 
     @Override
-    public Iterator iterator() {
+    public Iterator<E> iterator() {
         index = 0;
         next = first;
-        Iterator iterator = new Iterator() {
+        Iterator<E> iterator = new Iterator<E>() {
 
             @Override
             public boolean hasNext() {
@@ -98,7 +98,7 @@ public class MyLinkedList<E> implements MyList {
             }
 
             @Override
-            public Object next() {
+            public E next() {
                 return next.getValue();
             }
 
@@ -112,7 +112,7 @@ public class MyLinkedList<E> implements MyList {
         return iterator;
     }
 
-    private ListNode getNodeByIndex(int index) {
+    private ListNode<E>  getNodeByIndex(int index) {
         next = first;
         for (int i = 0; i <= index; i++) {
             next = next.getNext();
