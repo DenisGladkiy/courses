@@ -9,11 +9,13 @@ public class MyLinkedList<E> implements MyList<E> {
     private ListNode<E>  first;
     private ListNode<E>  next;
     private ListNode<E>  current;
+    private ListNode<E>  last;
     private int index;
     private int size;
 
     public MyLinkedList() {
         first = new ListNode<E> (null);
+        last = first;
     }
 
     @Override
@@ -29,11 +31,8 @@ public class MyLinkedList<E> implements MyList<E> {
     @Override
     public boolean add(E element) {
         ListNode<E>  newNode = new ListNode<E> (element, null);
-        next = first;
-        while (next.getNext() != null) {
-            next = next.getNext();
-        }
-        next.setNext(newNode);
+        last.setNext(newNode);
+        last = newNode;
         size++;
         return true;
     }
@@ -52,6 +51,7 @@ public class MyLinkedList<E> implements MyList<E> {
     public void remove(int index) {
         current = getNodeByIndex(index - 1);
         next = current.getNext();
+        if(next == last) last = current;
         current.setNext(next.getNext());
         size--;
     }
