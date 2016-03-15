@@ -15,19 +15,19 @@ public class TextSplitter {
     public String[] splitText(File file, String regex) {
         String[] result;
         String line = "";
-        String text = "";
+        StringBuilder builder = new StringBuilder();
         try {
             fileReader = new FileReader(file);
             bufferedReader = new BufferedReader(fileReader);
             while (line != null) {
-                text += line;
+                builder.append(line);
                 line = bufferedReader.readLine();
             }
             bufferedReader.close();
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-        result = text.split(regex);
+        result = builder.toString().split(regex);
         return result;
     }
 }

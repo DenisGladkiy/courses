@@ -19,19 +19,19 @@ public class SymbolCounter {
     public int countSymbols(File file) {
         result = "";
         String line = "";
+        StringBuilder builder = new StringBuilder();
         try {
             fileReader = new FileReader(file);
             bufferedReader = new BufferedReader(fileReader);
             while (line != null) {
-                result += line;
+                builder.append(line);
                 line = bufferedReader.readLine();
             }
             bufferedReader.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        result = result.replaceAll("\\s+", "");
+        result = builder.toString().replaceAll("\\s+", "");
         return result.length();
     }
 

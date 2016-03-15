@@ -83,33 +83,7 @@ public class MyLinkedList<E> implements MyList<E> {
 
     @Override
     public Iterator<E> iterator() {
-        index = 0;
-        next = first;
-        Iterator<E> iterator = new Iterator<E>() {
-
-            @Override
-            public boolean hasNext() {
-                if (next.getNext() != null) {
-                    index++;
-                    next = next.getNext();
-                    return true;
-                }
-                return false;
-            }
-
-            @Override
-            public E next() {
-                return next.getValue();
-            }
-
-            @Override
-            public void remove() {
-                index--;
-                MyLinkedList.this.remove(index);
-                size--;
-            }
-        };
-        return iterator;
+        return new MyIterator();
     }
 
     private ListNode<E>  getNodeByIndex(int index) {
@@ -130,4 +104,32 @@ public class MyLinkedList<E> implements MyList<E> {
         }
         return value;
     }
+
+    private class MyIterator implements Iterator<E> {
+        int index = 0;
+        ListNode<E> next = first;
+
+        @Override
+        public boolean hasNext() {
+            if (next.getNext() != null) {
+                index++;
+                next = next.getNext();
+                return true;
+            }
+            return false;
+        }
+
+        @Override
+        public E next() {
+            return next.getValue();
+        }
+
+        @Override
+        public void remove() {
+            index--;
+            MyLinkedList.this.remove(index);
+            size--;
+        }
+    }
+
 }
