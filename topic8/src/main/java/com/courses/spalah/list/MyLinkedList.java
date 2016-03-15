@@ -112,7 +112,6 @@ public class MyLinkedList<E> implements MyList<E> {
         @Override
         public boolean hasNext() {
             if (next.getNext() != null) {
-                index++;
                 next = next.getNext();
                 return true;
             }
@@ -121,6 +120,7 @@ public class MyLinkedList<E> implements MyList<E> {
 
         @Override
         public E next() {
+            index++;
             return next.getValue();
         }
 
