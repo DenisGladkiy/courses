@@ -99,3 +99,9 @@
 [ДЗ #8](https://github.com/rxn1d/courses/blob/master/topic8/topic8_home_work.md)
 * Реализовать связный список
 * Сделать анализатор текста
+
+9\. Разбор предыдущей домашней работы
+
+[ДЗ #9](https://github.com/rxn1d/courses/blob/master/topic9/topic9_home_work.md)
+* Читаем про обобщения
+* Имплементим мультимапу
