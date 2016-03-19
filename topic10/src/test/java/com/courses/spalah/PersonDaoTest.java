@@ -23,7 +23,8 @@ public class PersonDaoTest {
     private static final String COLUMN_SEPARATOR = ";";
     private static final String ANY_CHARS = ".*";
     private static final String ANY_WHITE_SPACE = "\\s*";
-    private static final String PATH_TO_FILE = "/persons.txt";
+    //private static final String PATH_TO_FILE = "/persons.txt";
+    private static final String PATH_TO_FILE = "E:\\java\\courses\\topic10\\src\\test\\resources\\persons.txt";
 
     private FileReader fileReader;
     private Dao<Person> personDao;
@@ -35,7 +36,8 @@ public class PersonDaoTest {
 
     @Before
     public void setUp() {
-        fileReader = new FileReader("persons.txt");
+        //fileReader = new FileReader("persons.txt");
+        fileReader = new FileReader(PATH_TO_FILE);
         personDao = new PersonDao(fileReader);
 
         person1 = new Person(1L, "Agnes", "Calhoun", "USA, Cuyahoga Falls OH, 3608 Horner Street");
@@ -53,7 +55,8 @@ public class PersonDaoTest {
     public void testFindAll() {
         List<Person> persons = personDao.findAll();
         assertEquals(4, persons.size());
-
+        System.out.println("person1 "+person1);
+        System.out.println("actual1 "+ persons.get(0));
         assertEquals(person1, persons.get(0));
         assertEquals(person2, persons.get(1));
         assertEquals(person3, persons.get(2));
