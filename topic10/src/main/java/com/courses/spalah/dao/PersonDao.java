@@ -1,9 +1,6 @@
 package com.courses.spalah.dao;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -20,9 +17,10 @@ public class PersonDao implements Dao<Person> {
     private FileReader fileReader;
     private FileWriter fileWriter;
     private BufferedWriter writer;
-    private static long idCounter;
+    private BufferedReader reader;
+    private long idCounter;
     private static final String FILE_PATH = "E:\\java\\courses\\topic10\\src\\test\\resources\\persons.txt";
-    //private static final String FILE_PATH = "/persons.txt";
+    private static final String TEMP_FILE_PATH = "E:\\java\\courses\\topic10\\src\\test\\resources\\temp.txt";
 
 
     public PersonDao(FileReader fileReader) {
@@ -46,12 +44,24 @@ public class PersonDao implements Dao<Person> {
 
     @Override
     public Person findById(Long id) {
+        List<Person> persons = findAll();
+        for(Person person : persons){
+            if(person.getId() == id){
+                return person;
+            }
+        }
         return null;
     }
 
     @Override
     public boolean update(Person entity) {
-        return false;
+        long personId = entity.getId();
+        if(remove(personId) != null){
+            insert(entity);
+            return true;
+        }else {
+            return false;
+        }
     }
 
     @Override
@@ -76,7 +86,33 @@ public class PersonDao implements Dao<Person> {
 
     @Override
     public Person remove(Long id) {
-        return null;
+        Person person = null;
+        File tempFile = new File(TEMP_FILE_PATH);
+        File persons = new File(FILE_PATH);
+        try {
+            reader = new BufferedReader(new java.io.FileReader(persons));
+            writer = new BufferedWriter(new FileWriter(tempFile, true));
+            String line = reader.readLine();
+            while(line != null){
+                String[] lineArr = line.split(";\\s*");
+                if(Long.parseLong(lineArr[0]) == id){
+                    person = deserializeEntity(line);
+                    System.out.println("remove "+line);
+                }else{
+                    System.out.println("write "+line);
+                    writer.write(line);
+                    writer.newLine();
+                }
+                line = reader.readLine();
+            }
+            reader.close();
+            writer.close();
+            persons.delete();
+            tempFile.renameTo(persons);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return person;
     }
 
     public FileReader getFileReader() {
@@ -85,6 +121,16 @@ public class PersonDao implements Dao<Person> {
 
     public void setFileReader(FileReader fileReader) {
         this.fileReader = fileReader;
+    }
+
+    public void clearFile(String path){
+        try {
+            writer = new BufferedWriter(new FileWriter(FILE_PATH));
+            writer.write("");
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private String serializeEntity(Person entity) {
@@ -98,7 +144,6 @@ public class PersonDao implements Dao<Person> {
 
     private Person deserializeEntity(String line) {
         String[] personTxt = line.split(";\\s*");
-        //System.out.println(Arrays.asList(personTxt));
         Person person = new Person(Long.parseLong(personTxt[0]), personTxt[1], personTxt[2], personTxt[3]);
         return person;
     }

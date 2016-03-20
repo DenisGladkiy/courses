@@ -23,7 +23,6 @@ public class PersonDaoTest {
     private static final String COLUMN_SEPARATOR = ";";
     private static final String ANY_CHARS = ".*";
     private static final String ANY_WHITE_SPACE = "\\s*";
-    //private static final String PATH_TO_FILE = "/persons.txt";
     private static final String PATH_TO_FILE = "E:\\java\\courses\\topic10\\src\\test\\resources\\persons.txt";
 
     private FileReader fileReader;
@@ -36,9 +35,10 @@ public class PersonDaoTest {
 
     @Before
     public void setUp() {
-        //fileReader = new FileReader("persons.txt");
         fileReader = new FileReader(PATH_TO_FILE);
         personDao = new PersonDao(fileReader);
+        PersonDao personDao1 = (PersonDao) personDao;
+        personDao1.clearFile(PATH_TO_FILE);
 
         person1 = new Person(1L, "Agnes", "Calhoun", "USA, Cuyahoga Falls OH, 3608 Horner Street");
         person2 = new Person(2L, "Dawn", "Rutherford", "USA, Globe AZ, 206 Clarksburg Park Road");
