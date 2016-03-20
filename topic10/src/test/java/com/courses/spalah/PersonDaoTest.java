@@ -1,6 +1,10 @@
 package com.courses.spalah;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.io.PrintWriter;
+import java.net.URI;
 import java.util.Collections;
 import java.util.List;
 
@@ -8,6 +12,7 @@ import com.courses.spalah.dao.Dao;
 import com.courses.spalah.dao.PersonDao;
 import com.courses.spalah.domain.Person;
 import org.apache.commons.io.IOUtils;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -49,6 +54,19 @@ public class PersonDaoTest {
         personDao.insert(person2);
         personDao.insert(person3);
         personDao.insert(person4);
+    }
+
+    @After
+    public void cleanUp() {
+        File file = new File(this.getClass().getResource(PATH_TO_FILE).getFile());
+        PrintWriter writer = null;
+        try {
+            writer = new PrintWriter(file);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        writer.print("");
+        writer.close();
     }
 
     @Test
