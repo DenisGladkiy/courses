@@ -28,7 +28,9 @@ public class PersonDaoTest {
     private static final String COLUMN_SEPARATOR = ";";
     private static final String ANY_CHARS = ".*";
     private static final String ANY_WHITE_SPACE = "\\s*";
-    private static final String PATH_TO_FILE = "E:\\java\\courses\\topic10\\src\\test\\resources\\persons.txt";
+    //private static final String PATH_TO_FILE = "E:\\java\\courses\\topic10\\src\\test\\resources\\persons.txt";
+    private static final String PATH_TO_FILE = "/persons.txt";
+
 
     private FileReader fileReader;
     private Dao<Person> personDao;
@@ -40,10 +42,8 @@ public class PersonDaoTest {
 
     @Before
     public void setUp() {
-        fileReader = new FileReader(PATH_TO_FILE);
+        fileReader = new FileReader("persons.txt");
         personDao = new PersonDao(fileReader);
-        PersonDao personDao1 = (PersonDao) personDao;
-        personDao1.clearFile(PATH_TO_FILE);
 
         person1 = new Person(1L, "Agnes", "Calhoun", "USA, Cuyahoga Falls OH, 3608 Horner Street");
         person2 = new Person(2L, "Dawn", "Rutherford", "USA, Globe AZ, 206 Clarksburg Park Road");
@@ -58,7 +58,8 @@ public class PersonDaoTest {
 
     @After
     public void cleanUp() {
-        File file = new File(this.getClass().getResource(PATH_TO_FILE).getFile());
+        //File file = new File(this.getClass().getResource(PATH_TO_FILE).getFile());
+        File file = new File(PATH_TO_FILE);
         PrintWriter writer = null;
         try {
             writer = new PrintWriter(file);
@@ -73,8 +74,6 @@ public class PersonDaoTest {
     public void testFindAll() {
         List<Person> persons = personDao.findAll();
         assertEquals(4, persons.size());
-        System.out.println("person1 "+person1);
-        System.out.println("actual1 "+ persons.get(0));
         assertEquals(person1, persons.get(0));
         assertEquals(person2, persons.get(1));
         assertEquals(person3, persons.get(2));
@@ -162,6 +161,7 @@ public class PersonDaoTest {
     private List<String> getTextFromFile(String pathToFile) {
         try {
             InputStream inputStream = this.getClass().getResourceAsStream(pathToFile);
+            System.out.println(IOUtils.readLines(inputStream));
             return IOUtils.readLines(inputStream);
         } catch (Exception ex) {
             ex.printStackTrace();

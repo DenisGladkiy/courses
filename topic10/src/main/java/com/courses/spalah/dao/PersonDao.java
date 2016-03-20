@@ -19,8 +19,10 @@ public class PersonDao implements Dao<Person> {
     private BufferedWriter writer;
     private BufferedReader reader;
     private long idCounter;
-    private static final String FILE_PATH = "E:\\java\\courses\\topic10\\src\\test\\resources\\persons.txt";
-    private static final String TEMP_FILE_PATH = "E:\\java\\courses\\topic10\\src\\test\\resources\\temp.txt";
+    //private static final String FILE_PATH = "E:\\java\\courses\\topic10\\src\\test\\resources\\persons.txt";
+    //private static final String TEMP_FILE_PATH = "E:\\java\\courses\\topic10\\src\\test\\resources\\temp.txt";
+    private static final String FILE_PATH = "/persons.txt";
+    private static final String TEMP_FILE_PATH = "/temp.txt";
 
 
     public PersonDao(FileReader fileReader) {
@@ -40,7 +42,6 @@ public class PersonDao implements Dao<Person> {
         }
         return persons;
     }
-
 
     @Override
     public Person findById(Long id) {
@@ -66,7 +67,6 @@ public class PersonDao implements Dao<Person> {
 
     @Override
     public boolean insert(Person entity) {
-        System.out.println("counter " + idCounter + "id " + entity.getId());
         if (idCounter < entity.getId()) {
             try {
                 fileWriter = new FileWriter(FILE_PATH, true);
@@ -97,9 +97,7 @@ public class PersonDao implements Dao<Person> {
                 String[] lineArr = line.split(";\\s*");
                 if(Long.parseLong(lineArr[0]) == id){
                     person = deserializeEntity(line);
-                    System.out.println("remove "+line);
                 }else{
-                    System.out.println("write "+line);
                     writer.write(line);
                     writer.newLine();
                 }
@@ -147,5 +145,4 @@ public class PersonDao implements Dao<Person> {
         Person person = new Person(Long.parseLong(personTxt[0]), personTxt[1], personTxt[2], personTxt[3]);
         return person;
     }
-
 }
