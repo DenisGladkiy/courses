@@ -1,10 +1,10 @@
 package com.courses.spalah.dao;
 
 import java.io.*;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-
 import com.courses.spalah.FileReader;
 import com.courses.spalah.domain.Person;
 
@@ -15,28 +15,24 @@ import com.courses.spalah.domain.Person;
  */
 public class PersonDao implements Dao<Person> {
     private FileReader fileReader;
-    private FileWriter fileWriter;
     private BufferedWriter writer;
     private BufferedReader reader;
     private long idCounter;
-    //private static final String FILE_PATH = "E:\\java\\courses\\topic10\\src\\test\\resources\\persons.txt";
-    //private static final String TEMP_FILE_PATH = "E:\\java\\courses\\topic10\\src\\test\\resources\\temp.txt";
-    private static final String FILE_PATH = "/persons.txt";
-    private static final String TEMP_FILE_PATH = "/temp.txt";
+    private boolean isUpdate;
 
 
     public PersonDao(FileReader fileReader) {
+
         this.fileReader = fileReader;
     }
 
     @Override
     public List<Person> findAll() {
-        fileReader = new FileReader(FILE_PATH);
         String file = fileReader.readFile();
         List<Person> persons = new ArrayList<>();
         String[] lines = file.split("\n");
         for (String line : lines) {
-            if(!line.equals("")) {
+            if (!line.equals("")) {
                 persons.add(deserializeEntity(line));
             }
         }
@@ -46,8 +42,8 @@ public class PersonDao implements Dao<Person> {
     @Override
     public Person findById(Long id) {
         List<Person> persons = findAll();
-        for(Person person : persons){
-            if(person.getId() == id){
+        for (Person person : persons) {
+            if (person.getId() == id) {
                 return person;
             }
         }
@@ -57,24 +53,26 @@ public class PersonDao implements Dao<Person> {
     @Override
     public boolean update(Person entity) {
         long personId = entity.getId();
-        if(remove(personId) != null){
+        if (remove(personId) != null) {
+            isUpdate = true;
             insert(entity);
+            isUpdate = false;
             return true;
-        }else {
+        } else {
             return false;
         }
     }
 
     @Override
     public boolean insert(Person entity) {
-        if (idCounter < entity.getId()) {
+        if (idCounter < entity.getId() || isUpdate) {
             try {
-                fileWriter = new FileWriter(FILE_PATH, true);
-                writer = new BufferedWriter(fileWriter);
+                URL url = Thread.currentThread().getContextClassLoader().getResource(fileReader.getPathToFile());
+                writer = new BufferedWriter(new FileWriter(new File(url.toURI()), true));
                 writer.write(serializeEntity(entity));
                 writer.newLine();
                 writer.close();
-            } catch (IOException e) {
+            } catch (IOException | URISyntaxException e) {
                 e.printStackTrace();
             }
             idCounter = entity.getId();
@@ -87,17 +85,18 @@ public class PersonDao implements Dao<Person> {
     @Override
     public Person remove(Long id) {
         Person person = null;
-        File tempFile = new File(TEMP_FILE_PATH);
-        File persons = new File(FILE_PATH);
+        URL url = Thread.currentThread().getContextClassLoader().getResource(fileReader.getPathToFile());
         try {
+            File persons = new File(url.toURI());
+            File tempFile = new File(persons.getAbsolutePath()+".tmp");
             reader = new BufferedReader(new java.io.FileReader(persons));
             writer = new BufferedWriter(new FileWriter(tempFile, true));
             String line = reader.readLine();
-            while(line != null){
+            while (line != null) {
                 String[] lineArr = line.split(";\\s*");
-                if(Long.parseLong(lineArr[0]) == id){
+                if (Long.parseLong(lineArr[0]) == id) {
                     person = deserializeEntity(line);
-                }else{
+                } else {
                     writer.write(line);
                     writer.newLine();
                 }
@@ -105,9 +104,12 @@ public class PersonDao implements Dao<Person> {
             }
             reader.close();
             writer.close();
+            System.gc();
             persons.delete();
             tempFile.renameTo(persons);
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (URISyntaxException e) {
             e.printStackTrace();
         }
         return person;
@@ -119,16 +121,6 @@ public class PersonDao implements Dao<Person> {
 
     public void setFileReader(FileReader fileReader) {
         this.fileReader = fileReader;
-    }
-
-    public void clearFile(String path){
-        try {
-            writer = new BufferedWriter(new FileWriter(FILE_PATH));
-            writer.write("");
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     private String serializeEntity(Person entity) {

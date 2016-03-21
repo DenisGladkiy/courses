@@ -1,8 +1,9 @@
 package com.courses.spalah;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.File;
+import java.net.URISyntaxException;
+import java.net.URL;
 
 /**
  * @author Ievgen Tararaka
@@ -22,7 +23,8 @@ public class FileReader {
     public String readFile() {
         StringBuilder builder = new StringBuilder();
         try {
-            BufferedReader reader = new BufferedReader(new java.io.FileReader(pathToFile));
+            URL url = Thread.currentThread().getContextClassLoader().getResource(getPathToFile());
+            BufferedReader reader = new BufferedReader(new java.io.FileReader(new File(url.toURI())));
             line = reader.readLine();
             while(line != null){
                 builder.append(line + "\n");
@@ -30,6 +32,8 @@ public class FileReader {
             }
             reader.close();
         } catch (java.io.IOException e) {
+            e.printStackTrace();
+        } catch (URISyntaxException e) {
             e.printStackTrace();
         }
         return builder.toString();
