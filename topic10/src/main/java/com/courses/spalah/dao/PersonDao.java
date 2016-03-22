@@ -5,6 +5,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import com.courses.spalah.FileReader;
 import com.courses.spalah.domain.Person;
@@ -83,34 +84,30 @@ public class PersonDao implements Dao<Person> {
         }
     }
 
-    @Override
     public Person remove(Long id) {
         Person person = null;
         URL url = Thread.currentThread().getContextClassLoader().getResource(fileReader.getPathToFile());
+        List<String> lines = new ArrayList<>();
         try {
             File persons = new File(url.toURI());
-            File tempFile = new File(persons.getAbsolutePath() + ".tmp");
             reader = new BufferedReader(new java.io.FileReader(persons));
-            writer = new BufferedWriter(new FileWriter(tempFile, true));
             String line = reader.readLine();
             while (line != null) {
-                String[] lineArr = line.split(";\\s*");
-                if (Long.parseLong(lineArr[0]) == id) {
-                    person = deserializeEntity(line);
+                if (getIdFromStringPerson(line) != id) {
+                    lines.add(line);
                 } else {
-                    writer.write(line);
-                    writer.newLine();
+                    person = deserializeEntity(line);
                 }
                 line = reader.readLine();
             }
             reader.close();
+            writer = new BufferedWriter(new FileWriter(persons));
+            for (String s : lines) {
+                writer.write(s);
+                writer.newLine();
+            }
             writer.close();
-            System.gc();
-            persons.delete();
-            tempFile.renameTo(persons);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (URISyntaxException e) {
+        } catch (IOException | URISyntaxException e) {
             e.printStackTrace();
         }
         return person;
@@ -137,5 +134,9 @@ public class PersonDao implements Dao<Person> {
         String[] personTxt = line.split(";\\s*");
         Person person = new Person(Long.parseLong(personTxt[0]), personTxt[1], personTxt[2], personTxt[3]);
         return person;
+    }
+
+    private long getIdFromStringPerson(String person) {
+        return Long.parseLong(person.split(";\\s*")[0]);
     }
 }
