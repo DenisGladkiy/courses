@@ -5,6 +5,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+
 import com.courses.spalah.FileReader;
 import com.courses.spalah.domain.Person;
 
@@ -18,7 +19,6 @@ public class PersonDao implements Dao<Person> {
     private BufferedWriter writer;
     private BufferedReader reader;
     private long idCounter;
-    private boolean isUpdate;
 
 
     public PersonDao(FileReader fileReader) {
@@ -54,9 +54,10 @@ public class PersonDao implements Dao<Person> {
     public boolean update(Person entity) {
         long personId = entity.getId();
         if (remove(personId) != null) {
-            isUpdate = true;
+            long tempIdCounter = idCounter;
+            idCounter = 0;
             insert(entity);
-            isUpdate = false;
+            idCounter = tempIdCounter;
             return true;
         } else {
             return false;
@@ -65,7 +66,7 @@ public class PersonDao implements Dao<Person> {
 
     @Override
     public boolean insert(Person entity) {
-        if (idCounter < entity.getId() || isUpdate) {
+        if (idCounter < entity.getId()) {
             try {
                 URL url = Thread.currentThread().getContextClassLoader().getResource(fileReader.getPathToFile());
                 writer = new BufferedWriter(new FileWriter(new File(url.toURI()), true));
@@ -88,7 +89,7 @@ public class PersonDao implements Dao<Person> {
         URL url = Thread.currentThread().getContextClassLoader().getResource(fileReader.getPathToFile());
         try {
             File persons = new File(url.toURI());
-            File tempFile = new File(persons.getAbsolutePath()+".tmp");
+            File tempFile = new File(persons.getAbsolutePath() + ".tmp");
             reader = new BufferedReader(new java.io.FileReader(persons));
             writer = new BufferedWriter(new FileWriter(tempFile, true));
             String line = reader.readLine();
