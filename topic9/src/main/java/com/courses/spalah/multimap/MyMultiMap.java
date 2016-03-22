@@ -1,13 +1,13 @@
 package com.courses.spalah.multimap;
 
 import java.util.*;
+import java.util.concurrent.ArrayBlockingQueue;
 
 /**
  * Created by Denis on 15.03.2016.
  */
 public class MyMultiMap<K, V> implements MultiMap<K, V> {
     private Map<K, Collection<V>> map;
-    private Collection<V> values;
     private int size;
 
     public MyMultiMap() {
@@ -16,12 +16,13 @@ public class MyMultiMap<K, V> implements MultiMap<K, V> {
 
     @Override
     public boolean put(K key, V value) {
+        Collection<V> values;
         if (map.containsKey(key)) {
             values = map.get(key);
-            putEntry(key, value);
+            putEntry(key, value, values);
         } else {
             values = new ArrayList<>();
-            putEntry(key, value);
+            putEntry(key, value, values);
         }
         size++;
         return true;
@@ -32,26 +33,26 @@ public class MyMultiMap<K, V> implements MultiMap<K, V> {
         if (map.containsKey(key)) {
             return map.get(key);
         } else {
-            values.clear();
-            return values;
+            return new ArrayList<>();
         }
     }
 
     @Override
     public Collection<V> removeAll(K key) {
+        Collection<V> values;
         if (map.containsKey(key)) {
             values = map.get(key);
             size -= values.size();
             map.remove(key);
             return values;
         } else {
-            values.clear();
-            return values;
+            return new ArrayList<>();
         }
     }
 
     @Override
     public boolean remove(K key, V value) {
+        Collection<V> values;
         if (map.containsKey(key)) {
             values = map.get(key);
             if (values.contains(value)) {
@@ -95,7 +96,7 @@ public class MyMultiMap<K, V> implements MultiMap<K, V> {
         return size;
     }
 
-    private void putEntry(K key, V value) {
+    private void putEntry(K key, V value, Collection<V> values) {
         values.add(value);
         map.put(key, values);
     }
