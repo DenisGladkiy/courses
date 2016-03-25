@@ -1,5 +1,10 @@
+import dao.DaoFactory;
+import dao.OwnerDao;
+
 import javax.swing.*;
 import java.awt.*;
+import java.sql.Connection;
+import java.sql.SQLException;
 
 /**
  * Created by Денис on 3/24/16.
@@ -11,10 +16,23 @@ public class MainFrame extends JFrame {
     private JTable table;
 
     public static void main(String[] args) {
+        Connection con = null;
         MainFrame mf = new MainFrame("Car Marketplace");
         mf.setVisible(true);
         mf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mf.setSize(600, 400);
+        DaoFactory df = new DaoFactory();
+        try {
+            con = df.getConnection();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        OwnerDao ownerDao = df.getOwnerDao(con);
+        try {
+            ownerDao.findById(1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public MainFrame(String s){
