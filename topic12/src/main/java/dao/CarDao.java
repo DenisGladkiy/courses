@@ -19,8 +19,19 @@ public class CarDao implements DaoIn<CarEntity> {
         this.connection = connection;
     }
 
-    public List<CarEntity> findAll() {
-        return null;
+    public List<CarEntity> findAll() throws SQLException {
+        List<CarEntity> entities = null;
+        CarEntity car = null;
+        Statement statement = null;
+        statement = connection.createStatement();
+        ResultSet rs = statement.executeQuery(
+                "SELECT * FROM carmarket.car");
+        while(rs.next()) {
+            car = new CarEntity(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getString(4),
+                    rs.getString(5), rs.getString(6), rs.getString(7));
+            entities.add(car);
+        }
+        return entities;
     }
 
     public CarEntity findById(int id) throws SQLException {

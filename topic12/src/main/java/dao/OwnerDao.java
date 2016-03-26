@@ -20,8 +20,17 @@ public class OwnerDao implements DaoIn<OwnerEntity> {
         this.connection = connection;
     }
 
-    public List<OwnerEntity> findAll() {
-        return null;
+    public List<OwnerEntity> findAll() throws SQLException {
+        List<OwnerEntity> entities = null;
+        OwnerEntity owner = null;
+        Statement statement = connection.createStatement();
+        ResultSet rs = statement.executeQuery(
+                "SELECT * FROM carmarket.owner");
+        while(rs.next()) {
+            owner = new OwnerEntity(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4));
+            entities.add(owner);
+        }
+        return entities;
     }
 
     public OwnerEntity findById(int id) throws SQLException {

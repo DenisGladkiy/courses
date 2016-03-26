@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,8 +18,17 @@ public class AdvertDao implements DaoIn<AdvertEntity> {
     public AdvertDao(Connection connection){
         this.connection = connection;
     }
-    public List<AdvertEntity> findAll() {
-        return null;
+    public List<AdvertEntity> findAll() throws SQLException {
+        List<AdvertEntity> entities = new ArrayList<AdvertEntity>();
+        AdvertEntity advert = null;
+        Statement statement = connection.createStatement();
+        ResultSet rs = statement.executeQuery(
+                "SELECT * FROM carmarket.advert");
+        while(rs.next()) {
+            advert = new AdvertEntity(rs.getInt(1), rs.getInt(2), rs.getInt(3));
+            entities.add(advert);
+        }
+        return entities;
     }
 
     public AdvertEntity findById(int id) throws SQLException {

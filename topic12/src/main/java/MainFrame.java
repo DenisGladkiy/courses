@@ -22,22 +22,9 @@ public class MainFrame extends JFrame {
         mf.setVisible(true);
         mf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mf.setSize(600, 400);
-        /*DaoFactory df = new DaoFactory();
-        try {
-            con = df.getConnection();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        OwnerDao ownerDao = df.getOwnerDao(con);
-        try {
-            OwnerEntity owner = ownerDao.findById(1);
-            System.out.println(owner);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }*/
-        TableRow tableRow = new TableRow();
-        String row = tableRow.getTableRowById(1);
-        System.out.println(row);
+
+        //String row = tableRow.getTableRowById(1);
+        //System.out.println(row);
     }
 
     public MainFrame(String s){
@@ -58,7 +45,7 @@ public class MainFrame extends JFrame {
         priceTo = new JTextField("   To   ");
         year = new JLabel("Year");
         price = new JLabel("Price");
-        table = new JTable(18, 7);
+        table = createTable();
         add(add);
         add(find);
         add(manufacturer);
@@ -72,5 +59,16 @@ public class MainFrame extends JFrame {
         add(table);
         add(delete);
 
+    }
+
+    private JTable createTable() {
+        Object[][] tableData = null;
+        String[] columnNames = {"Manufacturer", "Model", "Year", "VIN", "Description", "Price", "Contact"};
+        TableRow tableRow = new TableRow();
+        //tableData = new String[][]{tableRow.getTableRowById(1)};
+        tableData = tableRow.getAllRows();
+        table = new JTable(tableData, columnNames);
+        table.setAutoscrolls(true);
+        return table;
     }
 }

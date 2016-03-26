@@ -33,6 +33,14 @@ public class AdvertEntity extends DaoEntity {
         this.price = price;
     }
 
+    public int getAdvertId() {
+        return advertId;
+    }
+
+    public void setAdvertId(int advertId) {
+        this.advertId = advertId;
+    }
+
     @Override
     public String toString() {
         return "AdvertEntity{" +
