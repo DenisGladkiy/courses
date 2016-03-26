@@ -32,4 +32,13 @@ public class AdvertEntity extends DaoEntity {
     public void setPrice(double price) {
         this.price = price;
     }
+
+    @Override
+    public String toString() {
+        return "AdvertEntity{" +
+                "advertId=" + advertId +
+                ", carId=" + carId +
+                ", price=" + price +
+                '}';
+    }
 }

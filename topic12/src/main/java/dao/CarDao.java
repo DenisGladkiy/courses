@@ -3,6 +3,9 @@ package dao;
 import entity.CarEntity;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 
 /**
@@ -20,8 +23,17 @@ public class CarDao implements DaoIn<CarEntity> {
         return null;
     }
 
-    public CarEntity findById(int id) {
-        return null;
+    public CarEntity findById(int id) throws SQLException {
+        CarEntity car = null;
+        Statement statement = null;
+        statement = connection.createStatement();
+        ResultSet rs = statement.executeQuery(
+                    "SELECT * FROM carmarket.car WHERE idcar ="+String.valueOf(id));
+            while(rs.next()) {
+                car = new CarEntity(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getString(4),
+                        rs.getString(5), rs.getString(6), rs.getString(7));
+            }
+        return car;
     }
 
     public boolean insert(CarEntity entity) {

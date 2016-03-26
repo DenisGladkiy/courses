@@ -50,4 +50,14 @@ public class OwnerEntity extends DaoEntity {
     public void setOwnerId(int ownerId) {
         this.ownerId = ownerId;
     }
+
+    @Override
+    public String toString() {
+        return "OwnerEntity{" +
+                "ownerId=" + ownerId + ", "+
+                "name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", phone='" + phone + '\'' +
+                '}';
+    }
 }

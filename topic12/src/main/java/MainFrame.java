@@ -1,5 +1,6 @@
 import dao.DaoFactory;
 import dao.OwnerDao;
+import entity.OwnerEntity;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,7 +22,7 @@ public class MainFrame extends JFrame {
         mf.setVisible(true);
         mf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mf.setSize(600, 400);
-        DaoFactory df = new DaoFactory();
+        /*DaoFactory df = new DaoFactory();
         try {
             con = df.getConnection();
         } catch (SQLException e) {
@@ -29,10 +30,14 @@ public class MainFrame extends JFrame {
         }
         OwnerDao ownerDao = df.getOwnerDao(con);
         try {
-            ownerDao.findById(1);
+            OwnerEntity owner = ownerDao.findById(1);
+            System.out.println(owner);
         } catch (SQLException e) {
             e.printStackTrace();
-        }
+        }*/
+        TableRow tableRow = new TableRow();
+        String row = tableRow.getTableRowById(1);
+        System.out.println(row);
     }
 
     public MainFrame(String s){

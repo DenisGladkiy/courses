@@ -25,13 +25,14 @@ public class OwnerDao implements DaoIn<OwnerEntity> {
     }
 
     public OwnerEntity findById(int id) throws SQLException {
+        OwnerEntity owner = null;
         Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery("SELECT * FROM carmarket.owner WHERE idowner = 1");
-        while(resultSet.next()) {
-            String test = resultSet.getString(2);
-            System.out.println(test);
+        ResultSet rs = statement.executeQuery(
+                "SELECT * FROM carmarket.owner WHERE idowner ="+String.valueOf(id));
+        while(rs.next()) {
+            owner = new OwnerEntity(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4));
         }
-        return null;
+        return owner;
     }
 
     public boolean insert(OwnerEntity entity) {

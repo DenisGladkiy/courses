@@ -69,4 +69,17 @@ public class CarEntity extends DaoEntity {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    @Override
+    public String toString() {
+        return "CarEntity{" +
+                "carId=" + carId +
+                ", ownerId=" + ownerId +
+                ", year=" + year +
+                ", manufacturer='" + manufacturer + '\'' +
+                ", model='" + model + '\'' +
+                ", vin='" + vin + '\'' +
+                ", description='" + description + '\'' +
+                '}';
+    }
 }
