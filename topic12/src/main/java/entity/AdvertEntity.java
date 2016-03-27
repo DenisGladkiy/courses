@@ -6,12 +6,12 @@ package entity;
 public class AdvertEntity extends DaoEntity {
     int advertId;
     int carId;
-    double price;
+    int price;
 
     public AdvertEntity(){
     }
 
-    public AdvertEntity(int advertId, int carId, double price){
+    public AdvertEntity(int advertId, int carId, int price){
         this.advertId = advertId;
         this.carId = carId;
         this.price = price;
@@ -29,7 +29,7 @@ public class AdvertEntity extends DaoEntity {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(int price) {
         this.price = price;
     }
 

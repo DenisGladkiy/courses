@@ -4,6 +4,8 @@ import entity.OwnerEntity;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -17,14 +19,11 @@ public class MainFrame extends JFrame {
     private JTable table;
 
     public static void main(String[] args) {
-        Connection con = null;
+        //Connection con = null;
         MainFrame mf = new MainFrame("Car Marketplace");
         mf.setVisible(true);
         mf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mf.setSize(600, 400);
-
-        //String row = tableRow.getTableRowById(1);
-        //System.out.println(row);
     }
 
     public MainFrame(String s){
@@ -35,6 +34,7 @@ public class MainFrame extends JFrame {
     private void gui() {
         setLayout(new FlowLayout());
         add = new JButton("Add car");
+        buttonAddListener();
         find = new JButton("Find car");
         delete = new JButton("Delete selected");
         manufacturer = new JTextField("Manufacturer");
@@ -65,10 +65,20 @@ public class MainFrame extends JFrame {
         Object[][] tableData = null;
         String[] columnNames = {"Manufacturer", "Model", "Year", "VIN", "Description", "Price", "Contact"};
         TableRow tableRow = new TableRow();
-        //tableData = new String[][]{tableRow.getTableRowById(1)};
         tableData = tableRow.getAllRows();
         table = new JTable(tableData, columnNames);
         table.setAutoscrolls(true);
         return table;
+    }
+
+    private void buttonAddListener(){
+        add.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                AddRowFrame addRowFrame = new AddRowFrame("Add advert");
+                addRowFrame.setVisible(true);
+                addRowFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                addRowFrame.setSize(400, 160);
+            }
+        });
     }
 }
