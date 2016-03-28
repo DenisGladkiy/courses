@@ -4,13 +4,13 @@ package entity;
  * Created by Денис on 3/25/16.
  */
 public class CarEntity extends DaoEntity {
-    int carId;
-    int ownerId;
-    int year;
-    String manufacturer;
-    String model;
-    String vin;
-    String description;
+    private int carId;
+    private int ownerId;
+    private int year;
+    private String manufacturer;
+    private String model;
+    private String vin;
+    private String description;
 
     public CarEntity(int carId, int ownerId, int year, String manufacturer, String model, String vin, String description) {
         this.carId = carId;
@@ -20,6 +20,14 @@ public class CarEntity extends DaoEntity {
         this.model = model;
         this.vin = vin;
         this.description = description;
+    }
+
+    public int getCarId() {
+        return carId;
+    }
+
+    public void setCarId(int carId) {
+        this.carId = carId;
     }
 
     public int getOwnerId() {

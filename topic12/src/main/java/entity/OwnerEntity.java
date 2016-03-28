@@ -4,15 +4,15 @@ package entity;
  * Created by Денис on 3/25/16.
  */
 public class OwnerEntity extends DaoEntity {
-    String name;
-    String surname;
-    String phone;
-    int ownerId;
+    private String name;
+    private String surname;
+    private int phone;
+    private int ownerId;
 
     public OwnerEntity(){
     }
 
-    public OwnerEntity(int id, String name, String surname, String phone){
+    public OwnerEntity(int id, String name, String surname, int phone){
         ownerId = id;
         this.name = name;
         this.surname = surname;
@@ -35,11 +35,11 @@ public class OwnerEntity extends DaoEntity {
         this.surname = surname;
     }
 
-    public String getPhone() {
+    public int getPhone() {
         return phone;
     }
 
-    public void setPhone(String phone) {
+    public void setPhone(int phone) {
         this.phone = phone;
     }
 

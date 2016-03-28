@@ -3,10 +3,7 @@ package dao;
 import dao.DaoIn;
 import entity.OwnerEntity;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.List;
 
 /**
@@ -16,7 +13,7 @@ public class OwnerDao implements DaoIn<OwnerEntity> {
 
     Connection connection;
 
-    public OwnerDao(Connection connection){
+    public OwnerDao(Connection connection) {
         this.connection = connection;
     }
 
@@ -26,8 +23,8 @@ public class OwnerDao implements DaoIn<OwnerEntity> {
         Statement statement = connection.createStatement();
         ResultSet rs = statement.executeQuery(
                 "SELECT * FROM carmarket.owner");
-        while(rs.next()) {
-            owner = new OwnerEntity(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4));
+        while (rs.next()) {
+            owner = new OwnerEntity(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4));
             entities.add(owner);
         }
         return entities;
@@ -37,15 +34,29 @@ public class OwnerDao implements DaoIn<OwnerEntity> {
         OwnerEntity owner = null;
         Statement statement = connection.createStatement();
         ResultSet rs = statement.executeQuery(
-                "SELECT * FROM carmarket.owner WHERE idowner ="+String.valueOf(id));
-        while(rs.next()) {
-            owner = new OwnerEntity(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4));
+                "SELECT * FROM carmarket.owner WHERE idowner =" + String.valueOf(id));
+        while (rs.next()) {
+            owner = new OwnerEntity(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4));
         }
         return owner;
     }
 
     public boolean insert(OwnerEntity entity) {
-        return false;
+        String query = "insert into carmarket.owner"+ "(idowner, name, surname, phone) VALUES"
+                + "(?,?,?,?)";
+        PreparedStatement statement = null;
+        try {
+            statement = connection.prepareStatement(query);
+            statement.setInt(1, entity.getOwnerId());
+            statement.setString(2, entity.getName());
+            statement.setString(3, entity.getSurname());
+            statement.setInt(4, entity.getPhone());
+            statement.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     public OwnerEntity remove(Long id) {

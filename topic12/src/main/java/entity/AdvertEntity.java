@@ -4,9 +4,9 @@ package entity;
  * Created by Денис on 3/25/16.
  */
 public class AdvertEntity extends DaoEntity {
-    int advertId;
-    int carId;
-    int price;
+    private int advertId;
+    private int carId;
+    private int price;
 
     public AdvertEntity(){
     }
@@ -25,7 +25,7 @@ public class AdvertEntity extends DaoEntity {
         this.carId = carId;
     }
 
-    public double getPrice() {
+    public int getPrice() {
         return price;
     }
 

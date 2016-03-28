@@ -2,10 +2,7 @@ package dao;
 
 import entity.CarEntity;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.List;
 
 /**
@@ -48,7 +45,24 @@ public class CarDao implements DaoIn<CarEntity> {
     }
 
     public boolean insert(CarEntity entity) {
-        return false;
+        String query = "insert into carmarket.car"+ "(idcar, idowner, year, manufacturer, model, vin, description) VALUES"
+                + "(?,?,?,?,?,?,?)";
+        PreparedStatement statement = null;
+        try {
+            statement = connection.prepareStatement(query);
+            statement.setInt(1, entity.getCarId());
+            statement.setInt(2, entity.getOwnerId());
+            statement.setInt(3, entity.getYear());
+            statement.setString(4, entity.getManufacturer());
+            statement.setString(5, entity.getModel());
+            statement.setString(6, entity.getVin());
+            statement.setString(7, entity.getDescription());
+            statement.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     public CarEntity remove(Long id) {

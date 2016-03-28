@@ -2,10 +2,7 @@ package dao;
 
 import entity.AdvertEntity;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,7 +40,21 @@ public class AdvertDao implements DaoIn<AdvertEntity> {
     }
 
     public boolean insert(AdvertEntity entity) {
-        return false;
+
+        String query = "insert into carmarket.advert"+ "(idadvert, idcar, price) VALUES"
+                + "(?,?,?)";
+        PreparedStatement statement = null;
+        try {
+            statement = connection.prepareStatement(query);
+            statement.setInt(1, entity.getAdvertId());
+            statement.setInt(2, entity.getCarId());
+            statement.setInt(3, entity.getPrice());
+            statement.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     public AdvertEntity remove(Long id) {
