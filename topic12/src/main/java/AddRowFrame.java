@@ -52,6 +52,8 @@ public class AddRowFrame extends JFrame {
                 System.out.println(Arrays.asList(advert));
                 try {
                     InsertData.insertData(advert);
+                    MainFrame mainFrame = MainFrame.getInstance();
+                    mainFrame.refreshTable();
                 } catch (SQLException e1) {
                     e1.printStackTrace();
                 }

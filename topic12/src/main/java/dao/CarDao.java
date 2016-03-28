@@ -28,6 +28,7 @@ public class CarDao implements DaoIn<CarEntity> {
                     rs.getString(5), rs.getString(6), rs.getString(7));
             entities.add(car);
         }
+        statement.close();
         return entities;
     }
 
@@ -41,6 +42,7 @@ public class CarDao implements DaoIn<CarEntity> {
                 car = new CarEntity(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getString(4),
                         rs.getString(5), rs.getString(6), rs.getString(7));
             }
+        statement.close();
         return car;
     }
 
@@ -58,6 +60,7 @@ public class CarDao implements DaoIn<CarEntity> {
             statement.setString(6, entity.getVin());
             statement.setString(7, entity.getDescription());
             statement.executeUpdate();
+            statement.close();
             return true;
         } catch (SQLException e) {
             e.printStackTrace();

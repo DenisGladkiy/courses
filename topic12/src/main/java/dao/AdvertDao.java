@@ -25,6 +25,7 @@ public class AdvertDao implements DaoIn<AdvertEntity> {
             advert = new AdvertEntity(rs.getInt(1), rs.getInt(2), rs.getInt(3));
             entities.add(advert);
         }
+        statement.close();
         return entities;
     }
 
@@ -36,6 +37,7 @@ public class AdvertDao implements DaoIn<AdvertEntity> {
         while(rs.next()) {
             advert = new AdvertEntity(rs.getInt(1), rs.getInt(2), rs.getInt(3));
         }
+        statement.close();
         return advert;
     }
 
@@ -50,6 +52,7 @@ public class AdvertDao implements DaoIn<AdvertEntity> {
             statement.setInt(2, entity.getCarId());
             statement.setInt(3, entity.getPrice());
             statement.executeUpdate();
+            statement.close();
             return true;
         } catch (SQLException e) {
             e.printStackTrace();

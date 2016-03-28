@@ -27,6 +27,7 @@ public class OwnerDao implements DaoIn<OwnerEntity> {
             owner = new OwnerEntity(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4));
             entities.add(owner);
         }
+        statement.close();
         return entities;
     }
 
@@ -38,6 +39,7 @@ public class OwnerDao implements DaoIn<OwnerEntity> {
         while (rs.next()) {
             owner = new OwnerEntity(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4));
         }
+        statement.close();
         return owner;
     }
 
@@ -52,6 +54,7 @@ public class OwnerDao implements DaoIn<OwnerEntity> {
             statement.setString(3, entity.getSurname());
             statement.setInt(4, entity.getPhone());
             statement.executeUpdate();
+            statement.close();
             return true;
         } catch (SQLException e) {
             e.printStackTrace();
