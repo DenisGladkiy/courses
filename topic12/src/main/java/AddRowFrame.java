@@ -47,7 +47,7 @@ public class AddRowFrame extends JFrame {
     private void buttonAddListener() {
         add.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String[] advert = readForm();
+                String[][] advert = readForm();
                 System.out.println("add button");
                 System.out.println(Arrays.asList(advert));
                 try {
@@ -61,19 +61,19 @@ public class AddRowFrame extends JFrame {
         });
     }
 
-    private String[] readForm() {
-        String[] formText = null;
+    private String[][] readForm() {
+        String[][] formText = null;
         try {
-            String man = read(manufacturer);
-            String mod = read(model);
-            String y = read(year);
-            String v = read(vin);
-            String pr = read(price);
-            String n = read(name);
-            String s = read(surname);
-            String ph = read(phone);
-            String desc = read(description);
-            formText = new String[]{man, mod, y, v, pr, n, s, ph, desc};
+            String man = readString(manufacturer);
+            String mod = readString(model);
+            String y = readInt(year);
+            String v = readString(vin);
+            String pr = readInt(price);
+            String n = readString(name);
+            String s = readString(surname);
+            String ph = readInt(phone);
+            String desc = readString(description);
+            formText = new String[][]{{pr},{man, mod, y, v, desc},{n, s, ph}};
             this.dispose();
             this.setVisible(false);
         }catch (IncorrectInputException e){
@@ -83,7 +83,7 @@ public class AddRowFrame extends JFrame {
         return formText;
     }
 
-    private String read(JTextComponent textComponent) throws IncorrectInputException {
+    private String readString(JTextComponent textComponent) throws IncorrectInputException {
         String text = textComponent.getText();
         System.out.println(text);
         if (Character.isLetter(text.charAt(0)) || Character.isDigit(text.charAt(0))) {
@@ -92,5 +92,16 @@ public class AddRowFrame extends JFrame {
             throw new IncorrectInputException("wrong input");
         }
     }
+
+    private String readInt(JTextComponent textComponent) throws IncorrectInputException {
+        String text = textComponent.getText();
+        System.out.println(text);
+        if (Character.isDigit(text.charAt(0))) {
+            return text;
+        } else {
+            throw new IncorrectInputException("wrong input");
+        }
+    }
+
 
 }

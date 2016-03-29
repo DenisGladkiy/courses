@@ -7,36 +7,43 @@ import entity.CarEntity;
 import entity.OwnerEntity;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 
 /**
  * Created by Денис on 3/26/16.
  */
-public class TableRow {
+public class TableRows {
 
     private Connection connection;
     private DaoFactory daoFactory;
 
     public String[]  getTableRowById(int id){
+        String sql = "SELECT * FROM carmarket.advert "+
+                " INNER JOIN  carmarket.car ON carmarket.advert.idcar = " +
+                "carmarket.car.idcar INNER JOIN carmarket.owner ON carmarket.car.idowner = carmarket.owner.idowner" ;
         daoFactory = new DaoFactory();
-        String[] row = null;
+        String[] row = new String[7];
         try {
             connection = daoFactory.getConnection();
-            OwnerDao oDao = daoFactory.getOwnerDao(connection);
-            AdvertDao aDao = daoFactory.getAdvertDao(connection);
-            CarDao cDao = daoFactory.getCarDao(connection);
-            OwnerEntity oEntity = oDao.findById(id);
-            AdvertEntity aEntity = aDao.findById(id);
-            CarEntity cEntity = cDao.findById(id);
-            //System.out.println(aEntity.toString() + cEntity.toString() + oEntity.toString());
-            row = new String[]{cEntity.getManufacturer(), cEntity.getModel(), String.valueOf(cEntity.getYear()),
-                                cEntity.getVin(), cEntity.getDescription(), String.valueOf(aEntity.getPrice()),
-                                oEntity.getPhone()+"\n"+oEntity.getName()};
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery(sql);
+            while (rs.next()){
+                //System.out.println(rs.getInt(1)+" "+rs.getInt(2)+" test");
+                row[0] = String.valueOf(rs.getInt(1));
+                row[1] = String.valueOf(rs.getInt(2));
+                row[2] = String.valueOf(rs.getInt(3));
+                row[3] = String.valueOf(rs.getInt(4));
+                row[4] = String.valueOf(rs.getInt(2));
+                row[5] = String.valueOf(rs.getInt(2));
+                row[6] = String.valueOf(rs.getInt(2));
+
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return row;
     }
 
@@ -51,7 +58,7 @@ public class TableRow {
             allRows = new String[adverts.size()][];
             int index = 0;
             for(AdvertEntity ae : adverts){
-                row = getTableRowById(ae.getAdvertId());
+                row = getTableRowById(ae.getCarId());
                 allRows[index] = row;
                 index++;
             }

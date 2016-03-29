@@ -46,12 +46,12 @@ public class CarDao implements DaoIn<CarEntity> {
         return car;
     }
 
-    public boolean insert(CarEntity entity) {
+    public Integer insert(CarEntity entity) {
         String query = "insert into carmarket.car"+ "(idcar, idowner, year, manufacturer, model, vin, description) VALUES"
                 + "(?,?,?,?,?,?,?)";
         PreparedStatement statement = null;
         try {
-            statement = connection.prepareStatement(query);
+            statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             statement.setInt(1, entity.getCarId());
             statement.setInt(2, entity.getOwnerId());
             statement.setInt(3, entity.getYear());
@@ -60,11 +60,16 @@ public class CarDao implements DaoIn<CarEntity> {
             statement.setString(6, entity.getVin());
             statement.setString(7, entity.getDescription());
             statement.executeUpdate();
+            ResultSet generatedKeys = statement.getGeneratedKeys();
+            int id = 0;
+            while(generatedKeys.next()) {
+                id = generatedKeys.getInt(1);
+            }
             statement.close();
-            return true;
+            return id;
         } catch (SQLException e) {
             e.printStackTrace();
-            return false;
+            return null;
         }
     }
 

@@ -12,6 +12,8 @@ public class CarEntity extends DaoEntity {
     private String vin;
     private String description;
 
+    public CarEntity(){};
+
     public CarEntity(int carId, int ownerId, int year, String manufacturer, String model, String vin, String description) {
         this.carId = carId;
         this.ownerId = ownerId;

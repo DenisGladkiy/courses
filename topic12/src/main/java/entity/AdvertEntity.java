@@ -4,15 +4,15 @@ package entity;
  * Created by Денис on 3/25/16.
  */
 public class AdvertEntity extends DaoEntity {
-    private int advertId;
+    //private int advertId;
     private int carId;
     private int price;
 
     public AdvertEntity(){
     }
 
-    public AdvertEntity(int advertId, int carId, int price){
-        this.advertId = advertId;
+    public AdvertEntity(int carId, int price){
+        //this.advertId = advertId;
         this.carId = carId;
         this.price = price;
     }
@@ -33,18 +33,17 @@ public class AdvertEntity extends DaoEntity {
         this.price = price;
     }
 
-    public int getAdvertId() {
-        return advertId;
-    }
-
-    public void setAdvertId(int advertId) {
-        this.advertId = advertId;
-    }
+//    public int getAdvertId() {
+//        return advertId;
+//    }
+//
+//    public void setAdvertId(int advertId) {
+//        this.advertId = advertId;
+//    }
 
     @Override
     public String toString() {
         return "AdvertEntity{" +
-                "advertId=" + advertId +
                 ", carId=" + carId +
                 ", price=" + price +
                 '}';

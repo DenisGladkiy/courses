@@ -22,7 +22,7 @@ public class AdvertDao implements DaoIn<AdvertEntity> {
         ResultSet rs = statement.executeQuery(
                 "SELECT * FROM carmarket.advert");
         while(rs.next()) {
-            advert = new AdvertEntity(rs.getInt(1), rs.getInt(2), rs.getInt(3));
+            advert = new AdvertEntity(rs.getInt(2), rs.getInt(3));
             entities.add(advert);
         }
         statement.close();
@@ -35,28 +35,32 @@ public class AdvertDao implements DaoIn<AdvertEntity> {
         ResultSet rs = statement.executeQuery(
                 "SELECT * FROM carmarket.advert WHERE idadvert ="+String.valueOf(id));
         while(rs.next()) {
-            advert = new AdvertEntity(rs.getInt(1), rs.getInt(2), rs.getInt(3));
+            advert = new AdvertEntity(rs.getInt(2), rs.getInt(3));
         }
         statement.close();
         return advert;
     }
 
-    public boolean insert(AdvertEntity entity) {
+    public Integer insert(AdvertEntity entity) {
 
-        String query = "insert into carmarket.advert"+ "(idadvert, idcar, price) VALUES"
-                + "(?,?,?)";
+        String query = "insert into carmarket.advert"+ "(idcar, price) VALUES"
+                + "(?,?)";
         PreparedStatement statement = null;
         try {
-            statement = connection.prepareStatement(query);
-            statement.setInt(1, entity.getAdvertId());
-            statement.setInt(2, entity.getCarId());
-            statement.setInt(3, entity.getPrice());
+            statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            statement.setInt(1, entity.getCarId());
+            statement.setInt(2, entity.getPrice());
             statement.executeUpdate();
+            ResultSet generatedKeys = statement.getGeneratedKeys();
+            int id = 0;
+            while (generatedKeys.next()) {
+                id = generatedKeys.getInt(1);
+            }
             statement.close();
-            return true;
+            return id;
         } catch (SQLException e) {
             e.printStackTrace();
-            return false;
+            return null;
         }
     }
 

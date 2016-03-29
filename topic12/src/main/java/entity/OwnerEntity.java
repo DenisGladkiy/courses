@@ -7,13 +7,13 @@ public class OwnerEntity extends DaoEntity {
     private String name;
     private String surname;
     private int phone;
-    private int ownerId;
+    //private int ownerId;
 
     public OwnerEntity(){
     }
 
-    public OwnerEntity(int id, String name, String surname, int phone){
-        ownerId = id;
+    public OwnerEntity(String name, String surname, int phone){
+        //ownerId = id;
         this.name = name;
         this.surname = surname;
         this.phone = phone;
@@ -43,18 +43,9 @@ public class OwnerEntity extends DaoEntity {
         this.phone = phone;
     }
 
-    public int getOwnerId() {
-        return ownerId;
-    }
-
-    public void setOwnerId(int ownerId) {
-        this.ownerId = ownerId;
-    }
-
     @Override
     public String toString() {
         return "OwnerEntity{" +
-                "ownerId=" + ownerId + ", "+
                 "name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
                 ", phone='" + phone + '\'' +

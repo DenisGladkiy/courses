@@ -1,6 +1,5 @@
 package dao;
 
-import dao.DaoIn;
 import entity.OwnerEntity;
 
 import java.sql.*;
@@ -24,7 +23,7 @@ public class OwnerDao implements DaoIn<OwnerEntity> {
         ResultSet rs = statement.executeQuery(
                 "SELECT * FROM carmarket.owner");
         while (rs.next()) {
-            owner = new OwnerEntity(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4));
+            owner = new OwnerEntity(rs.getString(2), rs.getString(3), rs.getInt(4));
             entities.add(owner);
         }
         statement.close();
@@ -37,28 +36,32 @@ public class OwnerDao implements DaoIn<OwnerEntity> {
         ResultSet rs = statement.executeQuery(
                 "SELECT * FROM carmarket.owner WHERE idowner =" + String.valueOf(id));
         while (rs.next()) {
-            owner = new OwnerEntity(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4));
+            owner = new OwnerEntity(rs.getString(2), rs.getString(3), rs.getInt(4));
         }
         statement.close();
         return owner;
     }
 
-    public boolean insert(OwnerEntity entity) {
-        String query = "insert into carmarket.owner"+ "(idowner, name, surname, phone) VALUES"
-                + "(?,?,?,?)";
+    public Integer insert(OwnerEntity entity) {
+        String query = "insert into carmarket.owner" + "(name, surname, phone) VALUES"
+                + "(?,?,?)";
         PreparedStatement statement = null;
         try {
-            statement = connection.prepareStatement(query);
-            statement.setInt(1, entity.getOwnerId());
-            statement.setString(2, entity.getName());
-            statement.setString(3, entity.getSurname());
-            statement.setInt(4, entity.getPhone());
-            statement.executeUpdate();
+            statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            statement.setString(1, entity.getName());
+            statement.setString(2, entity.getSurname());
+            statement.setInt(3, entity.getPhone());
+            statement.execute();
+            int id = 0;
+            ResultSet generatedKeys = statement.getGeneratedKeys();
+            while(generatedKeys.next()) {
+                id = generatedKeys.getInt(1);
+            }
             statement.close();
-            return true;
+            return id;
         } catch (SQLException e) {
             e.printStackTrace();
-            return false;
+            return null;
         }
     }
 

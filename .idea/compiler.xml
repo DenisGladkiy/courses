@@ -36,14 +36,20 @@
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
         <module name="topic10" />
-        <module name="topic12" />
         <module name="topic8" />
         <module name="topic9" />
+      </profile>
+      <profile default="false" name="Annotation profile for topic12" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
+        <module name="topic12" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="1.8">
       <module name="topic10" target="1.8" />
-      <module name="topic12" target="1.5" />
+      <module name="topic12" target="1.7" />
       <module name="topic2" target="1.8" />
       <module name="topic4" target="1.8" />
       <module name="topic7" target="1.8" />

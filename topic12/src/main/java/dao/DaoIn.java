@@ -11,6 +11,6 @@ import java.util.List;
 public interface DaoIn <T extends DaoEntity> {
     List<T> findAll() throws SQLException;
     T findById(int id) throws SQLException;
-    boolean insert(T entity) throws SQLException;
+    Integer insert(T entity) throws SQLException;
     T remove(Long id);
 }

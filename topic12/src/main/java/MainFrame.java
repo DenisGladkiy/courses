@@ -1,15 +1,9 @@
-import dao.DaoFactory;
-import dao.OwnerDao;
-import entity.OwnerEntity;
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Connection;
-import java.sql.SQLException;
 
 /**
  * Created by Денис on 3/24/16.
@@ -69,7 +63,7 @@ public class MainFrame extends JFrame {
         System.out.println("Create table");
         Object[][] tableData = null;
         String[] columnNames = {"Manufacturer", "Model", "Year", "VIN", "Description", "Price", "Contact"};
-        TableRow tableRow = new TableRow();
+        TableRows tableRow = new TableRows();
         tableData = tableRow.getAllRows();
         TableModel tableModel = new DefaultTableModel(tableData, columnNames);
         table = new JTable(tableModel);
