@@ -13,13 +13,14 @@ public class MainFrame extends JFrame {
     private JTextField manufacturer, model, yearFrom, yearTo, priceFrom, priceTo;
     private JLabel year, price;
     private JTable table;
+    private JPanel panel;
+    private JScrollPane scrollPane;
     private static volatile MainFrame mainFrame = new MainFrame("Car Marketplace");
 
     public static void main(String[] args) {
         mainFrame.setVisible(true);
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setSize(600, 400);
-        System.out.println("frame shown");
     }
 
     public MainFrame(String s){
@@ -42,7 +43,11 @@ public class MainFrame extends JFrame {
         year = new JLabel("Year");
         price = new JLabel("Price");
         table = createTable();
-        System.out.println("table created");
+        Dimension d = table.getPreferredSize();
+        //table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        scrollPane = new JScrollPane(table);
+        scrollPane.setPreferredSize(
+                new Dimension(d.width,table.getRowHeight()*table.getRowCount()+25));
         add(add);
         add(find);
         add(manufacturer);
@@ -53,18 +58,17 @@ public class MainFrame extends JFrame {
         add(price);
         add(priceFrom);
         add(priceTo);
-        add(table);
-        System.out.println("table added");
+        //add(table);
+        add(scrollPane);
         add(delete);
-
     }
 
     private JTable createTable() {
-        System.out.println("Create table");
-        Object[][] tableData = null;
+        String[][] tableData = null;
         String[] columnNames = {"Manufacturer", "Model", "Year", "VIN", "Description", "Price", "Contact"};
-        TableRows tableRow = new TableRows();
-        tableData = tableRow.getAllRows();
+        TableRows tableRows = new TableRows();
+        tableData = tableRows.getAllRows();
+        System.out.println(tableData[0][0]+tableData[1][0]+tableData[2][0]);
         TableModel tableModel = new DefaultTableModel(tableData, columnNames);
         table = new JTable(tableModel);
         table.setAutoscrolls(true);
