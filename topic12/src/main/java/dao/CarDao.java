@@ -73,7 +73,7 @@ public class CarDao implements DaoIn<CarEntity> {
         }
     }
 
-    public CarEntity remove(Long id) {
+    public CarEntity remove(int id) {
         return null;
     }
 }

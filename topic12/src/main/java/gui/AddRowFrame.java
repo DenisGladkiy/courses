@@ -1,17 +1,20 @@
+package gui;
+
+import exception.IncorrectInputException;
+import gui.MainFrame;
+
 import javax.swing.*;
 import javax.swing.text.JTextComponent;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
-import java.util.Arrays;
 
 /**
  * Created by Денис on 3/27/16.
  */
 public class AddRowFrame extends JFrame {
-    private JTextField manufacturer, model, year, vin, price, name, surname, phone;
-    private JTextArea description;
+    private JTextArea description, manufacturer, model, year, vin, price, name, surname, phone;
     private JButton add;
 
     public AddRowFrame(String s) {
@@ -21,14 +24,14 @@ public class AddRowFrame extends JFrame {
 
     private void gui() {
         setLayout(new FlowLayout());
-        manufacturer = new JTextField("manufacturer      ");
-        model = new JTextField("model              ");
-        year = new JTextField("year                ");
-        vin = new JTextField("vin                      ");
-        price = new JTextField("price                     ");
-        name = new JTextField("name              ");
-        surname = new JTextField("surname        ");
-        phone = new JTextField("phone              ");
+        manufacturer = new JTextArea("manufacturer", 1, 8);
+        model = new JTextArea("model", 1, 8);
+        year = new JTextArea("year", 1, 8);
+        vin = new JTextArea("vin", 1, 8);
+        price = new JTextArea("price", 1, 8);
+        name = new JTextArea("name", 1, 8);
+        surname = new JTextArea("surname", 1, 8);
+        phone = new JTextArea("phone", 1, 8);
         description = new JTextArea("description", 2, 32);
         add = new JButton("Add advert");
         buttonAddListener();
@@ -49,7 +52,7 @@ public class AddRowFrame extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 String[][] advert = readForm();
                 try {
-                    InsertData.insertData(advert);
+                    staff.InsertData.insertData(advert);
                     MainFrame mainFrame = MainFrame.getInstance();
                     mainFrame.refreshTable();
                 } catch (SQLException e1) {

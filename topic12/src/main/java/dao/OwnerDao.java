@@ -1,6 +1,7 @@
 package dao;
 
 import entity.OwnerEntity;
+import gui.MainFrame;
 
 import java.sql.*;
 import java.util.List;
@@ -54,7 +55,7 @@ public class OwnerDao implements DaoIn<OwnerEntity> {
             statement.execute();
             int id = 0;
             ResultSet generatedKeys = statement.getGeneratedKeys();
-            while(generatedKeys.next()) {
+            while (generatedKeys.next()) {
                 id = generatedKeys.getInt(1);
             }
             statement.close();
@@ -65,7 +66,19 @@ public class OwnerDao implements DaoIn<OwnerEntity> {
         }
     }
 
-    public OwnerEntity remove(Long id) {
+    public OwnerEntity remove(int id) {
+        String sql_remove = "DELETE FROM carmarket.owner WHERE idowner = " + id;
+        try {
+            OwnerEntity ownerEntity = findById(id);
+            Statement statement = connection.createStatement();
+            statement.execute(sql_remove);
+            MainFrame mainFrame = MainFrame.getInstance();
+            mainFrame.refreshTable();
+            return ownerEntity;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
         return null;
     }
 }

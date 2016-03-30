@@ -1,16 +1,13 @@
+package staff;
+
 import dao.AdvertDao;
-import dao.CarDao;
 import dao.DaoFactory;
-import dao.OwnerDao;
 import entity.AdvertEntity;
-import entity.CarEntity;
-import entity.OwnerEntity;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -18,17 +15,14 @@ import java.util.List;
  */
 public class TableRows {
 
-    private Connection connection;
-    private DaoFactory daoFactory;
-
     public String[][] getAllRows() {
         String sql = "SELECT * FROM carmarket.advert " +
                 " INNER JOIN  carmarket.car ON carmarket.advert.idcar = " +
                 "carmarket.car.idcar INNER JOIN carmarket.owner ON carmarket.car.idowner = carmarket.owner.idowner";
         String[][] allRows = null;
-        daoFactory = new DaoFactory();
+        DaoFactory daoFactory = new DaoFactory();
         try {
-            connection = daoFactory.getConnection();
+            Connection connection = daoFactory.getConnection();
             AdvertDao aDao = daoFactory.getAdvertDao(connection);
             List<AdvertEntity> adverts = aDao.findAll();
             allRows = new String[adverts.size()][];
@@ -39,6 +33,7 @@ public class TableRows {
                 allRows[index] = makeRow(rs);
                 index++;
             }
+            connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -53,7 +48,7 @@ public class TableRows {
         String description = rs.getString(10);
         String price = String.valueOf(rs.getInt(3));
         String contact = rs.getString(12) + " " + rs.getString(13) + " " + String.valueOf(rs.getInt(2));
-        String[] row = new String[]{manufacturer,model,year,vin,description,price,contact};
+        String[] row = new String[]{manufacturer, model, year, vin, description, price, contact};
         return row;
     }
 }

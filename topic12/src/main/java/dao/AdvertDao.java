@@ -64,7 +64,7 @@ public class AdvertDao implements DaoIn<AdvertEntity> {
         }
     }
 
-    public AdvertEntity remove(Long id) {
+    public AdvertEntity remove(int id) {
         return null;
     }
 }
