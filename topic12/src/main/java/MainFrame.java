@@ -13,7 +13,6 @@ public class MainFrame extends JFrame {
     private JTextField manufacturer, model, yearFrom, yearTo, priceFrom, priceTo;
     private JLabel year, price;
     private JTable table;
-    private JPanel panel;
     private JScrollPane scrollPane;
     private static volatile MainFrame mainFrame = new MainFrame("Car Marketplace");
 
@@ -43,11 +42,10 @@ public class MainFrame extends JFrame {
         year = new JLabel("Year");
         price = new JLabel("Price");
         table = createTable();
-        Dimension d = table.getPreferredSize();
-        //table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-        scrollPane = new JScrollPane(table);
-        scrollPane.setPreferredSize(
-                new Dimension(d.width,table.getRowHeight()*table.getRowCount()+25));
+        Dimension d = new Dimension(550, 290);
+        scrollPane = new JScrollPane();
+        scrollPane.getViewport().add(table);
+        scrollPane.setPreferredSize(d);
         add(add);
         add(find);
         add(manufacturer);
@@ -58,21 +56,30 @@ public class MainFrame extends JFrame {
         add(price);
         add(priceFrom);
         add(priceTo);
-        //add(table);
         add(scrollPane);
         add(delete);
     }
 
     private JTable createTable() {
-        String[][] tableData = null;
         String[] columnNames = {"Manufacturer", "Model", "Year", "VIN", "Description", "Price", "Contact"};
         TableRows tableRows = new TableRows();
-        tableData = tableRows.getAllRows();
-        System.out.println(tableData[0][0]+tableData[1][0]+tableData[2][0]);
+        String[][] tableData = tableRows.getAllRows();
         TableModel tableModel = new DefaultTableModel(tableData, columnNames);
         table = new JTable(tableModel);
-        table.setAutoscrolls(true);
+        tableListener();
         return table;
+    }
+
+    private void tableListener(){
+        table.addMouseListener(new java.awt.event.MouseAdapter(){
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                int row = table.rowAtPoint(evt.getPoint());
+                System.out.println("row "+row);
+                int col = table.columnAtPoint(evt.getPoint());
+                System.out.println("col "+col);
+            }
+        });
     }
 
     private void buttonAddListener(){
@@ -95,9 +102,12 @@ public class MainFrame extends JFrame {
 
     public void refreshTable(){
         DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
-        remove(delete);
         tableModel.setRowCount(0);
-        add(createTable());
+        remove(delete);
+        table = createTable();
+        scrollPane.getViewport().add(table);
+        scrollPane.revalidate();
+        scrollPane.repaint();
         add(delete);
     }
 }

@@ -48,8 +48,6 @@ public class AddRowFrame extends JFrame {
         add.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String[][] advert = readForm();
-                System.out.println("add button");
-                System.out.println(Arrays.asList(advert));
                 try {
                     InsertData.insertData(advert);
                     MainFrame mainFrame = MainFrame.getInstance();
@@ -85,7 +83,6 @@ public class AddRowFrame extends JFrame {
 
     private String readString(JTextComponent textComponent) throws IncorrectInputException {
         String text = textComponent.getText();
-        System.out.println(text);
         if (Character.isLetter(text.charAt(0)) || Character.isDigit(text.charAt(0))) {
             return text;
         } else {
@@ -95,7 +92,6 @@ public class AddRowFrame extends JFrame {
 
     private String readInt(JTextComponent textComponent) throws IncorrectInputException {
         String text = textComponent.getText();
-        System.out.println(text);
         if (Character.isDigit(text.charAt(0))) {
             return text;
         } else {
