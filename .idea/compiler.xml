@@ -12,7 +12,6 @@
       <entry name="!?*.kt" />
       <entry name="!?*.clj" />
       <entry name="!?*.aj" />
-      <entry name="*.txt" />
     </wildcardResourcePatterns>
     <annotationProcessing>
       <profile default="true" name="Default" enabled="false">
@@ -23,12 +22,14 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
+        <module name="topic2" />
       </profile>
       <profile default="false" name="Annotation profile for topic4" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
+        <module name="topic4" />
       </profile>
       <profile default="false" name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
@@ -36,23 +37,24 @@
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
         <module name="topic10" />
+        <module name="topic12" />
         <module name="topic8" />
         <module name="topic9" />
       </profile>
-      <profile default="false" name="Annotation profile for topic12" enabled="true">
+      <profile default="false" name="Annotation profile for topic14" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
-        <module name="topic12" />
+        <module name="topic14" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="1.8">
       <module name="topic10" target="1.8" />
       <module name="topic12" target="1.7" />
+      <module name="topic14" target="1.8" />
       <module name="topic2" target="1.8" />
       <module name="topic4" target="1.8" />
-      <module name="topic7" target="1.8" />
       <module name="topic8" target="1.8" />
       <module name="topic9" target="1.8" />
     </bytecodeTargetLevel>
