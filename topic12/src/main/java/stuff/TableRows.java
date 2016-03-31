@@ -1,4 +1,4 @@
-package staff;
+package stuff;
 
 import dao.AdvertDao;
 import dao.DaoFactory;

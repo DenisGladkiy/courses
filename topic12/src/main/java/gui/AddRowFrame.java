@@ -1,7 +1,6 @@
 package gui;
 
 import exception.IncorrectInputException;
-import gui.MainFrame;
 
 import javax.swing.*;
 import javax.swing.text.JTextComponent;
@@ -52,7 +51,7 @@ public class AddRowFrame extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 String[][] advert = readForm();
                 try {
-                    staff.InsertData.insertData(advert);
+                    stuff.InsertData.insertData(advert);
                     MainFrame mainFrame = MainFrame.getInstance();
                     mainFrame.refreshTable();
                 } catch (SQLException e1) {

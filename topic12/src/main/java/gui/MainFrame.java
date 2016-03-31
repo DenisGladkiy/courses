@@ -2,7 +2,7 @@ package gui;
 
 import dao.DaoFactory;
 import dao.OwnerDao;
-import staff.TableRows;
+import stuff.TableRows;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
