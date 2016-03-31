@@ -2,11 +2,14 @@ package gui;
 
 import dao.DaoFactory;
 import dao.OwnerDao;
+import exception.IncorrectInputException;
+import stuff.SortRows;
 import stuff.TableRows;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
+import javax.swing.text.JTextComponent;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,7 +23,7 @@ import java.sql.Statement;
  */
 public class MainFrame extends JFrame {
     private JButton add, find, delete;
-    private JTextField manufacturer, model, yearFrom, yearTo, priceFrom, priceTo;
+    private JTextArea manufacturer, model, yearFrom, yearTo, priceFrom, priceTo;
     private JLabel year, price;
     private JTable table;
     private JScrollPane scrollPane;
@@ -43,17 +46,18 @@ public class MainFrame extends JFrame {
         add = new JButton("Add car");
         buttonAddListener();
         find = new JButton("Find car");
+        buttonFindListener();
         delete = new JButton("Delete selected");
         buttonDeleteListener();
-        manufacturer = new JTextField("Manufacturer");
-        model = new JTextField("     Model     ");
-        yearFrom = new JTextField("From");
-        yearTo = new JTextField("   To   ");
-        priceFrom = new JTextField("From");
-        priceTo = new JTextField("   To   ");
+        manufacturer = new JTextArea("Manufacturer", 1, 6);
+        model = new JTextArea("Model", 1, 6);
+        yearFrom = new JTextArea("From", 1, 4);
+        yearTo = new JTextArea("To", 1, 4);
+        priceFrom = new JTextArea("From", 1, 4);
+        priceTo = new JTextArea("To", 1, 4);
         year = new JLabel("Year");
         price = new JLabel("Price");
-        table = createTable();
+        table = createTable(new TableRows().getAllRows());
         Dimension d = new Dimension(550, 290);
         scrollPane = new JScrollPane();
         scrollPane.getViewport().add(table);
@@ -72,10 +76,8 @@ public class MainFrame extends JFrame {
         add(delete);
     }
 
-    private JTable createTable() {
+    private JTable createTable(String[][] tableData) {
         String[] columnNames = {"Manufacturer", "Model", "Year", "VIN", "Description", "Price", "Contact"};
-        TableRows tableRows = new TableRows();
-        String[][] tableData = tableRows.getAllRows();
         TableModel tableModel = new DefaultTableModel(tableData, columnNames);
         table = new JTable(tableModel);
         tableListener();
@@ -87,6 +89,20 @@ public class MainFrame extends JFrame {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 selectedRow = table.rowAtPoint(evt.getPoint());
+            }
+        });
+    }
+
+    private void buttonFindListener() {
+        find.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String[] selection = readSelection();
+                SortRows sortRows = new SortRows();
+                String[][] selectedData = sortRows.sortTable(selection);
+                DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
+                tableModel.setRowCount(0);
+                table = createTable(selectedData);
+                scrollPane.getViewport().add(table);
             }
         });
     }
@@ -137,7 +153,7 @@ public class MainFrame extends JFrame {
         DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
         tableModel.setRowCount(0);
         remove(delete);
-        table = createTable();
+        table = createTable(new TableRows().getAllRows());
         scrollPane.getViewport().add(table);
         scrollPane.revalidate();
         scrollPane.repaint();
@@ -150,10 +166,38 @@ public class MainFrame extends JFrame {
         String year = table.getValueAt(selectedRow, 2).toString();
         String vin = table.getValueAt(selectedRow, 3).toString();
         String description = table.getValueAt(selectedRow, 4).toString();
-        System.out.println(manufacturer + " " + model + " " + year + " " + vin + " " + description);
         String sql_select = "SELECT idowner FROM carmarket.car WHERE year = " + Integer.parseInt(year) +
                 " and manufacturer = '" + manufacturer + "' and model = '" + model + "' and vin = '" + vin +
                 "' and description = '" + description + "'";
         return sql_select;
+    }
+
+    private String readString(JTextComponent textComponent) throws IncorrectInputException {
+        String text = textComponent.getText();
+        if (!text.equals("")) {
+            if (Character.isLetter(text.charAt(0)) || Character.isDigit(text.charAt(0))) {
+                return text;
+            } else {
+                throw new IncorrectInputException("wrong input");
+            }
+        } else {
+            return text;
+        }
+    }
+
+    private String[] readSelection() {
+        String[] selection = null;
+        try {
+            String man = readString(manufacturer);
+            String mod = readString(model);
+            String yFrom = readString(yearFrom);
+            String yTo = readString(yearTo);
+            String pFrom = readString(priceFrom);
+            String pTo = readString(priceTo);
+            selection = new String[]{man, mod, yFrom, yTo, pFrom, pTo};
+        } catch (IncorrectInputException e1) {
+            e1.printStackTrace();
+        }
+        return selection;
     }
 }

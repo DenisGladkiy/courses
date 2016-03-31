@@ -73,10 +73,10 @@ public class AddRowFrame extends JFrame {
             String s = readString(surname);
             String ph = readInt(phone);
             String desc = readString(description);
-            formText = new String[][]{{pr},{man, mod, y, v, desc},{n, s, ph}};
+            formText = new String[][]{{pr}, {man, mod, y, v, desc}, {n, s, ph}};
             this.dispose();
             this.setVisible(false);
-        }catch (IncorrectInputException e){
+        } catch (IncorrectInputException e) {
             JOptionPane.showMessageDialog(null, "Please, check input data");
             e.printStackTrace();
         }
