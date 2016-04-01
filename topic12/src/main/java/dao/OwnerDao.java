@@ -22,7 +22,7 @@ public class OwnerDao implements DaoIn<OwnerEntity> {
         OwnerEntity owner = null;
         Statement statement = connection.createStatement();
         ResultSet rs = statement.executeQuery(
-                "SELECT * FROM carmarket.owner");
+                "SELECT * FROM owner");
         while (rs.next()) {
             owner = new OwnerEntity(rs.getString(2), rs.getString(3), rs.getInt(4));
             entities.add(owner);
@@ -35,7 +35,7 @@ public class OwnerDao implements DaoIn<OwnerEntity> {
         OwnerEntity owner = null;
         Statement statement = connection.createStatement();
         ResultSet rs = statement.executeQuery(
-                "SELECT * FROM carmarket.owner WHERE idowner =" + String.valueOf(id));
+                "SELECT * FROM owner WHERE idowner =" + String.valueOf(id));
         while (rs.next()) {
             owner = new OwnerEntity(rs.getString(2), rs.getString(3), rs.getInt(4));
         }
@@ -44,7 +44,7 @@ public class OwnerDao implements DaoIn<OwnerEntity> {
     }
 
     public Integer insert(OwnerEntity entity) {
-        String query = "insert into carmarket.owner" + "(name, surname, phone) VALUES"
+        String query = "insert into owner" + "(name, surname, phone) VALUES"
                 + "(?,?,?)";
         PreparedStatement statement = null;
         try {
@@ -67,7 +67,7 @@ public class OwnerDao implements DaoIn<OwnerEntity> {
     }
 
     public OwnerEntity remove(int id) {
-        String sql_remove = "DELETE FROM carmarket.owner WHERE idowner = " + id;
+        String sql_remove = "DELETE FROM owner WHERE idowner = " + id;
         try {
             OwnerEntity ownerEntity = findById(id);
             Statement statement = connection.createStatement();
@@ -78,7 +78,6 @@ public class OwnerDao implements DaoIn<OwnerEntity> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return null;
     }
 }

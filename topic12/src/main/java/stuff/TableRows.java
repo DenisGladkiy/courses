@@ -15,10 +15,11 @@ import java.util.List;
  */
 public class TableRows {
 
+    private static final String sql = "SELECT * FROM advert " +
+            " INNER JOIN  car ON advert.idcar = " +
+            " car.idcar INNER JOIN owner ON car.idowner = owner.idowner";
+
     public String[][] getAllRows() {
-        String sql = "SELECT * FROM carmarket.advert " +
-                " INNER JOIN  carmarket.car ON carmarket.advert.idcar = " +
-                "carmarket.car.idcar INNER JOIN carmarket.owner ON carmarket.car.idowner = carmarket.owner.idowner";
         String[][] allRows = null;
         DaoFactory daoFactory = new DaoFactory();
         try {

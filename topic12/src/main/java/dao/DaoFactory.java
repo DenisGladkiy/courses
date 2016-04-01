@@ -10,10 +10,10 @@ import java.sql.SQLException;
 public class DaoFactory {
     private String user = "root";
     private String pass = "root";
-    private String url = "jdbc:mysql://localhost:3306";
+    private String url = "jdbc:mysql://localhost:3306/carmarket";
     private String driver = "com.mysql.jdbc.Driver";
 
-    public DaoFactory(){
+    public DaoFactory() {
         try {
             Class.forName(driver);
         } catch (ClassNotFoundException e) {
@@ -22,18 +22,18 @@ public class DaoFactory {
     }
 
     public Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(url,user, pass);
+        return DriverManager.getConnection(url, user, pass);
     }
 
-    public AdvertDao getAdvertDao(Connection connection){
+    public AdvertDao getAdvertDao(Connection connection) {
         return new AdvertDao(connection);
     }
 
-    public CarDao getCarDao(Connection connection){
+    public CarDao getCarDao(Connection connection) {
         return new CarDao(connection);
     }
 
-    public OwnerDao getOwnerDao(Connection connection){
+    public OwnerDao getOwnerDao(Connection connection) {
         return new OwnerDao(connection);
     }
 }

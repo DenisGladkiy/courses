@@ -39,33 +39,33 @@ public class SortRows {
         int priceFrom = 0;
         int priceTo = 0;
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("SELECT * FROM carmarket.advert INNER JOIN  carmarket.car ON carmarket.advert.idcar = " +
-                "carmarket.car.idcar INNER JOIN carmarket.owner ON carmarket.car.idowner = carmarket.owner.idowner");
+        stringBuilder.append("SELECT * FROM advert INNER JOIN  car ON advert.idcar = " +
+                "car.idcar INNER JOIN owner ON car.idowner = owner.idowner");
         if (!select[0].equals("") && !select[1].equals("")) {
-            stringBuilder.append(" WHERE carmarket.car.manufacturer = " + "'" + select[0] + "'" +
-                    " AND carmarket.car.model = " + "'" + select[1] + "'");
+            stringBuilder.append(" WHERE car.manufacturer = " + "'" + select[0] + "'" +
+                    " AND car.model = " + "'" + select[1] + "'");
         } else if (!select[0].equals("")) {
-            stringBuilder.append(" WHERE carmarket.car.manufacturer = " + "'" + select[0] + "'");
+            stringBuilder.append(" WHERE car.manufacturer = " + "'" + select[0] + "'");
         } else if (!select[1].equals("")) {
-            stringBuilder.append(" WHERE carmarket.car.model = " + "'" + select[1] + "'");
+            stringBuilder.append(" WHERE car.model = " + "'" + select[1] + "'");
         }
         if (isFirstCondition(stringBuilder) && !select[2].equals("")) {
             yearFrom = parseYears(select)[0];
             yearTo = parseYears(select)[1];
-            stringBuilder.append(" WHERE carmarket.car.year > " + yearFrom + " AND carmarket.car.year < " + yearTo);
+            stringBuilder.append(" WHERE car.year > " + yearFrom + " AND car.year < " + yearTo);
         } else if (!select[2].equals("")) {
             yearFrom = parseYears(select)[0];
             yearTo = parseYears(select)[1];
-            stringBuilder.append(" AND carmarket.car.year > " + yearFrom + " AND carmarket.car.year < " + yearTo);
+            stringBuilder.append(" AND car.year > " + yearFrom + " AND car.year < " + yearTo);
         }
         if (isFirstCondition(stringBuilder) && !select[4].equals("")) {
             priceFrom = parsePrice(select)[0];
             priceTo = parsePrice(select)[1];
-            stringBuilder.append(" WHERE carmarket.advert.price > " + priceFrom + " AND carmarket.advert.price < " + priceTo);
+            stringBuilder.append(" WHERE advert.price > " + priceFrom + " AND advert.price < " + priceTo);
         } else if (!select[4].equals("")) {
             priceFrom = parsePrice(select)[0];
             priceTo = parsePrice(select)[1];
-            stringBuilder.append(" AND carmarket.advert.price > " + priceFrom + " AND carmarket.advert.price < " + priceTo);
+            stringBuilder.append(" AND advert.price > " + priceFrom + " AND advert.price < " + priceTo);
         }
         return stringBuilder.toString();
     }

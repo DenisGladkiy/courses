@@ -12,7 +12,7 @@ public class CarDao implements DaoIn<CarEntity> {
 
     Connection connection;
 
-    public CarDao(Connection connection){
+    public CarDao(Connection connection) {
         this.connection = connection;
     }
 
@@ -22,8 +22,8 @@ public class CarDao implements DaoIn<CarEntity> {
         Statement statement = null;
         statement = connection.createStatement();
         ResultSet rs = statement.executeQuery(
-                "SELECT * FROM carmarket.car");
-        while(rs.next()) {
+                "SELECT * FROM car");
+        while (rs.next()) {
             car = new CarEntity(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getString(4),
                     rs.getString(5), rs.getString(6), rs.getString(7));
             entities.add(car);
@@ -37,17 +37,17 @@ public class CarDao implements DaoIn<CarEntity> {
         Statement statement = null;
         statement = connection.createStatement();
         ResultSet rs = statement.executeQuery(
-                    "SELECT * FROM carmarket.car WHERE idcar ="+String.valueOf(id));
-            while(rs.next()) {
-                car = new CarEntity(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getString(4),
-                        rs.getString(5), rs.getString(6), rs.getString(7));
-            }
+                "SELECT * FROM car WHERE idcar =" + String.valueOf(id));
+        while (rs.next()) {
+            car = new CarEntity(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getString(4),
+                    rs.getString(5), rs.getString(6), rs.getString(7));
+        }
         statement.close();
         return car;
     }
 
     public Integer insert(CarEntity entity) {
-        String query = "insert into carmarket.car"+ "(idcar, idowner, year, manufacturer, model, vin, description) VALUES"
+        String query = "insert into car" + "(idcar, idowner, year, manufacturer, model, vin, description) VALUES"
                 + "(?,?,?,?,?,?,?)";
         PreparedStatement statement = null;
         try {
@@ -62,7 +62,7 @@ public class CarDao implements DaoIn<CarEntity> {
             statement.executeUpdate();
             ResultSet generatedKeys = statement.getGeneratedKeys();
             int id = 0;
-            while(generatedKeys.next()) {
+            while (generatedKeys.next()) {
                 id = generatedKeys.getInt(1);
             }
             statement.close();

@@ -3,6 +3,7 @@ package gui;
 import dao.DaoFactory;
 import dao.OwnerDao;
 import exception.IncorrectInputException;
+import stuff.CreateTables;
 import stuff.SortRows;
 import stuff.TableRows;
 
@@ -31,13 +32,16 @@ public class MainFrame extends JFrame {
     private int selectedRow = -1;
 
     public static void main(String[] args) {
+
         mainFrame.setVisible(true);
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setSize(600, 400);
+
     }
 
     public MainFrame(String s) {
         super(s);
+        CreateTables.createTables();
         gui();
     }
 
@@ -166,7 +170,7 @@ public class MainFrame extends JFrame {
         String year = table.getValueAt(selectedRow, 2).toString();
         String vin = table.getValueAt(selectedRow, 3).toString();
         String description = table.getValueAt(selectedRow, 4).toString();
-        String sql_select = "SELECT idowner FROM carmarket.car WHERE year = " + Integer.parseInt(year) +
+        String sql_select = "SELECT idowner FROM car WHERE year = " + Integer.parseInt(year) +
                 " and manufacturer = '" + manufacturer + "' and model = '" + model + "' and vin = '" + vin +
                 "' and description = '" + description + "'";
         return sql_select;

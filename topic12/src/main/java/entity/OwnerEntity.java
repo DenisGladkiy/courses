@@ -7,13 +7,11 @@ public class OwnerEntity extends DaoEntity {
     private String name;
     private String surname;
     private int phone;
-    //private int ownerId;
 
-    public OwnerEntity(){
+    public OwnerEntity() {
     }
 
-    public OwnerEntity(String name, String surname, int phone){
-        //ownerId = id;
+    public OwnerEntity(String name, String surname, int phone) {
         this.name = name;
         this.surname = surname;
         this.phone = phone;

@@ -12,16 +12,17 @@ import java.util.List;
 public class AdvertDao implements DaoIn<AdvertEntity> {
     private Connection connection;
 
-    public AdvertDao(Connection connection){
+    public AdvertDao(Connection connection) {
         this.connection = connection;
     }
+
     public List<AdvertEntity> findAll() throws SQLException {
         List<AdvertEntity> entities = new ArrayList<AdvertEntity>();
         AdvertEntity advert = null;
         Statement statement = connection.createStatement();
         ResultSet rs = statement.executeQuery(
-                "SELECT * FROM carmarket.advert");
-        while(rs.next()) {
+                "SELECT * FROM advert");
+        while (rs.next()) {
             advert = new AdvertEntity(rs.getInt(2), rs.getInt(3));
             entities.add(advert);
         }
@@ -33,8 +34,8 @@ public class AdvertDao implements DaoIn<AdvertEntity> {
         AdvertEntity advert = null;
         Statement statement = connection.createStatement();
         ResultSet rs = statement.executeQuery(
-                "SELECT * FROM carmarket.advert WHERE idadvert ="+String.valueOf(id));
-        while(rs.next()) {
+                "SELECT * FROM advert WHERE idadvert =" + String.valueOf(id));
+        while (rs.next()) {
             advert = new AdvertEntity(rs.getInt(2), rs.getInt(3));
         }
         statement.close();
@@ -43,7 +44,7 @@ public class AdvertDao implements DaoIn<AdvertEntity> {
 
     public Integer insert(AdvertEntity entity) {
 
-        String query = "insert into carmarket.advert"+ "(idcar, price) VALUES"
+        String query = "insert into advert" + "(idcar, price) VALUES"
                 + "(?,?)";
         PreparedStatement statement = null;
         try {
