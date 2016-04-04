@@ -1,6 +1,7 @@
 package stuff;
 
 import dao.DaoFactory;
+import org.omg.CosNaming.NamingContextExtPackage.StringNameHelper;
 
 import javax.swing.*;
 import java.sql.Connection;
@@ -15,6 +16,9 @@ import java.util.List;
  * Created by Денис on 3/31/16.
  */
 public class SortRows {
+    private final static String Join = "SELECT * FROM advert INNER JOIN  car " +
+            "ON advert.idcar = car.idcar INNER JOIN owner " +
+            "ON car.idowner = owner.idowner";
 
     public String[][] sortTable(String[] select) {
         List<String[]> sortedTable = new ArrayList<>();
@@ -34,38 +38,24 @@ public class SortRows {
     }
 
     private String createStatement(String[] select) {
-        int yearFrom = 0;
-        int yearTo = 0;
-        int priceFrom = 0;
-        int priceTo = 0;
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("SELECT * FROM advert INNER JOIN  car ON advert.idcar = " +
-                "car.idcar INNER JOIN owner ON car.idowner = owner.idowner");
-        if (!select[0].equals("") && !select[1].equals("")) {
-            stringBuilder.append(" WHERE car.manufacturer = " + "'" + select[0] + "'" +
-                    " AND car.model = " + "'" + select[1] + "'");
-        } else if (!select[0].equals("")) {
-            stringBuilder.append(" WHERE car.manufacturer = " + "'" + select[0] + "'");
-        } else if (!select[1].equals("")) {
-            stringBuilder.append(" WHERE car.model = " + "'" + select[1] + "'");
+        stringBuilder.append(Join);
+        if (isManufacturerSet(select) && isModelSet(select)) {
+            stringBuilder.append(appendManufacturerModel(select));
+        } else if (isManufacturerSet(select)) {
+            stringBuilder.append(appendManufacturer(select));
+        } else if (isModelSet(select)) {
+            stringBuilder.append(appendModel(select));
         }
-        if (isFirstCondition(stringBuilder) && !select[2].equals("")) {
-            yearFrom = parseYears(select)[0];
-            yearTo = parseYears(select)[1];
-            stringBuilder.append(" WHERE car.year > " + yearFrom + " AND car.year < " + yearTo);
-        } else if (!select[2].equals("")) {
-            yearFrom = parseYears(select)[0];
-            yearTo = parseYears(select)[1];
-            stringBuilder.append(" AND car.year > " + yearFrom + " AND car.year < " + yearTo);
+        if (isFirstCondition(stringBuilder) && isYearFromSet(select)) {
+            stringBuilder.append(whereYearFromTo(select));
+        } else if (isYearFromSet(select)) {
+            stringBuilder.append(andYearFromTo(select));
         }
-        if (isFirstCondition(stringBuilder) && !select[4].equals("")) {
-            priceFrom = parsePrice(select)[0];
-            priceTo = parsePrice(select)[1];
-            stringBuilder.append(" WHERE advert.price > " + priceFrom + " AND advert.price < " + priceTo);
-        } else if (!select[4].equals("")) {
-            priceFrom = parsePrice(select)[0];
-            priceTo = parsePrice(select)[1];
-            stringBuilder.append(" AND advert.price > " + priceFrom + " AND advert.price < " + priceTo);
+        if (isFirstCondition(stringBuilder) && isPriceFromSet(select)) {
+            stringBuilder.append(wherePriceFromTo(select));
+        } else if (isPriceFromSet(select)) {
+            stringBuilder.append(andPriceFromTo(select));
         }
         return stringBuilder.toString();
     }
@@ -124,4 +114,56 @@ public class SortRows {
         return array;
     }
 
+    private boolean isManufacturerSet(String[] select) {
+        return !select[0].equals("");
+    }
+
+    private boolean isModelSet(String[] select) {
+        return !select[1].equals("");
+    }
+
+    private String appendManufacturerModel(String[] select) {
+        return " WHERE car.manufacturer = " + "'" + select[0] + "'" +
+                " AND car.model = " + "'" + select[1] + "'";
+    }
+
+    private String appendManufacturer(String[] select) {
+        return " WHERE car.manufacturer = " + "'" + select[0] + "'";
+    }
+
+    private String appendModel(String[] select) {
+        return " WHERE car.model = " + "'" + select[1] + "'";
+    }
+
+    private String whereYearFromTo(String[] select) {
+        int yearFrom = parseYears(select)[0];
+        int yearTo = parseYears(select)[1];
+        return " WHERE car.year > " + yearFrom + " AND car.year < " + yearTo;
+    }
+
+    private String andYearFromTo(String[] select) {
+        int yearFrom = parseYears(select)[0];
+        int yearTo = parseYears(select)[1];
+        return " AND car.year > " + yearFrom + " AND car.year < " + yearTo;
+    }
+
+    private String wherePriceFromTo(String[] select) {
+        int priceFrom = parsePrice(select)[0];
+        int priceTo = parsePrice(select)[1];
+        return " WHERE advert.price > " + priceFrom + " AND advert.price < " + priceTo;
+    }
+
+    private String andPriceFromTo(String[] select) {
+        int priceFrom = parsePrice(select)[0];
+        int priceTo = parsePrice(select)[1];
+        return " AND advert.price > " + priceFrom + " AND advert.price < " + priceTo;
+    }
+
+    private boolean isYearFromSet(String[] select) {
+        return !select[2].equals("");
+    }
+
+    private boolean isPriceFromSet(String[] select) {
+        return !select[4].equals("");
+    }
 }

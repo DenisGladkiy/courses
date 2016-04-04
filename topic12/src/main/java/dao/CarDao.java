@@ -1,6 +1,7 @@
 package dao;
 
 import entity.CarEntity;
+import gui.MainFrame;
 
 import java.sql.*;
 import java.util.List;
@@ -10,7 +11,13 @@ import java.util.List;
  */
 public class CarDao implements DaoIn<CarEntity> {
 
-    Connection connection;
+    private Connection connection;
+    private final static String selectAll = "SELECT * FROM car";
+    private final static String selectById = "SELECT * FROM car WHERE idcar = ?";
+    private final static String query = "insert into car" +
+            "(idcar, idowner, year, manufacturer, model, vin, description) VALUES"
+            + "(?,?,?,?,?,?,?)";
+    private final static String sql_remove = "DELETE FROM car WHERE idcar = ?";
 
     public CarDao(Connection connection) {
         this.connection = connection;
@@ -19,10 +26,9 @@ public class CarDao implements DaoIn<CarEntity> {
     public List<CarEntity> findAll() throws SQLException {
         List<CarEntity> entities = null;
         CarEntity car = null;
-        Statement statement = null;
-        statement = connection.createStatement();
+        Statement statement = connection.createStatement();
         ResultSet rs = statement.executeQuery(
-                "SELECT * FROM car");
+                selectAll);
         while (rs.next()) {
             car = new CarEntity(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getString(4),
                     rs.getString(5), rs.getString(6), rs.getString(7));
@@ -34,10 +40,9 @@ public class CarDao implements DaoIn<CarEntity> {
 
     public CarEntity findById(int id) throws SQLException {
         CarEntity car = null;
-        Statement statement = null;
-        statement = connection.createStatement();
-        ResultSet rs = statement.executeQuery(
-                "SELECT * FROM car WHERE idcar =" + String.valueOf(id));
+        PreparedStatement statement = connection.prepareStatement(selectById);
+        statement.setInt(1, id);
+        ResultSet rs = statement.executeQuery();
         while (rs.next()) {
             car = new CarEntity(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getString(4),
                     rs.getString(5), rs.getString(6), rs.getString(7));
@@ -47,8 +52,6 @@ public class CarDao implements DaoIn<CarEntity> {
     }
 
     public Integer insert(CarEntity entity) {
-        String query = "insert into car" + "(idcar, idowner, year, manufacturer, model, vin, description) VALUES"
-                + "(?,?,?,?,?,?,?)";
         PreparedStatement statement = null;
         try {
             statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
@@ -74,6 +77,17 @@ public class CarDao implements DaoIn<CarEntity> {
     }
 
     public CarEntity remove(int id) {
-        return null;
+        try {
+            CarEntity carEntity = findById(id);
+            PreparedStatement statement = connection.prepareStatement(sql_remove);
+            statement.setInt(1, id);
+            statement.executeUpdate();
+            statement.close();
+            MainFrame mainFrame = MainFrame.getInstance();
+            mainFrame.refreshTable();
+            return carEntity;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }return null;
     }
 }

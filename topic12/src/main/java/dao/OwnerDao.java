@@ -11,7 +11,12 @@ import java.util.List;
  */
 public class OwnerDao implements DaoIn<OwnerEntity> {
 
-    Connection connection;
+    private Connection connection;
+    private final static String selectAll = "SELECT * FROM owner";
+    private final static String selectById = "SELECT * FROM owner WHERE idowner = ?";
+    private final static String query = "insert into owner" + "(name, surname, phone) VALUES"
+            + "(?,?,?)";
+    private final static String sql_remove = "DELETE FROM owner WHERE idowner = ?";
 
     public OwnerDao(Connection connection) {
         this.connection = connection;
@@ -21,8 +26,7 @@ public class OwnerDao implements DaoIn<OwnerEntity> {
         List<OwnerEntity> entities = null;
         OwnerEntity owner = null;
         Statement statement = connection.createStatement();
-        ResultSet rs = statement.executeQuery(
-                "SELECT * FROM owner");
+        ResultSet rs = statement.executeQuery(selectAll);
         while (rs.next()) {
             owner = new OwnerEntity(rs.getString(2), rs.getString(3), rs.getInt(4));
             entities.add(owner);
@@ -33,9 +37,9 @@ public class OwnerDao implements DaoIn<OwnerEntity> {
 
     public OwnerEntity findById(int id) throws SQLException {
         OwnerEntity owner = null;
-        Statement statement = connection.createStatement();
-        ResultSet rs = statement.executeQuery(
-                "SELECT * FROM owner WHERE idowner =" + String.valueOf(id));
+        PreparedStatement statement = connection.prepareStatement(selectById);
+        statement.setInt(1, id);
+        ResultSet rs = statement.executeQuery();
         while (rs.next()) {
             owner = new OwnerEntity(rs.getString(2), rs.getString(3), rs.getInt(4));
         }
@@ -44,8 +48,6 @@ public class OwnerDao implements DaoIn<OwnerEntity> {
     }
 
     public Integer insert(OwnerEntity entity) {
-        String query = "insert into owner" + "(name, surname, phone) VALUES"
-                + "(?,?,?)";
         PreparedStatement statement = null;
         try {
             statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
@@ -67,11 +69,11 @@ public class OwnerDao implements DaoIn<OwnerEntity> {
     }
 
     public OwnerEntity remove(int id) {
-        String sql_remove = "DELETE FROM owner WHERE idowner = " + id;
         try {
             OwnerEntity ownerEntity = findById(id);
-            Statement statement = connection.createStatement();
-            statement.execute(sql_remove);
+            PreparedStatement statement = connection.prepareStatement(sql_remove);
+            statement.setInt(1, id);
+            statement.executeUpdate();
             MainFrame mainFrame = MainFrame.getInstance();
             mainFrame.refreshTable();
             return ownerEntity;

@@ -1,6 +1,7 @@
 package dao;
 
 import entity.AdvertEntity;
+import gui.MainFrame;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -11,6 +12,10 @@ import java.util.List;
  */
 public class AdvertDao implements DaoIn<AdvertEntity> {
     private Connection connection;
+    private final static String selectAll = "SELECT * FROM advert";
+    private final static String selectById = "SELECT * FROM advert WHERE idadvert = ?";
+    private final static String query = "insert into advert (idcar, price) VALUES (?,?)";
+    private final static String sql_remove = "DELETE FROM advert WHERE idadvert = ?";
 
     public AdvertDao(Connection connection) {
         this.connection = connection;
@@ -21,7 +26,7 @@ public class AdvertDao implements DaoIn<AdvertEntity> {
         AdvertEntity advert = null;
         Statement statement = connection.createStatement();
         ResultSet rs = statement.executeQuery(
-                "SELECT * FROM advert");
+                selectAll);
         while (rs.next()) {
             advert = new AdvertEntity(rs.getInt(2), rs.getInt(3));
             entities.add(advert);
@@ -32,9 +37,9 @@ public class AdvertDao implements DaoIn<AdvertEntity> {
 
     public AdvertEntity findById(int id) throws SQLException {
         AdvertEntity advert = null;
-        Statement statement = connection.createStatement();
-        ResultSet rs = statement.executeQuery(
-                "SELECT * FROM advert WHERE idadvert =" + String.valueOf(id));
+        PreparedStatement statement = connection.prepareStatement(selectById);
+        statement.setInt(1, id);
+        ResultSet rs = statement.executeQuery();
         while (rs.next()) {
             advert = new AdvertEntity(rs.getInt(2), rs.getInt(3));
         }
@@ -43,9 +48,6 @@ public class AdvertDao implements DaoIn<AdvertEntity> {
     }
 
     public Integer insert(AdvertEntity entity) {
-
-        String query = "insert into advert" + "(idcar, price) VALUES"
-                + "(?,?)";
         PreparedStatement statement = null;
         try {
             statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
@@ -66,6 +68,18 @@ public class AdvertDao implements DaoIn<AdvertEntity> {
     }
 
     public AdvertEntity remove(int id) {
+        try {
+            AdvertEntity advertEntity = findById(id);
+            PreparedStatement statement = connection.prepareStatement(sql_remove);
+            statement.setInt(1, id);
+            statement.executeUpdate();
+            statement.close();
+            MainFrame mainFrame = MainFrame.getInstance();
+            mainFrame.refreshTable();
+            return advertEntity;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 }
