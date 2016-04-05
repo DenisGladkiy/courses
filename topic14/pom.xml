@@ -26,6 +26,11 @@
             <artifactId>servlet-api</artifactId>
             <version>2.3</version>
         </dependency>
+        <dependency>
+            <groupId>topic12</groupId>
+            <artifactId>topic12</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
     <build>
