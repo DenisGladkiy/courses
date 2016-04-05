@@ -27,10 +27,11 @@
             <version>2.3</version>
         </dependency>
         <dependency>
-            <groupId>topic12</groupId>
-            <artifactId>topic12</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.36</version>
         </dependency>
+
     </dependencies>
 
     <build>

@@ -12,9 +12,9 @@ public class Test {
         DriverManager.registerDriver(new com.mysql.jdbc.Driver()); // или любой другой драйвер
         Class.forName("com.mysql.jdbc.Driver");
 
-        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306", "root", "****"); // открытие соединения к базе
+        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306", "root", "root"); // открытие соединения к базе
         Statement statement = con.createStatement();
-        ResultSet rs = statement.executeQuery("SELECT * FROM test.person");
+        ResultSet rs = statement.executeQuery("SELECT * FROM carmarket.car");
         int columnCount = rs.getMetaData().getColumnCount();
         while (rs.next()) {
             for (int i = 1; i <= columnCount; i++) {

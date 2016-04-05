@@ -10,14 +10,14 @@
     </context-param>
 
     <servlet>
-        <servlet-name>test</servlet-name>
-        <servlet-class>com.courses.spalah.TestHttpServlet</servlet-class>
+        <servlet-name>ads</servlet-name>
+        <servlet-class>com.courses.spalah.CarmarketHttpServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
 
     <servlet-mapping>
-        <servlet-name>test</servlet-name>
-        <url-pattern>/test</url-pattern>
+        <servlet-name>ads</servlet-name>
+        <url-pattern>/ads</url-pattern>
     </servlet-mapping>
 
 </web-app>
