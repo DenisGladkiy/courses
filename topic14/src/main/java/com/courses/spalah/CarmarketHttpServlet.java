@@ -14,11 +14,8 @@ import java.util.List;
  * Created by Денис on 4/5/16.
  */
 public class CarmarketHttpServlet extends HttpServlet {
-    private String user = "root";
-    private String pass = "root";
-    private String url = "jdbc:mysql://localhost:3306/carmarket";
-    private String driver = "com.mysql.jdbc.Driver";
-    private static final String sql = "SELECT * FROM advert " +
+
+    private static final String all = "SELECT * FROM advert " +
             " INNER JOIN  car ON advert.idcar = " +
             " car.idcar INNER JOIN owner ON car.idowner = owner.idowner";
 
@@ -26,26 +23,31 @@ public class CarmarketHttpServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<List<String>> carList = new ArrayList<>();
         PrintWriter printWriter = response.getWriter();
+        ResultSet rs = null;
         try {
-            Class.forName(driver);
-            Connection connection = DriverManager.getConnection(url, user, pass);
+            ConnectionFactory factory = new ConnectionFactory();
+            Connection connection = factory.getConnection();
             Statement statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery(sql);
-            while(rs.next()) {
+            SelectQueryBuilder queryBuilder = new SelectQueryBuilder();
+            if (request.getQueryString() != null) {
+                String select = queryBuilder.createStatement(request.getQueryString());
+                rs = statement.executeQuery(select);
+            } else {
+                rs = statement.executeQuery(all);
+            }
+            while (rs.next()) {
                 carList.add(makeRow(rs));
             }
             connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
         }
         printWriter.write("{ \n [ \n");
-
-        for(List<String> car : carList) {
+        for (List<String> car : carList) {
             printWriter.write(serialize(car));
         }
         printWriter.write("] \n }");
+        response.setStatus(HttpServletResponse.SC_OK);
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -65,7 +67,7 @@ public class CarmarketHttpServlet extends HttpServlet {
         return list;
     }
 
-    private String serialize(List<String> list){
+    private String serialize(List<String> list) {
         StringBuilder builder = new StringBuilder();
         builder.append("{" + "\n" + "\"id\": " + list.get(0) + ",\n");
         builder.append("\"manufacturer\": \"" + list.get(1) + "\", \n");
