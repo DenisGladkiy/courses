@@ -167,3 +167,10 @@
 
 [ДЗ #15](https://github.com/rxn1d/courses/blob/master/topic15/topic15_home_work.md)
 * Пишем мальнький сервис, который работает с рефлексией
+
+16\. Юнит тестирование
+* Юнит тестирование
+* Разбор предыдущих ДЗ в классе
+
+[ДЗ #16](https://github.com/rxn1d/courses/blob/master/topic16/topic16_home_work.md)
+* Покрываем тестами ваше веб-приложение
