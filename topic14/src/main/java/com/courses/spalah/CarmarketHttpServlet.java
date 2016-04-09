@@ -14,7 +14,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Денис on 4/5/16.
@@ -27,12 +29,13 @@ public class CarmarketHttpServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        Connection connection = null;
         List<List<String>> carList = new ArrayList<>();
         PrintWriter printWriter = response.getWriter();
         ResultSet rs = null;
         try {
             ConnectionFactory factory = new ConnectionFactory();
-            Connection connection = factory.getConnection();
+            connection = factory.getConnection();
             Statement statement = connection.createStatement();
             SelectQueryBuilder queryBuilder = new SelectQueryBuilder();
             printWriter.write("doGet answer "+request.getParameter("vin"));
@@ -60,25 +63,28 @@ public class CarmarketHttpServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        PrintWriter printWriter = response.getWriter();
         StringBuilder sBuilder = new StringBuilder();
         BufferedReader reader = request.getReader();
         String line = reader.readLine();
         while(line!=null){
-            printWriter.println(line);
             sBuilder.append(line);
             line = reader.readLine();
         }
         reader.close();
         String jsonInsert = sBuilder.toString();
         JsonObject jsonObject = new Gson().fromJson(jsonInsert, JsonObject.class);
-        printWriter.println(jsonObject.get("manufacturer").getAsString());
-        printWriter.println(jsonObject.get("modelName").getAsString());
-        printWriter.println(jsonObject.get("year").getAsString());
-        printWriter.println(jsonObject.get("vin").getAsString());
-        printWriter.println(jsonObject.get("description").getAsString());
-        printWriter.println(jsonObject.get("price").getAsString());
-        printWriter.println(jsonObject.get("contact_phone").getAsString());
+        Map<String, String> advert = new HashMap<>();
+        advert.put("manufacturer",jsonObject.get("manufacturer").getAsString());
+        advert.put("modelName",jsonObject.get("modelName").getAsString());
+        advert.put("year",jsonObject.get("year").getAsString());
+        advert.put("vin",jsonObject.get("vin").getAsString());
+        advert.put("description",jsonObject.get("description").getAsString());
+        advert.put("price",jsonObject.get("price").getAsString());
+        advert.put("name",jsonObject.get("name").getAsString());
+        advert.put("surname",jsonObject.get("surname").getAsString());
+        advert.put("contact_phone",String.valueOf(jsonObject.get("contact_phone").getAsInt()));
+        InsertNewAdvert insertion = new InsertNewAdvert();
+        insertion.insert(advert);
     }
 
     private List<String> makeRow(ResultSet rs) throws SQLException {
