@@ -100,7 +100,7 @@ public class CarmarketHttpServlet extends HttpServlet {
         return list;
     }
 
-    private String serialize(List<String> list) {
+    String serialize(List<String> list) {
         StringBuilder builder = new StringBuilder();
         builder.append("{" + "\n" + "\"id\": " + list.get(0) + ",\n");
         builder.append("\"manufacturer\": \"" + list.get(1) + "\", \n");
