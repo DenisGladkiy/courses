@@ -17,6 +17,16 @@ import java.util.List;
 public class CarmarketHttpServletTest {
     CarmarketHttpServlet servlet;
     List<String> testList;
+    private static final String serialized = "{\n"+
+            "\"id\": 12,\n"+
+            "\"manufacturer\": \"Mazda\",\n"+
+            "\"model\": \"MX5\",\n"+
+            "\"year\": 2010,\n"+
+            "\"vin\": \"vin\",\n"+
+            "\"description\": \"description\",\n"+
+            "\"price\": 18000,\n"+
+            "\"phone\": 12345,\n"+
+            "},\n";
 
     @Before
     public void setUp() {
@@ -35,5 +45,6 @@ public class CarmarketHttpServletTest {
     @Test
     public void testSerialization(){
         assertNotNull(servlet.serialize(testList));
+        assertEquals(serialized, servlet.serialize(testList));
     }
 }

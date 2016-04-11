@@ -103,14 +103,14 @@ public class CarmarketHttpServlet extends HttpServlet {
     String serialize(List<String> list) {
         StringBuilder builder = new StringBuilder();
         builder.append("{" + "\n" + "\"id\": " + list.get(0) + ",\n");
-        builder.append("\"manufacturer\": \"" + list.get(1) + "\", \n");
-        builder.append("\"model\": \"" + list.get(2) + "\", \n");
-        builder.append("\"year\": " + list.get(3) + ", \n");
-        builder.append("\"vin\": \"" + list.get(4) + "\", \n");
-        builder.append("\"description\": \"" + list.get(5) + "\", \n");
-        builder.append("\"price\": " + list.get(6) + ", \n");
-        builder.append("\"phone\": " + list.get(7) + ", \n");
-        builder.append("}, \n");
+        builder.append("\"manufacturer\": \"" + list.get(1) + "\",\n");
+        builder.append("\"model\": \"" + list.get(2) + "\",\n");
+        builder.append("\"year\": " + list.get(3) + ",\n");
+        builder.append("\"vin\": \"" + list.get(4) + "\",\n");
+        builder.append("\"description\": \"" + list.get(5) + "\",\n");
+        builder.append("\"price\": " + list.get(6) + ",\n");
+        builder.append("\"phone\": " + list.get(7) + ",\n");
+        builder.append("},\n");
         return builder.toString();
     }
 }
