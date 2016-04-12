@@ -1,9 +1,6 @@
 package com.courses.spalah;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.google.gson.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -22,37 +19,14 @@ import java.util.Map;
  * Created by Денис on 4/5/16.
  */
 public class CarmarketHttpServlet extends HttpServlet {
-
-    private static final String all = "SELECT * FROM advert " +
-            " INNER JOIN  car ON advert.idcar = " +
-            " car.idcar INNER JOIN owner ON car.idowner = owner.idowner";
+    List<List<String>> carList;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Connection connection = null;
-        List<List<String>> carList = new ArrayList<>();
+        //List<List<String>> carList;
         PrintWriter printWriter = response.getWriter();
-        ResultSet rs = null;
-        try {
-            ConnectionFactory factory = new ConnectionFactory();
-            connection = factory.getConnection();
-            Statement statement = connection.createStatement();
-            SelectQueryBuilder queryBuilder = new SelectQueryBuilder();
-            printWriter.write("doGet answer "+request.getParameter("vin"));
-            printWriter.write("deGet "+request.getQueryString());
-            if (request.getQueryString() != null) {
-                String select = queryBuilder.createStatement(request.getQueryString());
-                rs = statement.executeQuery(select);
-            } else {
-                rs = statement.executeQuery(all);
-            }
-            while (rs.next()) {
-                carList.add(makeRow(rs));
-            }
-            connection.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        GetAdverts getAdverts = new GetAdverts();
+        carList = getAdverts.getData(request);
         printWriter.write("{ \n [ \n");
         for (List<String> car : carList) {
             printWriter.write(serialize(car));
@@ -87,30 +61,16 @@ public class CarmarketHttpServlet extends HttpServlet {
         insertion.insert(advert);
     }
 
-    private List<String> makeRow(ResultSet rs) throws SQLException {
-        List<String> list = new ArrayList<>();
-        list.add(String.valueOf(rs.getInt(1)));
-        list.add(rs.getString(7));
-        list.add(rs.getString(8));
-        list.add(String.valueOf(rs.getInt(6)));
-        list.add(rs.getString(9));
-        list.add(rs.getString(10));
-        list.add(String.valueOf(rs.getInt(3)));
-        list.add(String.valueOf(rs.getInt(14)));
-        return list;
-    }
-
     String serialize(List<String> list) {
-        StringBuilder builder = new StringBuilder();
-        builder.append("{" + "\n" + "\"id\": " + list.get(0) + ",\n");
-        builder.append("\"manufacturer\": \"" + list.get(1) + "\",\n");
-        builder.append("\"model\": \"" + list.get(2) + "\",\n");
-        builder.append("\"year\": " + list.get(3) + ",\n");
-        builder.append("\"vin\": \"" + list.get(4) + "\",\n");
-        builder.append("\"description\": \"" + list.get(5) + "\",\n");
-        builder.append("\"price\": " + list.get(6) + ",\n");
-        builder.append("\"phone\": " + list.get(7) + ",\n");
-        builder.append("},\n");
-        return builder.toString();
+        JsonObject json = new JsonObject();
+        json.add("id", new JsonPrimitive(Integer.parseInt(list.get(0))));
+        json.add("manufacturer", new JsonPrimitive(list.get(1)));
+        json.add("model", new JsonPrimitive(list.get(2)));
+        json.add("year", new JsonPrimitive(Integer.parseInt(list.get(3))));
+        json.add("vin", new JsonPrimitive(list.get(4)));
+        json.add("description", new JsonPrimitive(list.get(5)));
+        json.add("price", new JsonPrimitive(Integer.parseInt(list.get(6))));
+        json.add("phone", new JsonPrimitive(Integer.parseInt(list.get(7))));
+        return json.toString();
     }
 }

@@ -5,7 +5,16 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+import org.mockito.Mockito;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import static org.junit.Assert.*;
+
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,19 +23,17 @@ import java.util.List;
  */
 
 @RunWith(JUnit4.class)
-public class CarmarketHttpServletTest {
+public class CarmarketHttpServletTest extends Mockito {
     CarmarketHttpServlet servlet;
     List<String> testList;
-    private static final String serialized = "{\n"+
-            "\"id\": 12,\n"+
-            "\"manufacturer\": \"Mazda\",\n"+
-            "\"model\": \"MX5\",\n"+
-            "\"year\": 2010,\n"+
-            "\"vin\": \"vin\",\n"+
-            "\"description\": \"description\",\n"+
-            "\"price\": 18000,\n"+
-            "\"phone\": 12345,\n"+
-            "},\n";
+    private static final String serialized = "{\"id\":12,"+
+            "\"manufacturer\":\"Mazda\","+
+            "\"model\":\"MX5\","+
+            "\"year\":2010,"+
+            "\"vin\":\"vin\","+
+            "\"description\":\"description\","+
+            "\"price\":18000,"+
+            "\"phone\":12345}";
 
     @Before
     public void setUp() {
@@ -46,5 +53,41 @@ public class CarmarketHttpServletTest {
     public void testSerialization(){
         assertNotNull(servlet.serialize(testList));
         assertEquals(serialized, servlet.serialize(testList));
+    }
+
+    @Test
+    public void testDoGet(){
+        HttpServletRequest request = mock(HttpServletRequest.class);
+        HttpServletResponse response = mock(HttpServletResponse.class);
+        when(request.getQueryString()).thenReturn(null);
+        CarmarketHttpServlet servlet = new CarmarketHttpServlet();
+        try {
+            when(response.getWriter()).thenReturn(new PrintWriter(System.out));
+            servlet.doGet(request, response);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        catch (ServletException e) {
+            e.printStackTrace();
+        }
+        assertEquals(9, servlet.carList.size());
+    }
+
+    @Test
+    public void testDoGetSort(){
+        HttpServletRequest request = mock(HttpServletRequest.class);
+        HttpServletResponse response = mock(HttpServletResponse.class);
+        when(request.getQueryString()).thenReturn("manufacturer=nissan");
+        CarmarketHttpServlet servlet = new CarmarketHttpServlet();
+        try {
+            when(response.getWriter()).thenReturn(new PrintWriter(System.out));
+            servlet.doGet(request, response);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        catch (ServletException e) {
+            e.printStackTrace();
+        }
+        assertEquals(2, servlet.carList.size());
     }
 }

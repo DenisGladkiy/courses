@@ -27,11 +27,6 @@ public class InsertNewAdvert {
         int carId = insertCar(advert);
         advert.put("carId", String.valueOf(carId));
         insertAdvert(advert);
-        try {
-            connection.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
         return true;
     }
 
@@ -91,5 +86,11 @@ public class InsertNewAdvert {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    protected void finalize() throws Throwable {
+        super.finalize();
+        connection.close();
     }
 }
