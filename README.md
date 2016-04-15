@@ -179,3 +179,8 @@
 
 [ДЗ #17](https://github.com/rxn1d/courses/blob/master/topic17/topic17_home_work.md)
 * Реализуем паттерн Memento для рулетки
+
+18\. OOD
+
+[ДЗ #18](https://github.com/rxn1d/courses/blob/master/topic18/topic18_home_work.md)
+* Пишем свинговое приложение
