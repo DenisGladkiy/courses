@@ -12,13 +12,13 @@ public class GameSaver {
     private static RouletteMemento rouletteMemento;
     private static TableMemento tableMemento;
 
-    public static void saveGame(Roulette wheel, RouletteTable table){
-        tableMemento = (TableMemento) table.saveState();
-        rouletteMemento = (RouletteMemento) wheel.saveState();
+    public static void saveGame(Roulette wheel, RouletteTable table) {
+        tableMemento = table.saveState();
+        rouletteMemento = wheel.saveState();
         casinoMemento = Casino.saveState();
     }
 
-    public static void loadGame(Roulette wheel, RouletteTable table){
+    public static void loadGame(Roulette wheel, RouletteTable table) {
         table.loadState(tableMemento);
         wheel.loadState(rouletteMemento);
         Casino.loadState(casinoMemento);

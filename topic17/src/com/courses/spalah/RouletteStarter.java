@@ -25,7 +25,7 @@ public class RouletteStarter {
         System.out.println("Game Started");
         List<RouletteNumber> roulette = wheel.getWheel();
         String[][] commandFile;
-        System.out.println("Generated Roulette : "+roulette);
+        System.out.println("Generated Roulette : " + roulette);
         while (true) {
             input = ConsoleReader.readFromConsole();
             if (input[0].equals("file")) {
@@ -76,9 +76,9 @@ public class RouletteStarter {
                     incorrect(in);
                     break;
             }
-        }catch (TableIsFullException e){
+        } catch (TableIsFullException e) {
             e.printStackTrace();
-        }catch (IncorrectInputException e){
+        } catch (IncorrectInputException e) {
             e.printStackTrace();
         }
     }
@@ -92,10 +92,10 @@ public class RouletteStarter {
     }
 
     private static void addNewBet(String[] in) throws IncorrectInputException {
-        if(in.length >= 4){
+        if (in.length >= 4) {
             Bet bet = BetFactory.getBet(in);
             table.addBet(bet);
-        }else{
+        } else {
             incorrect(in);
         }
     }
@@ -104,8 +104,8 @@ public class RouletteStarter {
         throw new IncorrectInputException(Arrays.toString(in));
     }
 
-    private static void printStringArr(String[] arr){
-        for(String s : arr) System.out.print(s + " ");
+    private static void printStringArr(String[] arr) {
+        for (String s : arr) System.out.print(s + " ");
         System.out.print("\n");
     }
 

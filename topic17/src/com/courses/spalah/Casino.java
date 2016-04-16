@@ -2,9 +2,6 @@ package com.courses.spalah;
 
 import com.courses.spalah.Bets.*;
 import com.courses.spalah.memento.CasinoMemento;
-import com.courses.spalah.memento.Memento;
-import com.courses.spalah.memento.Originator;
-import com.sun.org.apache.xpath.internal.operations.Or;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,36 +15,36 @@ public class Casino {
     private static Map<BetType, Integer> bets = new HashMap<>();
     private static Map<RouletteNumber, Integer> numbers = new HashMap<>();
 
-    public static void addToCasinoBalance(int addition){
+    public static void addToCasinoBalance(int addition) {
         casinoBalance += addition;
     }
 
-    public static void addBetStatistics(Bet bet){
+    public static void addBetStatistics(Bet bet) {
         betCounter++;
         BetType type = bet.getType();
-        if(bets.containsKey(type)){
-            bets.put(type, bets.get(type)+1);
-        }else{
+        if (bets.containsKey(type)) {
+            bets.put(type, bets.get(type) + 1);
+        } else {
             bets.put(type, 1);
         }
     }
 
-    public static void addNumberStatistics(RouletteNumber number){
-        if(numbers.containsKey(number)){
-            numbers.put(number, numbers.get(number)+1);
-        }else{
+    public static void addNumberStatistics(RouletteNumber number) {
+        if (numbers.containsKey(number)) {
+            numbers.put(number, numbers.get(number) + 1);
+        } else {
             numbers.put(number, 1);
         }
     }
 
-    public static void showStats(Map<String, Integer> players){
+    public static void showStats(Map<String, Integer> players) {
         int numCounter = 1;
         RouletteNumber rNumber = null;
         System.out.println("STATS");
         System.out.println("Total bets count = " + betCounter);
         System.out.println("Total bets by type " + bets);
         System.out.println("Balance = " + casinoBalance);
-        if(null != numbers) {
+        if (null != numbers) {
             for (Map.Entry<RouletteNumber, Integer> entry : numbers.entrySet()) {
                 if (entry.getValue() > numCounter) {
                     numCounter = entry.getValue();
@@ -63,11 +60,14 @@ public class Casino {
         System.out.println(players);
     }
 
-    public static void loadState(Memento memento) {
-
+    public static void loadState(CasinoMemento memento) {
+        casinoBalance = memento.getCasinoBalance();
+        betCounter = memento.getBetCounter();
+        bets = memento.getBets();
+        numbers = memento.getNumbers();
     }
 
     public static CasinoMemento saveState() {
-        return null;
+        return new CasinoMemento(casinoBalance, betCounter, bets, numbers);
     }
 }

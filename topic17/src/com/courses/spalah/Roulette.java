@@ -1,7 +1,6 @@
 package com.courses.spalah;
 
-import com.courses.spalah.memento.Memento;
-import com.courses.spalah.memento.Originator;
+import com.courses.spalah.memento.RouletteMemento;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -11,46 +10,49 @@ import java.util.Random;
 /**
  * Created by spalah on 24.02.2016.
  */
-public class Roulette implements Originator {
+public class Roulette {
+    //implements Originator {
 
     private Random random = new Random();
     private List<RouletteNumber> wheel = new ArrayList<>();
 
-    public Roulette(){
+    public Roulette() {
         String color;
         RouletteNumber rNumber = new RouletteNumber(0, "GREEN");
         wheel.add(rNumber);
-        for(int i = 1; i < 37; i++){
+        for (int i = 1; i < 37; i++) {
             color = "BLACK";
             rNumber = new RouletteNumber(i, color);
             wheel.add(rNumber);
         }
-        for(int i = 0; i < 18; i++){
-            rNumber = wheel.get((random.nextInt(36))+1);
-            while(!rNumber.getColor().equals("BLACK")){
-                rNumber = wheel.get((random.nextInt(36))+1);
+        for (int i = 0; i < 18; i++) {
+            rNumber = wheel.get((random.nextInt(36)) + 1);
+            while (!rNumber.getColor().equals("BLACK")) {
+                rNumber = wheel.get((random.nextInt(36)) + 1);
             }
             rNumber.setColor("RED");
         }
     }
 
-    public RouletteNumber getNumber(){
+    public RouletteNumber getNumber() {
         int i = random.nextInt(37);
         return wheel.get(i);
     }
 
-    public List<RouletteNumber> getWheel(){
-        Collections.shuffle(wheel,random);
+    public List<RouletteNumber> getWheel() {
+        Collections.shuffle(wheel, random);
         return wheel;
     }
 
-    @Override
-    public void loadState(Memento memento) {
-
+    public void loadState(RouletteMemento memento) {
+        wheel = memento.getWheel();
     }
 
-    @Override
-    public Memento saveState() {
-        return null;
+    public RouletteMemento saveState() {
+        List<RouletteNumber> savedWheel = new ArrayList<>();
+        for (RouletteNumber rn : wheel) {
+            savedWheel.add(rn);
+        }
+        return new RouletteMemento(savedWheel);
     }
 }
