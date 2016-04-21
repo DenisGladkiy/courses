@@ -7,17 +7,13 @@ import java.util.Random;
  * Created by Денис on 4/18/16.
  */
 public class Circle extends Shape {
-    int x;
-    int y;
-    int deltaX;
-    int deltaY;
-    int size;
-    Color color;
-    Random random;
-
-    public Circle(int color, int direction, int size, int speed) {
-        super(color, direction, size, speed);
-    }
+    private int x;
+    private int y;
+    private int deltaX;
+    private int deltaY;
+    private int size;
+    private Color color;
+    private Random random;
 
     public Circle(int x, int y, int size, Color color){
         super();
@@ -35,15 +31,21 @@ public class Circle extends Shape {
     }
 
     public void move(Graphics g){
-        x = x - 2 + deltaX;
-        y = y - 2 + deltaY;
+        x = x + deltaX;
+        y = y + deltaY;
+        if(0 > x || (800-size) < x){
+            deltaX = deltaX * -1;
+        }
+        if(0 > y || (600-size) < y){
+            deltaY = deltaY * -1;
+        }
         draw(g);
     }
 
     private void initializeDirection(){
         do {
-            deltaX = random.nextInt(5);
-            deltaY = random.nextInt(5);
-        }while (deltaX == 2 && deltaY == 2);
+            deltaX = random.nextInt(9) - 4;
+            deltaY = random.nextInt(9) - 4;
+        }while (deltaX == 4 && deltaY == 4);
     }
 }

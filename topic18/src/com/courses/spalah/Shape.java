@@ -1,22 +1,23 @@
 package com.courses.spalah;
 
 import javax.swing.*;
+import java.awt.*;
 
 /**
  * Created by Денис on 4/18/16.
  */
 public class Shape extends JComponent {
-    int color;
-    int direction;
-    int size;
-    int speed;
+    private int x;
+    private int y;
+    private int size;
+    private Color color;
 
     public Shape(){}
 
-    public Shape(int color, int direction, int size, int speed){
+    public Shape(int x, int y, int size, Color color){
         this.color = color;
-        this.direction = direction;
+        this.x = x;
         this.size = size;
-        this.speed = speed;
+        this.y = y;
     }
 }

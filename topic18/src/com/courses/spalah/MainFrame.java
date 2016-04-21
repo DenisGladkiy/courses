@@ -14,7 +14,7 @@ public class MainFrame extends JFrame {
     private JPanel mainScreen;
     private static MainFrame mainFrame;
     private RandomColor randomColor;
-    private ArrayList<Circle> container;
+    private volatile ArrayList<Circle> container;
     private Random size;
 
     public MainFrame(String s){
