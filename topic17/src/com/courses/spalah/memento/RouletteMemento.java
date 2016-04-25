@@ -7,8 +7,7 @@ import java.util.List;
 /**
  * Created by Денис on 4/14/16.
  */
-public class RouletteMemento {
-        //implements Memento {
+public class RouletteMemento implements Memento {
     private List<RouletteNumber> wheel;
 
     public RouletteMemento(List<RouletteNumber> wheel){

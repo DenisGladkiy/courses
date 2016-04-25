@@ -10,7 +10,7 @@ import java.util.Map;
 /**
  * Created by Денис on 4/14/16.
  */
-public class TableMemento {
+public class TableMemento implements Memento {
     private Map<String, Integer> players = new HashMap<>();
     private List<Bet> bets = new ArrayList<>();
 

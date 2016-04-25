@@ -1,9 +1,11 @@
 package com.courses.spalah;
 
+import java.io.Serializable;
+
 /**
  * Created by spalah on 24.02.2016.
  */
-public class RouletteNumber {
+public class RouletteNumber implements Serializable {
     private int number;
     private String color;
 
