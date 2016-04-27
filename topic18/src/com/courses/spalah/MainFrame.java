@@ -17,7 +17,7 @@ public class MainFrame extends JFrame {
     private volatile ArrayList<Circle> container;
     private Random size;
 
-    public MainFrame(String s){
+    public MainFrame(String s) {
         super(s);
         mainScreen = new JPanel();
         add(mainScreen);
@@ -36,46 +36,56 @@ public class MainFrame extends JFrame {
         mainFrame.play();
     }
 
-    private void play(){
+    private void play() {
         Graphics graphics = getGraphics();
         new Thread(new Runnable() {
             @Override
             public void run() {
-                while(true){
-                    for(Circle circle : container){
-                        circle.move(graphics);
+                while (true) {
+                    System.out.println("run draw");
+                    for (Circle circle : container) {
+                        circle.draw(graphics);
                     }
                     try {
                         Thread.sleep(10);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    graphics.clearRect(0,0,800,600);
+                    graphics.clearRect(0, 0, 800, 600);
                 }
             }
         }).start();
     }
 
-    private void panelClickListener(){
+    private void panelClickListener() {
         mainScreen.addMouseListener(new MouseListener() {
                                         @Override
-                                        public void mouseClicked(MouseEvent e) {}
+                                        public void mouseClicked(MouseEvent e) {
+                                        }
+
                                         @Override
                                         public void mousePressed(MouseEvent e) {
                                             int x = e.getX();
                                             int y = e.getY();
-                                            int diameter = size.nextInt(121)+30;
+                                            int diameter = size.nextInt(121) + 30;
                                             Color color = randomColor.getRandomColor();
-                                            Circle circle = new Circle(x-diameter/2, y, diameter, color);
-                                            container.add(circle);
-                                            System.out.println(container.size());
+                                            if (container.size() < 20) {
+                                                Circle circle = new Circle(x - diameter / 2, y, diameter, color);
+                                                container.add(circle);
+                                            }
                                         }
+
                                         @Override
-                                        public void mouseReleased(MouseEvent e) {}
+                                        public void mouseReleased(MouseEvent e) {
+                                        }
+
                                         @Override
-                                        public void mouseEntered(MouseEvent e) {}
+                                        public void mouseEntered(MouseEvent e) {
+                                        }
+
                                         @Override
-                                        public void mouseExited(MouseEvent e) {}
+                                        public void mouseExited(MouseEvent e) {
+                                        }
                                     }
         );
     }

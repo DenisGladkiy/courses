@@ -6,15 +6,39 @@ import java.util.Random;
 /**
  * Created by Денис on 4/20/16.
  */
-public class RandomColor {
+public class RandomColor implements Runnable {
+    Color color;
 
-    public Color getRandomColor(){
+    public RandomColor() {
+        this.color = makeRandomColor();
+    }
+
+    @Override
+    public void run() {
+        while (true) {
+            this.color = makeRandomColor();
+            sleep(10);
+        }
+    }
+
+    private void sleep(int time) {
+        try {
+            Thread.sleep(time);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private Color makeRandomColor() {
         Random random = new Random();
         int r = random.nextInt(255);
         int g = random.nextInt(255);
         int b = random.nextInt(255);
-        Color color = new Color(r, g, b);
+        color = new Color(r, g, b);
         return color;
     }
 
+    public Color getRandomColor() {
+        return color;
+    }
 }
