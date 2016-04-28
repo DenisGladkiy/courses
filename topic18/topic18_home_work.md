@@ -19,4 +19,4 @@
 
 *подсказка - прорисовывать шарики необходимо в отдельном от свинга потоке
 
- <p>![](https://github.com/rxn1d/courses/blob/master/topic18/Untitled%20Diagram.png "Примерный вид приложения")
+ <p>![](https://github.com/rxn1d/courses/blob/master/topic18/balls.png "Примерный вид приложения")

@@ -202,3 +202,23 @@
 
 [ДЗ #19](https://github.com/rxn1d/courses/blob/master/topic19/topic19_home_work.md)
 * Улучшаем наше приложение с шариками
+
+20\. Многопоточность с практической точки зрения
+* Thread.sleep
+* Atomics
+* Синхронизация
+  + Ключевое слово synhronize
+  + Synhronize блок кода
+  + Synhronize метод
+  + Synhronize статический метод
+  + Ограничения синхронизации
+* Volatile
+  + Видимость данных
+  + Гарантированная видимость с volatile
+  + Принцип Happens Before
+  + Почему volatile не всегда достаточно?
+* Общение между потоками
+
+[ДЗ #20](https://github.com/rxn1d/courses/blob/master/topic20/topic20_home_work.md)
+* Приложение для визуализации алгоритмов сортировки
+* Приложение типа producer-consumer

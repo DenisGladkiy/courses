@@ -5,96 +5,125 @@ package com.courses.spalah;
  */
 public class ThreadCommunication {
     public static void main(String[] args) throws InterruptedException {
-        join();
+        missedSignal();
     }
 
-    public static void sleep() throws InterruptedException {
-        Thread.sleep(1000); // заставляет заснуть текущий поток на 1000 миллисекунд
+    public static void waitNotify() throws InterruptedException {
+        Object obj = new Object();
+        Thread thread = new Thread(new WaitingWorker(obj), "worker#1");
+        thread.start();
+
+        Thread.sleep(1000);
+        System.out.println("MAIN THREAD SLEEP FOR 1 SEC");
+
+        synchronized (obj) {
+            obj.notify();
+            Thread.sleep(2000);
+            System.out.println("SLEEP AFTER NOTIFY 2 SEC");
+        }
     }
 
-    public static void interruptWithException() throws InterruptedException {
-        Runnable interruptedRunnable = new Runnable() {
-            @Override
-            public void run() {
-                while (true) {
-                    try {
-                        Thread.sleep(50); // нас могут попытаться прервать пока мы спим
-                        System.out.println("I'M WORKING HARD!");
-                    } catch (InterruptedException e) {
-                        System.out.println("HEY! I WAS INTERRUPTED :(");
-                        return;
-                    }
-                }
+    public static void missedSignal() throws InterruptedException {
+        Object obj = new Object();
+        Thread thread = new Thread(new MissWaitingWorker(obj), "miss waiting worker#1");
+        thread.start();
+
+        Thread.sleep(2000);
+        System.out.println("MAIN THREAD SLEEP FOR 2 SEC");
+
+        synchronized (obj) {
+            obj.notify();
+            Thread.sleep(2000);
+            System.out.println("SLEEP AFTER NOTIFY 2 SEC");
+        }
+    }
+
+    public static void waitNotifyAll() throws InterruptedException {
+        Object obj = new Object();
+
+        Thread thread1 = new Thread(new WaitingWorker(obj), "worker#1");
+        thread1.start();
+        Thread thread2 = new Thread(new WaitingWorker(obj), "worker#2");
+        thread2.start();
+        Thread thread3 = new Thread(new WaitingWorker(obj), "worker#3");
+        thread3.start();
+
+        Thread.sleep(1000);
+        System.out.println("MAIN THREAD SLEEP FOR 1 SEC");
+
+        synchronized (obj) {
+            obj.notifyAll();
+            Thread.sleep(2000);
+            System.out.println("SLEEP AFTER NOTIFY 2 SEC");
+        }
+    }
+}
+
+class Signal {
+    private boolean workDone;
+
+    public synchronized boolean isWorkDone() {
+        return workDone;
+    }
+
+    public synchronized void setWorkDone(boolean workDone) {
+        this.workDone = workDone;
+    }
+}
+
+class SignalWorker implements Runnable {
+    private Signal signal; // сигнал для общения между потоками
+
+    @Override
+    public void run() {
+        while (!signal.isWorkDone()) {
+            // ничего не делаем, но расходуем процессорное время =(
+        }
+    }
+}
+
+class MissWaitingWorker extends WaitingWorker {
+    public MissWaitingWorker(Object object) {
+        super(object);
+    }
+
+    @Override
+    public void run() {
+        System.out.println(Thread.currentThread().getName() + " WAITING IN NOT SYNCHRONIZED BLOCK");
+        try {
+            Thread.sleep(10000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        synchronized (object) {
+            try {
+                object.wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
-        };
+            System.out.println(System.currentTimeMillis() + " " + Thread.currentThread().getName() + " DO MY WORK");
+        }
+    }
+}
 
-        Thread t1 = new Thread(interruptedRunnable);
-        t1.start();
-        Thread.sleep(300); // даем t1 немного поработать
-        t1.interrupt(); // прерываем поток в t1
+class WaitingWorker implements Runnable {
+    public Object object;
+
+    public WaitingWorker(Object object) {
+        this.object = object;
     }
 
-    public static void interruptWithFlag() throws InterruptedException {
-        Runnable interruptedRunnable = new Runnable() {
-            @Override
-            public void run() {
-                while (true) {
-                    try {
-                        System.out.println("I'M WORKING HARD!");
-                        if (Thread.interrupted()) throw new InterruptedException(); // проверяем на прерывание
-                    } catch (InterruptedException e) {
-                        System.out.println("HEY! I WAS INTERRUPTED :(");
-                        return;
-                    }
-                }
+    @Override
+    public void run() {
+        synchronized (object) {
+            System.out.println(Thread.currentThread().getName() + " WAITING");
+            try {
+                object.wait();
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
-        };
-
-        Thread t1 = new Thread(interruptedRunnable);
-        t1.start();
-        Thread.sleep(1); // даем t1 немного поработать
-        t1.interrupt(); // прерываем поток в t1
-    }
-
-    public static void checkInterrupted() throws InterruptedException {
-        Thread current = Thread.currentThread();
-        Runnable interruptedRunnable = new Runnable() {
-            @Override
-            public void run() {
-                while (!current.isInterrupted()) { // ничего не делаем пока основной поток не был прерван
-                    System.out.println("DOING NOTHING =(");
-                }
-                for (int i = 0; i < 10; i++) {
-                    System.out.println("I'M WOKING HARD");
-                }
-            }
-        };
-        Thread t1 = new Thread(interruptedRunnable);
-        t1.start();
-        Thread.sleep(1); // даем t1 немного поработать
-        current.interrupt(); // прерываем текущий поток
-    }
-
-    public static void join() throws InterruptedException {
-        Thread current = Thread.currentThread();
-        Runnable interruptedRunnable = new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    current.join(); // ждем пока основной потока закончит свою работу
-                } catch (InterruptedException e) {
-                    System.out.println("HEY! I WAS INTERRUPTED :(");
-                    return;
-                }
-                for (int i = 0; i < 10; i++) {
-                    System.out.println("I'M WOKING HARD");
-                }
-            }
-        };
-
-        Thread t1 = new Thread(interruptedRunnable);
-        t1.start();
-        Thread.sleep(100); // имитируем бурную деятельность
-        System.out.println("FINISH MAIN ACTIVITY");
+            System.out.println(System.currentTimeMillis() + " " + Thread.currentThread().getName() + " DO MY WORK");
+        }
     }
 }
