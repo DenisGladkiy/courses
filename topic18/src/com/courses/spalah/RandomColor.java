@@ -8,8 +8,10 @@ import java.util.Random;
  */
 public class RandomColor implements Runnable {
     Color color;
+    Random random;
 
     public RandomColor() {
+        random = new Random();
         this.color = makeRandomColor();
     }
 
@@ -30,7 +32,6 @@ public class RandomColor implements Runnable {
     }
 
     private Color makeRandomColor() {
-        Random random = new Random();
         int r = random.nextInt(255);
         int g = random.nextInt(255);
         int b = random.nextInt(255);

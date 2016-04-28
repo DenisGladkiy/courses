@@ -42,7 +42,6 @@ public class MainFrame extends JFrame {
             @Override
             public void run() {
                 while (true) {
-                    System.out.println("run draw");
                     for (Circle circle : container) {
                         circle.draw(graphics);
                     }
