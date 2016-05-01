@@ -7,7 +7,7 @@ import java.util.Collections;
  * Created by Денис on 4/28/16.
  */
 public class RandomArray {
-    ArrayList arrayList;
+    ArrayList<Integer> arrayList;
 
     public static void main(String[] args) {
         RandomArray array = new RandomArray();
@@ -24,5 +24,10 @@ public class RandomArray {
         }
         Collections.shuffle(arrayList);
         System.out.println(arrayList);
+    }
+
+    public ArrayList<Integer> getArray(){
+        ArrayList<Integer> list = new ArrayList<>(arrayList);
+        return list;
     }
 }
