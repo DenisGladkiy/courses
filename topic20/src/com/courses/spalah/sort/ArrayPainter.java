@@ -28,4 +28,6 @@ public class ArrayPainter extends JPanel {
     public void setArrayList(ArrayList<Integer> arrayList){
         this.arrayList = arrayList;
     }
+
+
 }

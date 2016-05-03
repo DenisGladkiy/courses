@@ -10,11 +10,14 @@ import java.util.ArrayList;
 public class MainFrame extends JFrame {
     static Thread BubbleThread;
     static Thread InsertionThread;
+    static Thread QuickThread;
     static Thread mainThread;
     static ArrayList<Integer> arrayList;
     static ArrayList<Integer> arrayList1;
+    static ArrayList<Integer> arrayList2;
     BubbleSort bubbleSort;
     InsertionSort insertionSort;
+    QuickSort quickSort;
 
     public MainFrame(String s) {
         super(s);
@@ -32,17 +35,20 @@ public class MainFrame extends JFrame {
         mainThread.start();
         BubbleThread.start();
         InsertionThread.start();
-
+        QuickThread.start();
     }
 
     private void init(){
         RandomArray randomArray = new RandomArray();
         arrayList = randomArray.getArray();
         arrayList1 = randomArray.getArray();
+        arrayList2 = randomArray.getArray();
         bubbleSort = new BubbleSort(arrayList);
         BubbleThread = new Thread(bubbleSort);
         insertionSort = new InsertionSort(arrayList1);
         InsertionThread = new Thread(insertionSort);
+        quickSort = new QuickSort(arrayList2);
+        QuickThread = new Thread(quickSort);
     }
 
     private class MainThread implements Runnable{
@@ -50,15 +56,20 @@ public class MainFrame extends JFrame {
         public void run() {
             arrayList = bubbleSort.postArray();
             arrayList1 = insertionSort.postArray();
+            arrayList2 = quickSort.postArray();
             ArrayPainter arrayPainter1 = new ArrayPainter(arrayList);
             ArrayPainter arrayPainter2 = new ArrayPainter(arrayList1);
+            ArrayPainter arrayPainter3 = new ArrayPainter(arrayList2);
             add(arrayPainter1);
             add(arrayPainter2);
+            add(arrayPainter3);
             arrayPainter1.setPreferredSize(new Dimension(750, 110));
             arrayPainter2.setPreferredSize(new Dimension(750, 110));
+            arrayPainter3.setPreferredSize(new Dimension(750, 110));
             while(BubbleThread.isAlive()) {
                 arrayPainter1.setArrayList(arrayList);
                 arrayPainter2.setArrayList(arrayList1);
+                arrayPainter3.setArrayList(arrayList2);
                 repaint();
             }
         }

@@ -25,9 +25,7 @@ public class InsertionSort implements Runnable {
                     e.printStackTrace();
                 }
                 if(arrayList.get(j) < arrayList.get(j-1)){
-                    temp = arrayList.get(j);
                     Collections.swap(arrayList, j, j-1);
-                    arrayList.set(j-1, temp);
                 }
             }
         }
