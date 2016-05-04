@@ -7,7 +7,8 @@ import java.util.Collections;
  * Created by Denis on 01.05.2016.
  */
 public class QuickSort implements Runnable {
-    ArrayList<Integer> arrayList;
+    private ArrayList<Integer> arrayList;
+
 
     public QuickSort(ArrayList<Integer> arrayList) {
         this.arrayList = arrayList;
