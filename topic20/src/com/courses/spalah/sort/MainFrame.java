@@ -2,6 +2,8 @@ package com.courses.spalah.sort;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 /**
@@ -30,6 +32,14 @@ public class MainFrame extends JFrame {
     BogoSort bogoSort;
     HeapSort heapSort;
     Dimension arrayDim;
+    ActionListener listener;
+    ArrayPainter arrayPainter;
+    ArrayPainter arrayPainter1;
+    ArrayPainter arrayPainter2;
+    ArrayPainter arrayPainter3;
+    ArrayPainter arrayPainter4;
+    ArrayPainter arrayPainter5;
+    ArrayPainter initArrayPainter;
 
     public MainFrame(String s) {
         super(s);
@@ -44,18 +54,26 @@ public class MainFrame extends JFrame {
         mainFrame.setSize(800, 750);
         mainFrame.setLayout(new FlowLayout());
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        mainThread.start();
-        BubbleThread.start();
-        InsertionThread.start();
-        QuickThread.start();
-        MergeThread.start();
-        BogoThread.start();
-        HeapThread.start();
+
     }
 
-    private void init(){
+    private void init() {
+        initActionListener();
         initial = new JLabel("Initial array");
         bubble = new JLabel("Bubble sort");
+        insertion = new JLabel("Insertion sort");
+        quick = new JLabel("Quick sort");
+        merge = new JLabel("Merge sort");
+        bogo = new JLabel("Bogosort");
+        heap = new JLabel("Heap sort");
+        generate = new JButton("Generate");
+        generate.addActionListener(listener);
+        start = new JButton("Start");
+        start.addActionListener(listener);
+        pause = new JButton("Pause");
+        pause.addActionListener(listener);
+        clear = new JButton("Clear");
+        clear.addActionListener(listener);
         RandomArray randomArray = new RandomArray();
         ArrayList<Integer> initArrayList = randomArray.getArray();
         arrayList = randomArray.getArray();
@@ -77,15 +95,75 @@ public class MainFrame extends JFrame {
         heapSort = new HeapSort(arrayList5);
         HeapThread = new Thread(heapSort);
         arrayDim = new Dimension(750, 60);
-        ArrayPainter initArrayPainter = new ArrayPainter(initArrayList);
-        add(initial);
-        add(initArrayPainter);
-        initArrayPainter.setPreferredSize(arrayDim);
+        initArrayPainter = new ArrayPainter(initArrayList);
+        arrayPainter = new ArrayPainter(arrayList);
+        arrayPainter1 = new ArrayPainter(arrayList1);
+        arrayPainter2 = new ArrayPainter(arrayList2);
+        arrayPainter3 = new ArrayPainter(arrayList3);
+        arrayPainter4 = new ArrayPainter(arrayList4);
+        arrayPainter5 = new ArrayPainter(arrayList5);
+        gui();
     }
 
-    private class MainThread implements Runnable{
+    private void initActionListener() {
+        listener = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (e.getSource() == generate) {
+                    System.out.println("generate");
+                }
+                if (e.getSource() == start) {
+                    mainThread.start();
+                    BubbleThread.start();
+                    InsertionThread.start();
+                    QuickThread.start();
+                    MergeThread.start();
+                    BogoThread.start();
+                    HeapThread.start();
+                }
+                if (e.getSource() == pause) {
+                    System.out.println("pause");
+                }
+                if (e.getSource() == clear) {
+                    System.out.println("clear");
+                }
+            }
+        };
+    }
+
+    private void gui() {
+        add(initial);
+        add(initArrayPainter);
+        add(bubble);
+        add(arrayPainter);
+        add(insertion);
+        add(arrayPainter1);
+        add(quick);
+        add(arrayPainter2);
+        add(merge);
+        add(arrayPainter3);
+        add(bogo);
+        add(arrayPainter4);
+        add(heap);
+        add(arrayPainter5);
+        add(generate);
+        add(start);
+        add(pause);
+        add(clear);
+        initArrayPainter.setPreferredSize(arrayDim);
+        arrayPainter.setPreferredSize(arrayDim);
+        arrayPainter1.setPreferredSize(arrayDim);
+        arrayPainter2.setPreferredSize(arrayDim);
+        arrayPainter3.setPreferredSize(arrayDim);
+        arrayPainter4.setPreferredSize(arrayDim);
+        arrayPainter5.setPreferredSize(arrayDim);
+    }
+
+
+    private class MainThread implements Runnable {
         @Override
         public void run() {
+
             arrayList = bubbleSort.postArray();
             arrayList1 = insertionSort.postArray();
             arrayList2 = quickSort.postArray();
@@ -93,28 +171,7 @@ public class MainFrame extends JFrame {
             arrayList4 = bogoSort.postArray();
             arrayList5 = heapSort.postArray();
 
-            ArrayPainter arrayPainter = new ArrayPainter(arrayList);
-            ArrayPainter arrayPainter1 = new ArrayPainter(arrayList1);
-            ArrayPainter arrayPainter2 = new ArrayPainter(arrayList2);
-            ArrayPainter arrayPainter3 = new ArrayPainter(arrayList3);
-            ArrayPainter arrayPainter4 = new ArrayPainter(arrayList4);
-            ArrayPainter arrayPainter5 = new ArrayPainter(arrayList5);
-
-            add(bubble);
-            add(arrayPainter);
-            add(arrayPainter1);
-            add(arrayPainter2);
-            add(arrayPainter3);
-            add(arrayPainter4);
-            add(arrayPainter5);
-
-            arrayPainter.setPreferredSize(arrayDim);
-            arrayPainter1.setPreferredSize(arrayDim);
-            arrayPainter2.setPreferredSize(arrayDim);
-            arrayPainter3.setPreferredSize(arrayDim);
-            arrayPainter4.setPreferredSize(arrayDim);
-            arrayPainter5.setPreferredSize(arrayDim);
-            while(BubbleThread.isAlive() || InsertionThread.isAlive()) {
+            while (BubbleThread.isAlive() || InsertionThread.isAlive()) {
                 arrayPainter.setArrayList(arrayList);
                 arrayPainter1.setArrayList(arrayList1);
                 arrayPainter2.setArrayList(arrayList2);
