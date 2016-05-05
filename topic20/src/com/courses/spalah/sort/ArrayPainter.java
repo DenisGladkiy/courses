@@ -16,11 +16,12 @@ public class ArrayPainter extends JPanel {
 
     public void paint(Graphics g){
         int x = 5;
-        int y = 110;
+        int y = 60;
         int width = 6;
         g.setColor(Color.BLUE);
         for(Integer element: arrayList) {
-            g.fillRect(x, y - element, width, element);
+            int height = element/2;
+            g.fillRect(x, y - height, width, height);
             x += width + 1;
         }
     }
