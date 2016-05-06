@@ -19,6 +19,7 @@ public class MainFrame extends JFrame {
     static Thread mainThread;
     JButton generate, start, pause, clear;
     JLabel initial, bubble, insertion, quick, merge, bogo, heap;
+    ArrayList<Integer> initArrayList;
     ArrayList<Integer> arrayList;
     ArrayList<Integer> arrayList1;
     ArrayList<Integer> arrayList2;
@@ -40,12 +41,11 @@ public class MainFrame extends JFrame {
     ArrayPainter arrayPainter4;
     ArrayPainter arrayPainter5;
     ArrayPainter initArrayPainter;
+    RandomArray randomArray;
 
     public MainFrame(String s) {
         super(s);
-        init();
-        MainThread mThread = new MainThread();
-        mainThread = new Thread(mThread);
+        gui();
     }
 
     public static void main(String[] args) {
@@ -54,11 +54,90 @@ public class MainFrame extends JFrame {
         mainFrame.setSize(800, 750);
         mainFrame.setLayout(new FlowLayout());
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
     }
 
     private void init() {
+        MainThread mThread = new MainThread();
+        mainThread = new Thread(mThread);
+        initArrays();
+        bubbleSort = new BubbleSort(arrayList);
+        BubbleThread = new Thread(bubbleSort);
+        insertionSort = new InsertionSort(arrayList1);
+        InsertionThread = new Thread(insertionSort);
+        quickSort = new QuickSort(arrayList2);
+        QuickThread = new Thread(quickSort);
+        mergeSort = new MergeSort(arrayList3);
+        MergeThread = new Thread(mergeSort);
+        bogoSort = new BogoSort(arrayList4);
+        BogoThread = new Thread(bogoSort);
+        heapSort = new HeapSort(arrayList5);
+        HeapThread = new Thread(heapSort);
+        initArrayPainter.setArrayList(initArrayList);
+        refreshArrays();
+        repaint();
+    }
+
+    private void initActionListener() {
+        listener = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (e.getSource() == generate) {
+                    init();
+                }
+                if (e.getSource() == start) {
+                    if (mainThread != null && !mainThread.isAlive()) {
+                        startThreads();
+                    }
+                }
+                if (e.getSource() == pause) {
+                    pauseThreads();
+                }
+                if (e.getSource() == clear) {
+                    mainThread = null;
+                    clearAll();
+                    repaint();
+                }
+            }
+        };
+    }
+
+    private void startThreads() {
+        mainThread.start();
+        BubbleThread.start();
+        InsertionThread.start();
+        QuickThread.start();
+        MergeThread.start();
+        BogoThread.start();
+        HeapThread.start();
+    }
+
+    private void pauseThreads() {
+        bogoSort.pause();
+        bubbleSort.pause();
+        heapSort.pause();
+        insertionSort.pause();
+        mergeSort.pause();
+        quickSort.pause();
+    }
+
+
+    private void gui() {
+        arrayDim = new Dimension(750, 60);
         initActionListener();
+        initArrayPainter = new ArrayPainter(initArrayList);
+        arrayPainter = new ArrayPainter(arrayList);
+        arrayPainter1 = new ArrayPainter(arrayList1);
+        arrayPainter2 = new ArrayPainter(arrayList2);
+        arrayPainter3 = new ArrayPainter(arrayList3);
+        arrayPainter4 = new ArrayPainter(arrayList4);
+        arrayPainter5 = new ArrayPainter(arrayList5);
+        initArrayPainter.setPreferredSize(arrayDim);
+        arrayPainter.setPreferredSize(arrayDim);
+        arrayPainter1.setPreferredSize(arrayDim);
+        arrayPainter2.setPreferredSize(arrayDim);
+        arrayPainter3.setPreferredSize(arrayDim);
+        arrayPainter4.setPreferredSize(arrayDim);
+        arrayPainter5.setPreferredSize(arrayDim);
         initial = new JLabel("Initial array");
         bubble = new JLabel("Bubble sort");
         insertion = new JLabel("Insertion sort");
@@ -74,64 +153,6 @@ public class MainFrame extends JFrame {
         pause.addActionListener(listener);
         clear = new JButton("Clear");
         clear.addActionListener(listener);
-        RandomArray randomArray = new RandomArray();
-        ArrayList<Integer> initArrayList = randomArray.getArray();
-        arrayList = randomArray.getArray();
-        arrayList1 = randomArray.getArray();
-        arrayList2 = randomArray.getArray();
-        arrayList3 = randomArray.getArray();
-        arrayList4 = randomArray.getArray();
-        arrayList5 = randomArray.getArray();
-        bubbleSort = new BubbleSort(arrayList);
-        BubbleThread = new Thread(bubbleSort);
-        insertionSort = new InsertionSort(arrayList1);
-        InsertionThread = new Thread(insertionSort);
-        quickSort = new QuickSort(arrayList2);
-        QuickThread = new Thread(quickSort);
-        mergeSort = new MergeSort(arrayList3);
-        MergeThread = new Thread(mergeSort);
-        bogoSort = new BogoSort(arrayList4);
-        BogoThread = new Thread(bogoSort);
-        heapSort = new HeapSort(arrayList5);
-        HeapThread = new Thread(heapSort);
-        arrayDim = new Dimension(750, 60);
-        initArrayPainter = new ArrayPainter(initArrayList);
-        arrayPainter = new ArrayPainter(arrayList);
-        arrayPainter1 = new ArrayPainter(arrayList1);
-        arrayPainter2 = new ArrayPainter(arrayList2);
-        arrayPainter3 = new ArrayPainter(arrayList3);
-        arrayPainter4 = new ArrayPainter(arrayList4);
-        arrayPainter5 = new ArrayPainter(arrayList5);
-        gui();
-    }
-
-    private void initActionListener() {
-        listener = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (e.getSource() == generate) {
-                    System.out.println("generate");
-                }
-                if (e.getSource() == start) {
-                    mainThread.start();
-                    BubbleThread.start();
-                    InsertionThread.start();
-                    QuickThread.start();
-                    MergeThread.start();
-                    BogoThread.start();
-                    HeapThread.start();
-                }
-                if (e.getSource() == pause) {
-                    System.out.println("pause");
-                }
-                if (e.getSource() == clear) {
-                    System.out.println("clear");
-                }
-            }
-        };
-    }
-
-    private void gui() {
         add(initial);
         add(initArrayPainter);
         add(bubble);
@@ -150,13 +171,38 @@ public class MainFrame extends JFrame {
         add(start);
         add(pause);
         add(clear);
-        initArrayPainter.setPreferredSize(arrayDim);
-        arrayPainter.setPreferredSize(arrayDim);
-        arrayPainter1.setPreferredSize(arrayDim);
-        arrayPainter2.setPreferredSize(arrayDim);
-        arrayPainter3.setPreferredSize(arrayDim);
-        arrayPainter4.setPreferredSize(arrayDim);
-        arrayPainter5.setPreferredSize(arrayDim);
+    }
+
+    private void initArrays() {
+        randomArray = new RandomArray();
+        initArrayList = randomArray.getArray();
+        arrayList = randomArray.getArray();
+        arrayList1 = randomArray.getArray();
+        arrayList2 = randomArray.getArray();
+        arrayList3 = randomArray.getArray();
+        arrayList4 = randomArray.getArray();
+        arrayList5 = randomArray.getArray();
+    }
+
+    private void refreshArrays() {
+        arrayPainter.setArrayList(arrayList);
+        arrayPainter1.setArrayList(arrayList1);
+        arrayPainter2.setArrayList(arrayList2);
+        arrayPainter3.setArrayList(arrayList3);
+        arrayPainter4.setArrayList(arrayList4);
+        arrayPainter5.setArrayList(arrayList5);
+    }
+
+    private void clearAll() {
+        initArrayList = null;
+        arrayList = null;
+        arrayList1 = null;
+        arrayList2 = null;
+        arrayList3 = null;
+        arrayList4 = null;
+        arrayList5 = null;
+        initArrayPainter.setArrayList(initArrayList);
+        refreshArrays();
     }
 
 
@@ -172,12 +218,7 @@ public class MainFrame extends JFrame {
             arrayList5 = heapSort.postArray();
 
             while (BubbleThread.isAlive() || InsertionThread.isAlive()) {
-                arrayPainter.setArrayList(arrayList);
-                arrayPainter1.setArrayList(arrayList1);
-                arrayPainter2.setArrayList(arrayList2);
-                arrayPainter3.setArrayList(arrayList3);
-                arrayPainter4.setArrayList(arrayList4);
-                arrayPainter5.setArrayList(arrayList5);
+                refreshArrays();
                 repaint();
             }
         }

@@ -10,25 +10,25 @@ import java.util.ArrayList;
 public class ArrayPainter extends JPanel {
     ArrayList<Integer> arrayList;
 
-    public ArrayPainter(ArrayList<Integer> arrayList){
+    public ArrayPainter(ArrayList<Integer> arrayList) {
         this.arrayList = arrayList;
     }
 
-    public void paint(Graphics g){
+    public void paint(Graphics g) {
         int x = 5;
         int y = 60;
         int width = 6;
         g.setColor(Color.BLUE);
-        for(Integer element: arrayList) {
-            int height = element/2;
-            g.fillRect(x, y - height, width, height);
-            x += width + 1;
+        if (arrayList != null) {
+            for (Integer element : arrayList) {
+                int height = element / 2;
+                g.fillRect(x, y - height, width, height);
+                x += width + 1;
+            }
         }
     }
 
-    public void setArrayList(ArrayList<Integer> arrayList){
+    public void setArrayList(ArrayList<Integer> arrayList) {
         this.arrayList = arrayList;
     }
-
-
 }

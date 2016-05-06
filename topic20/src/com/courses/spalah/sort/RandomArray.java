@@ -13,20 +13,20 @@ public class RandomArray {
         RandomArray array = new RandomArray();
     }
 
-    public RandomArray(){
+    public RandomArray() {
         arrayList = new ArrayList();
         fillArray();
     }
 
     private void fillArray() {
-        for(int i = 1; i < 101; i++){
+        for (int i = 1; i < 101; i++) {
             arrayList.add(i);
         }
         Collections.shuffle(arrayList);
         System.out.println(arrayList);
     }
 
-    public ArrayList<Integer> getArray(){
+    public ArrayList<Integer> getArray() {
         ArrayList<Integer> list = new ArrayList<>(arrayList);
         return list;
     }

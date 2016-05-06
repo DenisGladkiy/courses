@@ -5,8 +5,7 @@ import java.util.ArrayList;
 /**
  * Created by Denis on 01.05.2016.
  */
-public class MergeSort implements Runnable {
-    private ArrayList<Integer> arrayList;
+public class MergeSort extends Sort {
     private ArrayList<Integer> tempArray;
     private int length;
 
@@ -30,13 +29,11 @@ public class MergeSort implements Runnable {
     }
 
     private void mergeParts(int low, int middle, int high) {
-
         tempArray = new ArrayList<>(arrayList);
         int i = low;
         int j = middle + 1;
         int k = low;
         while (i <= middle && j <= high) {
-            sleep(2);
             if (tempArray.get(i) <= tempArray.get(j)) {
                 arrayList.set(k, tempArray.get(i));
                 i++;
@@ -45,24 +42,21 @@ public class MergeSort implements Runnable {
                 j++;
             }
             k++;
+            sleep(2);
+            waitPause();
         }
         while (i <= middle) {
-            sleep(2);
             arrayList.set(k, tempArray.get(i));
             k++;
             i++;
+            sleep(2);
+            waitPause();
         }
     }
 
-    public ArrayList<Integer> postArray(){
-        return arrayList;
-    }
-
-    private void sleep(int time){
-        try {
-            Thread.sleep(time);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+    private void waitPause() {
+        while (pause) {
+            sleep(100);
         }
     }
 }

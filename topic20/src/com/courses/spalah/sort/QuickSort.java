@@ -6,10 +6,7 @@ import java.util.Collections;
 /**
  * Created by Denis on 01.05.2016.
  */
-public class QuickSort implements Runnable {
-    private ArrayList<Integer> arrayList;
-
-
+public class QuickSort extends Sort {
     public QuickSort(ArrayList<Integer> arrayList) {
         this.arrayList = arrayList;
     }
@@ -24,15 +21,17 @@ public class QuickSort implements Runnable {
     private void doSort(int start, int end) {
         int i = start;
         int j = end;
-        int pivot = arrayList.get(start + (end-start)/2);
+        int pivot = arrayList.get(start + (end - start) / 2);
         while (i <= j) {
             while (arrayList.get(i) < pivot) {
                 i++;
                 sleep(2);
+                waitPause();
             }
             while (arrayList.get(j) > pivot) {
                 j--;
                 sleep(2);
+                waitPause();
             }
             if (i <= j) {
                 Collections.swap(arrayList, i, j);
@@ -40,24 +39,17 @@ public class QuickSort implements Runnable {
                 j--;
             }
             sleep(2);
+            waitPause();
         }
         if (start < j)
             doSort(start, j);
         if (i < end)
             doSort(i, end);
-        sleep(2);
     }
 
-
-    public ArrayList<Integer> postArray(){
-        return arrayList;
-    }
-
-    private void sleep(int time){
-        try {
-            Thread.sleep(time);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+    private void waitPause() {
+        while (pause) {
+            sleep(100);
         }
     }
 }
