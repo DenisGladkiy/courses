@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.courses.spalah.entity.OwnerEntity" table="owner">
+        <id column="idowner" name="idowner" type="int">
+            <generator class="native"/>
+        </id>
+        <property column="name" name="name" type="String"/>
+        <property column="surname" name="surname" type="String"/>
+        <property column="phone" name="phone" type="int"/>
+    </class>
+</hibernate-mapping>

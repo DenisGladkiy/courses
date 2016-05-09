@@ -1,8 +1,13 @@
 package com.courses.spalah.entity;
 
+import org.hibernate.annotations.Entity;
+import org.hibernate.annotations.Table;
+
 /**
  * Created by Денис on 3/25/16.
  */
+
+
 public class AdvertEntity {
     private int carId;
     private int price;

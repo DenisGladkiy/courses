@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.courses.spalah.entity.CarEntity" table="car">
+        <id column="idcar" name="idcar" type="int">
+            <generator class="native"/>
+        </id>
+        <many-to-one name="idowner" column="idowner" fetch="join"
+                     class="com.courses.spalah.entity.OwnerEntity"/>
+        <property column="year" name="year" type="int"/>
+        <property column="manufacturer" name="manufacturer" type="String"/>
+        <property column="model" name="model" type="String"/>
+        <property column="vin" name="vin" type="String"/>
+        <property column="description" name="description" type="String"/>
+    </class>
+</hibernate-mapping>
