@@ -9,7 +9,7 @@
             <generator class="native"/>
         </id>
         <property column="price" name="price" type="int"/>
-        <many-to-one name="idcar" column="idcar" fetch="join"
+        <many-to-one name="carId" column="idcar" fetch="join"
                      class="com.courses.spalah.entity.CarEntity"/>
     </class>
 </hibernate-mapping>

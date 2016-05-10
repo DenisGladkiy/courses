@@ -8,8 +8,8 @@
         <id column="idowner" name="idowner" type="int">
             <generator class="native"/>
         </id>
-        <property column="name" name="name" type="String"/>
-        <property column="surname" name="surname" type="String"/>
+        <property column="name" name="name" type="string"/>
+        <property column="surname" name="surname" type="string"/>
         <property column="phone" name="phone" type="int"/>
     </class>
 </hibernate-mapping>

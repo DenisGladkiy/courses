@@ -4,6 +4,8 @@ package com.courses.spalah.entity;
  * Created by Денис on 3/25/16.
  */
 public class OwnerEntity {
+
+    private int idowner;
     private String name;
     private String surname;
     private int phone;
@@ -15,6 +17,14 @@ public class OwnerEntity {
         this.name = name;
         this.surname = surname;
         this.phone = phone;
+    }
+    
+    public int getIdowner() {
+        return idowner;
+    }
+
+    public void setIdowner(int idowner) {
+        this.idowner = idowner;
     }
 
     public String getName() {
