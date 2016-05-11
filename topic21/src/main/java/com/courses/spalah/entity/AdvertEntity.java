@@ -10,23 +10,23 @@ import org.hibernate.annotations.Table;
 
 public class AdvertEntity {
     private int idadvert;
-    private int carId;
+    private CarEntity car;
     private int price;
 
     public AdvertEntity() {
     }
 
-    public AdvertEntity(int carId, int price) {
-        this.carId = carId;
+    public AdvertEntity(CarEntity car, int price) {
+        this.car = car;
         this.price = price;
     }
 
-    public int getCarId() {
-        return carId;
+    public CarEntity getCar() {
+        return car;
     }
 
-    public void setCarId(int carId) {
-        this.carId = carId;
+    public void setCar(CarEntity car) {
+        this.car = car;
     }
 
     public int getPrice() {
@@ -48,7 +48,7 @@ public class AdvertEntity {
     @Override
     public String toString() {
         return "AdvertEntity{" +
-                ", carId=" + carId +
+                ", carId=" + car +
                 ", price=" + price +
                 '}';
     }

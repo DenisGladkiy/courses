@@ -35,9 +35,9 @@ public class InsertData {
         return ownerEntity;
     }
 
-    private static CarEntity createCar(String[] car, OwnerEntity ownerId) {
+    private static CarEntity createCar(String[] car, OwnerEntity owner) {
         CarEntity carEntity = new CarEntity();
-        carEntity.setOwnerId(ownerId);
+        carEntity.setOwner(owner);
         carEntity.setManufacturer(car[0]);
         carEntity.setModel(car[1]);
         carEntity.setYear(Integer.parseInt(car[2].replaceAll("\\s+", "")));
@@ -46,9 +46,9 @@ public class InsertData {
         return carEntity;
     }
 
-    private static AdvertEntity createAdvert(String[] advert, int carId) {
+    private static AdvertEntity createAdvert(String[] advert, CarEntity car) {
         AdvertEntity advertEntity = new AdvertEntity();
-        advertEntity.setCarId(carId);
+        advertEntity.setCar(car);
         advertEntity.setPrice(Integer.parseInt(advert[0].replaceAll("\\s+", "")));
         return advertEntity;
     }

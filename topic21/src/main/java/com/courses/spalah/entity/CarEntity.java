@@ -5,7 +5,7 @@ package com.courses.spalah.entity;
  */
 public class CarEntity {
     private int carId;
-    private OwnerEntity ownerId;
+    private OwnerEntity owner;
     private int year;
     private String manufacturer;
     private String model;
@@ -17,9 +17,9 @@ public class CarEntity {
 
     ;
 
-    public CarEntity(int carId, OwnerEntity ownerId, int year, String manufacturer, String model, String vin, String description) {
+    public CarEntity(int carId, OwnerEntity owner, int year, String manufacturer, String model, String vin, String description) {
         this.carId = carId;
-        this.ownerId = ownerId;
+        this.owner = owner;
         this.year = year;
         this.manufacturer = manufacturer;
         this.model = model;
@@ -35,12 +35,12 @@ public class CarEntity {
         this.carId = carId;
     }
 
-    public OwnerEntity getOwnerId() {
-        return ownerId;
+    public OwnerEntity getOwner() {
+        return owner;
     }
 
-    public void setOwnerId(OwnerEntity ownerId) {
-        this.ownerId = ownerId;
+    public void setOwner(OwnerEntity owner) {
+        this.owner = owner;
     }
 
     public int getYear() {
@@ -87,7 +87,7 @@ public class CarEntity {
     public String toString() {
         return "CarEntity{" +
                 "carId=" + carId +
-                ", ownerId=" + ownerId +
+                ", owner=" + owner +
                 ", year=" + year +
                 ", manufacturer='" + manufacturer + '\'' +
                 ", model='" + model + '\'' +

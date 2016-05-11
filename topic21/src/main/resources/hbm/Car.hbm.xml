@@ -8,7 +8,7 @@
         <id column="idcar" name="carId" type="int">
             <generator class="native"/>
         </id>
-        <many-to-one name="ownerId" column="idowner" fetch="join"
+        <many-to-one name="owner" column="idowner" fetch="join"
                      class="com.courses.spalah.entity.OwnerEntity"/>
         <property column="year" name="year" type="int"/>
         <property column="manufacturer" name="manufacturer" type="string"/>

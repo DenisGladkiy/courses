@@ -1,5 +1,6 @@
 package com.courses.spalah.gui;
 
+import com.courses.spalah.entity.AdvertEntity;
 import com.courses.spalah.entity.CarEntity;
 import com.courses.spalah.exception.IncorrectInputException;
 import com.courses.spalah.hibernate.HibernateUtil;
@@ -102,8 +103,8 @@ public class MainFrame extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 Session session = HibernateUtil.getSessionFactory().openSession();
                 CarEntity car = (CarEntity) session.load(CarEntity.class, 40);
-
-                System.out.println(car);
+                AdvertEntity advert = (AdvertEntity) session.load(AdvertEntity.class, 40);
+                System.out.println(advert);
                 session.close();
                 /*String[] selection = readSelection();
                 SortRows sortRows = new SortRows();
