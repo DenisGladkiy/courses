@@ -10,6 +10,7 @@ import org.hibernate.annotations.Table;
 
 public class AdvertEntity {
     private int idadvert;
+    private int carId;
     private CarEntity car;
     private int price;
 
@@ -43,6 +44,14 @@ public class AdvertEntity {
 
     public void setIdadvert(int idadvert) {
         this.idadvert = idadvert;
+    }
+
+    public int getCarId() {
+        return carId;
+    }
+
+    public void setCarId(int carId) {
+        this.carId = carId;
     }
 
     @Override

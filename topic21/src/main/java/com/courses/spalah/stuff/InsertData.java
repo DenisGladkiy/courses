@@ -3,6 +3,8 @@ package com.courses.spalah.stuff;
 import com.courses.spalah.entity.AdvertEntity;
 import com.courses.spalah.entity.CarEntity;
 import com.courses.spalah.entity.OwnerEntity;
+import com.courses.spalah.hibernate.HibernateUtil;
+import org.hibernate.Session;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -11,45 +13,44 @@ import java.sql.SQLException;
  * Created by Денис on 3/27/16.
  */
 public class InsertData {
+    private static OwnerEntity owner;
+    private static CarEntity car;
+    private static AdvertEntity advert;
 
     public static boolean insertData(String[][] text) throws SQLException {
-        /*DaoFactory daoFactory = new DaoFactory();
-        Connection connection = daoFactory.getConnection();
-        OwnerEntity ownerEntity = createOwner(text[2]);
-        OwnerDao ownerDao = daoFactory.getOwnerDao(connection);
-        int ownerId = ownerDao.insert(ownerEntity);
-        CarEntity carEntity = createCar(text[1], ownerId);
-        CarDao carDao = daoFactory.getCarDao(connection);
-        int carId = carDao.insert(carEntity);
-        AdvertEntity advertEntity = createAdvert(text[0], carId);
-        AdvertDao advertDao = daoFactory.getAdvertDao(connection);
-        advertDao.insert(advertEntity);*/
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        createOwner(text[2]);
+        session.save(owner);
+        createCar(text[1], owner);
+        session.save(car);
+        createAdvert(text[0], car);
+        session.save(advert);
+        session.close();
         return true;
     }
 
-    private static OwnerEntity createOwner(String[] owner) {
-        OwnerEntity ownerEntity = new OwnerEntity();
-        ownerEntity.setName(owner[0]);
-        ownerEntity.setSurname(owner[1]);
-        ownerEntity.setPhone(Integer.parseInt(owner[2].replaceAll("\\s+", "")));
-        return ownerEntity;
+    private static void createOwner(String[] ownerString) {
+        owner = new OwnerEntity();
+        owner.setName(ownerString[0]);
+        owner.setSurname(ownerString[1]);
+        owner.setPhone(Integer.parseInt(ownerString[2].replaceAll("\\s+", "")));
     }
 
-    private static CarEntity createCar(String[] car, OwnerEntity owner) {
-        CarEntity carEntity = new CarEntity();
-        carEntity.setOwner(owner);
-        carEntity.setManufacturer(car[0]);
-        carEntity.setModel(car[1]);
-        carEntity.setYear(Integer.parseInt(car[2].replaceAll("\\s+", "")));
-        carEntity.setVin(car[3]);
-        carEntity.setDescription(car[4]);
-        return carEntity;
+    private static void createCar(String[] carString, OwnerEntity owner) {
+        car = new CarEntity();
+        car.setOwner(owner);
+        car.setOwnerId(owner.getIdowner());
+        car.setManufacturer(carString[0]);
+        car.setModel(carString[1]);
+        car.setYear(Integer.parseInt(carString[2].replaceAll("\\s+", "")));
+        car.setVin(carString[3]);
+        car.setDescription(carString[4]);
     }
 
-    private static AdvertEntity createAdvert(String[] advert, CarEntity car) {
-        AdvertEntity advertEntity = new AdvertEntity();
-        advertEntity.setCar(car);
-        advertEntity.setPrice(Integer.parseInt(advert[0].replaceAll("\\s+", "")));
-        return advertEntity;
+    private static void createAdvert(String[] advertString, CarEntity car) {
+        advert = new AdvertEntity();
+        advert.setCar(car);
+        advert.setCarId(car.getCarId());
+        advert.setPrice(Integer.parseInt(advertString[0].replaceAll("\\s+", "")));
     }
 }

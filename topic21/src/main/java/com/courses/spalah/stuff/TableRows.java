@@ -18,24 +18,14 @@ import java.util.List;
  */
 public class TableRows {
 
-    private static final String sql = "SELECT * FROM advert " +
-            " INNER JOIN  car ON advert.idcar = " +
-            " car.idcar INNER JOIN owner ON car.idowner = owner.idowner";
-
-    public String[][] getAllRows() {
+        public String[][] getAllRows() {
         String[][] allRows = null;
         String hql = "from AdvertEntity";
         Session session = HibernateUtil.getSessionFactory().openSession();
         Query query = session.createQuery(hql);
-        //CarEntity car = (CarEntity) session.load(CarEntity.class, 40);
         List<AdvertEntity> adverts = query.list();
-        System.out.println("adverts size  "+adverts.size());
-        //AdvertEntity advert = (AdvertEntity) session.load(AdvertEntity.class, 40);
-        //System.out.println(advert);
-
         allRows = new String[adverts.size()][];
         for(int i = 0; i < adverts.size(); i++){
-            System.out.println();
             allRows[i] = makeRow(adverts.get(i));
         }
         session.close();

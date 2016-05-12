@@ -1,5 +1,12 @@
 package com.courses.spalah.stuff;
 
+import com.courses.spalah.entity.AdvertEntity;
+import com.courses.spalah.entity.CarEntity;
+import com.courses.spalah.entity.OwnerEntity;
+import com.courses.spalah.hibernate.HibernateUtil;
+import org.hibernate.Query;
+import org.hibernate.Session;
+
 import javax.swing.*;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -13,25 +20,22 @@ import java.util.List;
  * Created by Денис on 3/31/16.
  */
 public class SortRows {
-    private final static String Join = "SELECT * FROM advert INNER JOIN  car " +
-            "ON advert.idcar = car.idcar INNER JOIN owner " +
-            "ON car.idowner = owner.idowner";
+    private final static String Join = "FROM AdvertEntity INNER JOIN  CarEntity " +
+            "ON AdvertEntity.idcar = CarEntity.idcar INNER JOIN OwnerEntity " +
+            "ON CarEntity.idowner = OwnerEntity.idowner";
 
     public String[][] sortTable(String[] select) {
-        List<String[]> sortedTable = new ArrayList<>();
-        String sql_select = createStatement(select);
-        /*DaoFactory daoFactory = new DaoFactory();
-        try {
-            Connection connection = daoFactory.getConnection();
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(sql_select);
-            while (resultSet.next()) {
-                sortedTable.add(makeRow(resultSet));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }*/
-        return listToArr(sortedTable);
+        String hql_select = createStatement(select);
+        System.out.println("hql query  "+hql_select);
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Query query = session.createQuery(hql_select);
+        List<AdvertEntity> adverts = query.list();
+        String[][] allRows = new String[adverts.size()][];
+        for(int i = 0; i < adverts.size(); i++){
+            allRows[i] = makeRow(adverts.get(i));
+        }
+        session.close();
+        return allRows;
     }
 
     private String createStatement(String[] select) {
@@ -91,14 +95,16 @@ public class SortRows {
         return parsedPrice;
     }
 
-    private String[] makeRow(ResultSet rs) throws SQLException {
-        String manufacturer = rs.getString(7);
-        String model = rs.getString(8);
-        String year = String.valueOf(rs.getInt(6));
-        String vin = rs.getString(9);
-        String description = rs.getString(10);
-        String price = String.valueOf(rs.getInt(3));
-        String contact = rs.getString(12) + " " + rs.getString(13) + " " + String.valueOf(rs.getInt(2));
+    private String[] makeRow(AdvertEntity advert) {
+        CarEntity car = advert.getCar();
+        OwnerEntity owner = car.getOwner();
+        String manufacturer = car.getManufacturer();
+        String model = car.getModel();
+        String year = String.valueOf(car.getYear());
+        String vin = car.getVin();
+        String description = car.getDescription();
+        String price = String.valueOf(advert.getPrice());
+        String contact = owner.getName() + " " + owner.getSurname() + " " + String.valueOf(owner.getPhone());
         String[] row = new String[]{manufacturer, model, year, vin, description, price, contact};
         return row;
     }

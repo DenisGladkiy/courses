@@ -5,6 +5,7 @@ package com.courses.spalah.entity;
  */
 public class CarEntity {
     private int carId;
+    private int ownerId;
     private OwnerEntity owner;
     private int year;
     private String manufacturer;
@@ -81,6 +82,14 @@ public class CarEntity {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public int getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(int ownerId) {
+        this.ownerId = ownerId;
     }
 
     @Override

@@ -101,18 +101,13 @@ public class MainFrame extends JFrame {
     private void buttonFindListener() {
         find.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                Session session = HibernateUtil.getSessionFactory().openSession();
-                CarEntity car = (CarEntity) session.load(CarEntity.class, 40);
-                AdvertEntity advert = (AdvertEntity) session.load(AdvertEntity.class, 40);
-                System.out.println(advert);
-                session.close();
-                /*String[] selection = readSelection();
+                String[] selection = readSelection();
                 SortRows sortRows = new SortRows();
                 String[][] selectedData = sortRows.sortTable(selection);
                 DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
                 tableModel.setRowCount(0);
                 table = createTable(selectedData);
-                scrollPane.getViewport().add(table);*/
+                scrollPane.getViewport().add(table);
             }
         });
     }
