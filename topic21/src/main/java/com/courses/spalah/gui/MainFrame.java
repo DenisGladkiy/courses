@@ -1,11 +1,11 @@
 package com.courses.spalah.gui;
 
 import com.courses.spalah.entity.AdvertEntity;
-import com.courses.spalah.entity.CarEntity;
 import com.courses.spalah.exception.IncorrectInputException;
 import com.courses.spalah.hibernate.HibernateUtil;
 import com.courses.spalah.stuff.SortRows;
 import com.courses.spalah.stuff.TableRows;
+import org.hibernate.Query;
 import org.hibernate.Session;
 
 import javax.swing.*;
@@ -15,10 +15,7 @@ import javax.swing.text.JTextComponent;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.util.List;
 
 /**
  * Created by Денис on 3/24/16.
@@ -31,18 +28,17 @@ public class MainFrame extends JFrame {
     private JScrollPane scrollPane;
     private static volatile MainFrame mainFrame = new MainFrame("Car Marketplace");
     private int selectedRow = -1;
+    Session session;
+
 
     public static void main(String[] args) {
-
         mainFrame.setVisible(true);
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setSize(600, 400);
-
     }
 
     public MainFrame(String s) {
         super(s);
-        //CreateTables.createTables();
         gui();
     }
 
@@ -128,20 +124,15 @@ public class MainFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (selectedRow >= 0) {
-                    String sql_select = makeDeleteStatement();
-                    /*DaoFactory daoFactory = new DaoFactory();
-                    try {
-                        Connection connection = daoFactory.getConnection();
-                        Statement statement = connection.createStatement();
-                        ResultSet resultSet = statement.executeQuery(sql_select);
-                        OwnerDao ownerDao = daoFactory.getOwnerDao(connection);
-                        while (resultSet.next()) {
-                            int ownerId = resultSet.getInt(1);
-                            ownerDao.remove(ownerId);
-                        }
-                    } catch (SQLException e1) {
-                        e1.printStackTrace();
-                    }*/
+                    session = HibernateUtil.getSessionFactory().openSession();
+                    String hql = makeDeleteStatement();
+                    Query query = session.createQuery(hql);
+                    query.executeUpdate();
+                    session.close();
+                    DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
+                    tableModel.setRowCount(0);
+                    table = createTable(new TableRows().getAllRows());
+                    scrollPane.getViewport().add(table);
                 }
             }
         });
@@ -171,10 +162,15 @@ public class MainFrame extends JFrame {
         String year = table.getValueAt(selectedRow, 2).toString();
         String vin = table.getValueAt(selectedRow, 3).toString();
         String description = table.getValueAt(selectedRow, 4).toString();
-        String sql_select = "SELECT idowner FROM car WHERE year = " + Integer.parseInt(year) +
-                " and manufacturer = '" + manufacturer + "' and model = '" + model + "' and vin = '" + vin +
-                "' and description = '" + description + "'";
-        return sql_select;
+        String price = table.getValueAt(selectedRow, 5).toString();
+        String hql_select = "from AdvertEntity WHERE price = " + Integer.parseInt(price) + " and car.year = " +
+                Integer.parseInt(year) + " and car.manufacturer = '" + manufacturer + "' and car.model = '" + model
+                + "' and car.vin = '" + vin + "' and car.description = '" + description + "'";
+        Query query = session.createQuery(hql_select);
+        List<AdvertEntity> adverts = query.list();
+        int ownerId = adverts.get(0).getCar().getOwner().getIdowner();
+        String deleteOwner = "delete from OwnerEntity where idowner = " + ownerId;
+        return deleteOwner;
     }
 
     private String readString(JTextComponent textComponent) throws IncorrectInputException {

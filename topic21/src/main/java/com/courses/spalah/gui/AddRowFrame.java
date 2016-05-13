@@ -101,6 +101,4 @@ public class AddRowFrame extends JFrame {
             throw new IncorrectInputException("wrong input");
         }
     }
-
-
 }

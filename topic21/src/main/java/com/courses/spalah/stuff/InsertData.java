@@ -6,7 +6,6 @@ import com.courses.spalah.entity.OwnerEntity;
 import com.courses.spalah.hibernate.HibernateUtil;
 import org.hibernate.Session;
 
-import java.sql.Connection;
 import java.sql.SQLException;
 
 /**
