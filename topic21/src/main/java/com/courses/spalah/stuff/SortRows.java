@@ -7,6 +7,8 @@ import com.courses.spalah.hibernate.HibernateUtil;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 import javax.swing.*;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -20,18 +22,16 @@ import java.util.List;
  * Created by Денис on 3/31/16.
  */
 public class SortRows {
-    private final static String Join = "FROM AdvertEntity INNER JOIN  CarEntity " +
-            "ON AdvertEntity.idcar = CarEntity.idcar INNER JOIN OwnerEntity " +
-            "ON CarEntity.idowner = OwnerEntity.idowner";
+    private final static String Join = "from AdvertEntity";
 
     public String[][] sortTable(String[] select) {
         String hql_select = createStatement(select);
-        System.out.println("hql query  "+hql_select);
+        System.out.println("hql query  " + hql_select);
         Session session = HibernateUtil.getSessionFactory().openSession();
         Query query = session.createQuery(hql_select);
         List<AdvertEntity> adverts = query.list();
         String[][] allRows = new String[adverts.size()][];
-        for(int i = 0; i < adverts.size(); i++){
+        for (int i = 0; i < adverts.size(); i++) {
             allRows[i] = makeRow(adverts.get(i));
         }
         session.close();
@@ -63,8 +63,9 @@ public class SortRows {
 
     private boolean isFirstCondition(StringBuilder stringBuilder) {
         String statement = stringBuilder.toString();
-        String last = statement.substring(statement.length() - 7);
-        if (last.equals("idowner")) {
+        System.out.println("is first condition  " + statement);
+        String last = statement.substring(statement.length() - 12);
+        if (last.equals("AdvertEntity")) {
             return true;
         } else {
             return false;
@@ -109,14 +110,6 @@ public class SortRows {
         return row;
     }
 
-    private String[][] listToArr(List<String[]> list) {
-        String[][] array = new String[list.size()][];
-        for (int i = 0; i < list.size(); i++) {
-            array[i] = list.get(i);
-        }
-        return array;
-    }
-
     private boolean isManufacturerSet(String[] select) {
         return !select[0].equals("");
     }
@@ -127,7 +120,7 @@ public class SortRows {
 
     private String appendManufacturerModel(String[] select) {
         return " WHERE car.manufacturer = " + "'" + select[0] + "'" +
-                " AND car.model = " + "'" + select[1] + "'";
+                " and car.model = " + "'" + select[1] + "'";
     }
 
     private String appendManufacturer(String[] select) {
@@ -141,25 +134,25 @@ public class SortRows {
     private String whereYearFromTo(String[] select) {
         int yearFrom = parseYears(select)[0];
         int yearTo = parseYears(select)[1];
-        return " WHERE car.year > " + yearFrom + " AND car.year < " + yearTo;
+        return " WHERE car.year > " + yearFrom + " and car.year < " + yearTo;
     }
 
     private String andYearFromTo(String[] select) {
         int yearFrom = parseYears(select)[0];
         int yearTo = parseYears(select)[1];
-        return " AND car.year > " + yearFrom + " AND car.year < " + yearTo;
+        return " and car.year > " + yearFrom + " and car.year < " + yearTo;
     }
 
     private String wherePriceFromTo(String[] select) {
         int priceFrom = parsePrice(select)[0];
         int priceTo = parsePrice(select)[1];
-        return " WHERE advert.price > " + priceFrom + " AND advert.price < " + priceTo;
+        return " WHERE price > " + priceFrom + " and price < " + priceTo;
     }
 
     private String andPriceFromTo(String[] select) {
         int priceFrom = parsePrice(select)[0];
         int priceTo = parsePrice(select)[1];
-        return " AND advert.price > " + priceFrom + " AND advert.price < " + priceTo;
+        return " and price > " + priceFrom + " and price < " + priceTo;
     }
 
     private boolean isYearFromSet(String[] select) {
