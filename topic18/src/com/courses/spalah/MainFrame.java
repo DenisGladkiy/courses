@@ -2,6 +2,7 @@ package com.courses.spalah;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
@@ -57,35 +58,19 @@ public class MainFrame extends JFrame {
     }
 
     private void panelClickListener() {
-        mainScreen.addMouseListener(new MouseListener() {
-                                        @Override
-                                        public void mouseClicked(MouseEvent e) {
-                                        }
-
-                                        @Override
-                                        public void mousePressed(MouseEvent e) {
-                                            int x = e.getX();
-                                            int y = e.getY();
-                                            int diameter = size.nextInt(121) + 30;
-                                            Color color = randomColor.getRandomColor();
-                                            if (container.size() < 20) {
-                                                Circle circle = new Circle(x - diameter / 2, y, diameter, color);
-                                                container.add(circle);
-                                            }
-                                        }
-
-                                        @Override
-                                        public void mouseReleased(MouseEvent e) {
-                                        }
-
-                                        @Override
-                                        public void mouseEntered(MouseEvent e) {
-                                        }
-
-                                        @Override
-                                        public void mouseExited(MouseEvent e) {
-                                        }
-                                    }
-        );
+        mainScreen.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                super.mousePressed(e);
+                int x = e.getX();
+                int y = e.getY();
+                int diameter = size.nextInt(121) + 30;
+                Color color = randomColor.getRandomColor();
+                if (container.size() < 20) {
+                    Circle circle = new Circle(x - diameter / 2, y, diameter, color);
+                    container.add(circle);
+                }
+            }
+        });
     }
 }
