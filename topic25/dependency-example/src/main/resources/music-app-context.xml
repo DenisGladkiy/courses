@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <bean id="musicApp" class="com.courses.spalah.MusicPlayerApp">
+        <constructor-arg value="HEY" type="java.lang.String"/>
+        <constructor-arg ref="cachebleRandomReader"/>
+    </bean>
+
+    <bean id="hardCodeReader" class="com.courses.spalah.reader.NaiveReader"/>
+
+    <bean id="randomReader" class="com.courses.spalah.reader.RandomTrackReader"/>
+
+    <bean id="cachebleRandomReader" class="com.courses.spalah.reader.CachableTrackReader">
+        <property name="trackReader" ref="randomReader"/>
+    </bean>
+
+    <bean id="trackReader" class="com.courses.spalah.reader.ReaderFactory"
+          factory-method="create">
+    </bean>
+
+</beans>

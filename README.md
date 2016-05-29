@@ -238,3 +238,18 @@
 
 [ДЗ #23](https://github.com/rxn1d/courses/blob/master/topic23/topic23_home_work.md)
 * Приложение для управления банковскими счетом.
+
+24\. ORM - Native Hibernate
+
+25\. DI - IoC - Spring
+
+[ДЗ #25](https://github.com/rxn1d/courses/blob/master/topic25/topic25_home_work.md)
+* Улучшаем банковское приложения, воспользовавшись принципами:
+  + Lose Coupling
+  + High Cohesion
+  + Dependency Injection
+
+25\. Spring MVC
+
+[ДЗ #26](https://github.com/rxn1d/courses/blob/master/topic26/topic26_home_work.md)
+* Создаем REST приложение на основе Spring MVC

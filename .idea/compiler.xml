@@ -22,7 +22,9 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
+        <module name="dependency-example" />
         <module name="jpa" />
+        <module name="spring-ioc" />
         <module name="topic10" />
         <module name="topic24" />
         <module name="topic8" />
@@ -56,6 +58,13 @@
         <processorPath useClasspath="true" />
         <module name="topic16" />
       </profile>
+      <profile default="false" name="Annotation profile for topic26" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
+        <module name="topic26" />
+      </profile>
       <profile default="false" name="Annotation profile for topic12" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
@@ -63,26 +72,20 @@
         <processorPath useClasspath="true" />
         <module name="topic12" />
       </profile>
-      <profile default="false" name="Annotation profile for topic21" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="true" />
-        <module name="topic21" />
-      </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="1.8">
+      <module name="dependency-example" target="1.5" />
       <module name="jpa" target="1.5" />
-      <module name="native-annotations" target="1.5" />
-      <module name="native-xml" target="1.5" />
+      <module name="spring-ioc" target="1.5" />
       <module name="topic10" target="1.8" />
       <module name="topic12" target="1.7" />
       <module name="topic14" target="1.8" />
       <module name="topic16" target="1.8" />
       <module name="topic2" target="1.8" />
-      <module name="topic21" target="1.8" />
       <module name="topic23" target="1.5" />
       <module name="topic24" target="1.5" />
+      <module name="topic25" target="1.5" />
+      <module name="topic26" target="1.8" />
       <module name="topic4" target="1.8" />
       <module name="topic8" target="1.8" />
       <module name="topic9" target="1.8" />
